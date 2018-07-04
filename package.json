@@ -1,6 +1,6 @@
 {
   "name": "react-native-picklist",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": false,
   "description": "General page for single/multiple select/show with single/multiple data level.",
   "main": "src/index.js",
@@ -44,6 +44,6 @@
   },
   "dependencies": {
     "react-native-pure-navigation-bar": "^1.2.3",
-    "react-native-hecom-common": "^0.0.8"
+    "react-native-hecom-common": "^0.0.9"
   }
 }

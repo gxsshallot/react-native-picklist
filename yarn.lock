@@ -3980,9 +3980,9 @@ react-devtools-core@3.0.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-hecom-common@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.npmjs.org/react-native-hecom-common/-/react-native-hecom-common-0.0.8.tgz#9aa4cd4ea7e2a66762265af353e163c7a97daa21"
+react-native-hecom-common@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.npmjs.org/react-native-hecom-common/-/react-native-hecom-common-0.0.9.tgz#06202484a1ab761d308ab606c81b0ffbd2107cbd"
   dependencies:
     md5 "^2.2.1"
     pinyin "git+https://github.com/RNCommon/pinyin.git"
