@@ -21,8 +21,8 @@ export default class extends React.Component {
         rightClick: PropTypes.func, // 右上角按钮点击事件
         renderRow: PropTypes.func, // 行展示(treeNode,rowId,levelId) => React.Component
         renderLevelView: PropTypes.func, // 顶部层级关系栏(levelIds) => React.Component
-        renderChooseAllView: PropTypes.func, // 全选行() => React.Component
-        renderSeparator: PropTypes.func, // 部门() => React.Component
+        renderChooseAllView: PropTypes.func, // 全选行视图() => React.Component
+        renderSeparator: PropTypes.func, // 分隔线视图() => React.Component
         renderHeader: PropTypes.func, // 自定义列表页的最上方
         showBottomView: PropTypes.bool, // 是否显示底层
         showSearchView: PropTypes.bool, // 是否显示搜索
@@ -36,10 +36,12 @@ export default class extends React.Component {
         searchKeys: PropTypes.array, // 可搜索的键列表
         sort: PropTypes.func, // 排序方法(a,b) => -1||0||1
         onBack: PropTypes.func, // 回退页面
+        splitFunc: PropTypes.func, // 拆分上下结构的方法
     };
 
     static get defaultProps() {
         return {
+            multilevel: false,
             multiselect: false,
             showBottomView: true,
             showSearchView: true,
@@ -317,7 +319,7 @@ export default class extends React.Component {
     _renderPage = (index) => {
         const treeNode = this.state.levelItems[index];
         const listDataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        const nodeArr = treeNode.getChildren(this.props.sort);
+        const nodeArr = this.props.splitFunc ? this.props.splitFunc(treeNode) : treeNode.getChildren(this.props.sort);
         const dataSource = [...nodeArr[0], ...nodeArr[1]];
         if (nodeArr[0].length > 0 && nodeArr[1].length > 0) {
             dataSource.splice(nodeArr[0].length, 0, undefined);
