@@ -31,10 +31,11 @@ export default class extends React.Component {
     };
 
     render() {
-        return (
+        const selectable = this.props.selectable(this.tree);
+        return selectable ? (
             <TouchableOpacity activeOpacity={0.8} onPress={() => this.props.onPress(this.tree, false)}>
                 {this.props.renderRow(this.tree, this.props)}
             </TouchableOpacity>
-        );
+        ) : this.props.renderRow(this.tree, this.props);
     }
 }
