@@ -1,5 +1,5 @@
 import PickList from './PickList';
-import DefaultPickListRow, * as PickListImage from './DefaultPickListRow';
+import DefaultPickListRow, * as PickListRowUtil from './DefaultPickListRow';
 import PickListCell from './PickListCell';
 import PickListBottomBar from './PickListBottomBar';
 import PickListShowAllCell from './PickListShowAllCell';
@@ -9,7 +9,7 @@ export default PickList;
 
 export {
     DefaultPickListRow,
-    PickListImage,
+    PickListRowUtil,
     PickListCell,
     PickListBottomBar,
     PickListShowAllCell,

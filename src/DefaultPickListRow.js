@@ -7,7 +7,7 @@ export default (treeNode, props) => {
     return isMultiLevel ? multiLevelNode(treeNode, props) : singleLevelNode(treeNode, props);
 };
 
-const singleLevelNode = (treeNode, props) => {
+export const singleLevelNode = (treeNode, props) => {
     const {labelKey} = props;
     const isSelected = treeNode.isSelect();
     return (
@@ -22,11 +22,11 @@ const singleLevelNode = (treeNode, props) => {
     );
 };
 
-const multiLevelNode = (treeNode, props) => {
+export const multiLevelNode = (treeNode, props) => {
     return treeNode.isLeaf() ? multiLevelLeafNode(treeNode, props) : multiLevelNotLeafNode(treeNode, props);
 };
 
-const multiLevelLeafNode = (treeNode, props) => {
+export const multiLevelLeafNode = (treeNode, props) => {
     const image = getImage(treeNode);
     const {labelKey} = props;
     const info = treeNode.getInfo()[labelKey];
@@ -38,7 +38,7 @@ const multiLevelLeafNode = (treeNode, props) => {
     );
 };
 
-const multiLevelNotLeafNode = (treeNode, props) => {
+export const multiLevelNotLeafNode = (treeNode, props) => {
     const image = getImage(treeNode);
     const {onPress, labelKey} = props;
     const selectable = props.selectable(treeNode);
@@ -63,7 +63,7 @@ export const select_image = require('./image/checkbox_hl.png');
 export const incomp_image = require('./image/checkbox_noall.png');
 export const single_check_image = require('./image/single_check.png');
 
-const getImage = (treeNode) => {
+export const getImage = (treeNode) => {
     if (treeNode.isNotSelect()) {
         return notselect_image;
     } else if (treeNode.isSelect()) {
