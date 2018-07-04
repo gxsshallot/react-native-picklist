@@ -43,4 +43,4 @@ npm install --save react-native-picklist
 * searchKeys：多层时数据中可搜索的键列表，默认为空数组。
 * sort：节点的排序方法，(a,b) => -1||0||1，默认为按照拼音排序。
 * onBack：回退页面的方法。
-* splitFunc：单一页面中拆分上下视图的方法，(treeNode) => [upArr, downArr]。
+* splitFunc：单一页面中拆分上下视图的方法，(treeNode, sort) => [upArr, downArr]。

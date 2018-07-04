@@ -3980,9 +3980,9 @@ react-devtools-core@3.0.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-hecom-common@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.npmjs.org/react-native-hecom-common/-/react-native-hecom-common-0.0.7.tgz#833efe859e25483793aa1d38a89943a2be85b0e5"
+react-native-hecom-common@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.npmjs.org/react-native-hecom-common/-/react-native-hecom-common-0.0.8.tgz#9aa4cd4ea7e2a66762265af353e163c7a97daa21"
   dependencies:
     md5 "^2.2.1"
     pinyin "git+https://github.com/RNCommon/pinyin.git"
@@ -4012,9 +4012,9 @@ react-native-keyboard-aware-scroll-view@^0.5.0:
     prop-types "^15.6.0"
     react-native-iphone-x-helper "^1.0.1"
 
-react-native-pure-navigation-bar@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/react-native-pure-navigation-bar/-/react-native-pure-navigation-bar-1.2.1.tgz#754123a6fd6d7260bc1382fef51e400d86ab9d9f"
+react-native-pure-navigation-bar@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.npmjs.org/react-native-pure-navigation-bar/-/react-native-pure-navigation-bar-1.2.3.tgz#a61b57d1e5c8926d2b1c3cec94dc02659a0efd4d"
   dependencies:
     react-native-iphone-x-helper "^1.0.2"
 

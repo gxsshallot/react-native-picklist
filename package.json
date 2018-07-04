@@ -43,7 +43,7 @@
     "preset": "react-native"
   },
   "dependencies": {
-    "react-native-pure-navigation-bar": "^1.2.1",
-    "react-native-hecom-common": "^0.0.7"
+    "react-native-pure-navigation-bar": "^1.2.3",
+    "react-native-hecom-common": "^0.0.8"
   }
 }

@@ -319,7 +319,9 @@ export default class extends React.Component {
     _renderPage = (index) => {
         const treeNode = this.state.levelItems[index];
         const listDataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        const nodeArr = this.props.splitFunc ? this.props.splitFunc(treeNode) : treeNode.getChildren(this.props.sort);
+        const nodeArr = this.props.splitFunc ?
+            this.props.splitFunc(treeNode, this.props.sort) :
+            treeNode.getChildren(this.props.sort);
         const dataSource = [...nodeArr[0], ...nodeArr[1]];
         if (nodeArr[0].length > 0 && nodeArr[1].length > 0) {
             dataSource.splice(nodeArr[0].length, 0, undefined);
