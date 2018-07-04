@@ -73,6 +73,5 @@ const styles = StyleSheet.create({
         height: 8,
         marginLeft: 0,
         marginRight: 0,
-        color: '#666666',
     },
 });
