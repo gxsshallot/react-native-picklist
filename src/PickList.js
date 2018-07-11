@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutAnimation, ListView, StyleSheet, View, Dimensions } from "react-native";
+import { LayoutAnimation, ListView, StyleSheet, View } from "react-native";
 import NaviBar, { GOBACK_BUTTON } from 'react-native-pure-navigation-bar';
 import PropTypes from 'prop-types';
 import PickListCell from './PickListCell';
@@ -85,7 +85,7 @@ export default class extends React.Component {
             frame: {
                 top: 0,
                 bottom: 0,
-                left: 0 - index * Dimensions.get('window').width,
+                left: 0 - index * global.screenWidth(),
             },
         });
     };
@@ -234,7 +234,7 @@ export default class extends React.Component {
     };
 
     _renderSearchingView = () => {
-        const style = [styles.searchingViewContainer, {width: Dimensions.get('window').width}];
+        const style = [styles.searchingViewContainer, {width: global.screenWidth()}];
         const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         const data = this.state.levelItems[0].search(
             this.state.searchText,
@@ -250,8 +250,8 @@ export default class extends React.Component {
                     dataSource={dataSource.cloneWithRows(data)}
                     enableEmptySections={true}
                     renderRow={this._renderRow}
-                    style={[styles.listview, {width: Dimensions.get('window').width}]}
-                    contentContainerStyle={{width: Dimensions.get('window').width}}
+                    style={[styles.listview, {width: global.screenWidth()}]}
+                    contentContainerStyle={{width: global.screenWidth()}}
                 />
             </View>
         );
@@ -337,19 +337,19 @@ export default class extends React.Component {
                 renderHeader={hasShowAll ? this._renderShowAll : undefined}
                 renderRow={this._renderRow}
                 renderSeparator={this.props.renderSeparator}
-                style={[styles.listview, {width: Dimensions.get('window').width}]}
-                contentContainerStyle={{width: Dimensions.get('window').width}}
+                style={[styles.listview, {width: global.screenWidth()}]}
+                contentContainerStyle={{width: global.screenWidth()}}
             />
         );
     };
 
     _renderEmptyPage = (index) => {
-        return <View key={index} style={{width: Dimensions.get('window').width}} />;
+        return <View key={index} style={{width: global.screenWidth()}} />;
     };
 
     _renderPageView = () => {
         const deepth = this.state.levelItems.length;
-        const totalWidth = Dimensions.get('window').width * deepth;
+        const totalWidth = global.screenWidth() * deepth;
         return (
             <View style={[{width: totalWidth}, styles.displayView, this.state.frame]}>
                 {

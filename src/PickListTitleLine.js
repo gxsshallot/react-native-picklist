@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, TouchableOpacity, Text, Dimensions } from 'react-native';
+import { ScrollView, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { ArrowImage } from 'react-native-hecom-common';
 
 export default class extends React.Component {
@@ -39,7 +39,7 @@ export default class extends React.Component {
             <View style={styles.titleLineContainer}>
                 <ScrollView
                     horizontal={true}
-                    style={{width: Dimensions.get('window').width - 32}}
+                    style={{width: global.screenWidth() - 32}}
                     contentContainerStyle={[styles.titleLineScrollView]}
                     showsHorizontalScrollIndicator={false}
                     ref={(ref) => this.scrollView = ref}
