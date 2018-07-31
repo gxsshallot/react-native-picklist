@@ -372,7 +372,7 @@ export default class extends React.Component {
                 {this.props.showSearchView && this._renderSearchBar()}
                 {!this.state.isSearching && this._renderHeader()}
                 {this.state.isSearching ? this._renderSearchingView() : this._renderPageView()}
-                {this.props.showBottomView && this.props.multiselect && this.props.multilevel && this._renderBottomView()}
+                {this.props.showBottomView && (this.props.multiselect || this.props.multilevel) && this._renderBottomView()}
             </View>
         );
     }
