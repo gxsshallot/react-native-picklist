@@ -43,7 +43,8 @@
     "preset": "react-native"
   },
   "dependencies": {
-    "react-native-pure-navigation-bar": "^1.2.3",
-    "react-native-hecom-common": "^0.1.1"
+    "react-native-hecom-common": "^0.1.1",
+    "react-native-iphone-x-helper": "^1.0.3",
+    "react-native-pure-navigation-bar": "^1.2.3"
   }
 }

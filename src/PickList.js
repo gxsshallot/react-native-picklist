@@ -8,6 +8,7 @@ import PickListTitleLine from './PickListTitleLine';
 import PickListBottomBar from './PickListBottomBar';
 import PickListShowAllCell from './PickListShowAllCell';
 import { Tree, SearchBar } from 'react-native-hecom-common';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 
 export default class extends React.Component {
     static propTypes = {
@@ -383,6 +384,7 @@ const styles = StyleSheet.create({
         flex: 1,
         overflow: 'hidden',
         backgroundColor: '#eff1f1',
+        paddingBottom: isIphoneX() ? 34 : 0,
     },
     listview: {
         backgroundColor: 'transparent',
