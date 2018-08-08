@@ -11,8 +11,9 @@ export default class extends React.Component {
     constructor(props) {
         super(props);
         this.tree = props.treeNode;
+        this.cascade = props.multilevel && props.multiselect;
         this.state = {
-            status: this.tree.selectStatus(),
+            status: this.tree.selectStatus(this.cascade),
         };
     }
 
@@ -26,7 +27,7 @@ export default class extends React.Component {
 
     _refresh = () => {
         this.setState({
-            status: this.tree.selectStatus(),
+            status: this.tree.selectStatus(this.cascade),
         });
     };
 

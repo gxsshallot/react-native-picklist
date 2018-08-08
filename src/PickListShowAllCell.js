@@ -11,8 +11,9 @@ export default class extends React.Component {
     constructor(props) {
         super(props);
         this.tree = props.treeNode;
+        this.cascade = props.multilevel && props.multiselect;
         this.state = {
-            status: this.tree.selectStatus(),
+            status: this.tree.selectStatus(this.cascade),
         };
     }
 
@@ -26,12 +27,12 @@ export default class extends React.Component {
 
     _refresh = () => {
         this.setState({
-            status: this.tree.selectStatus(),
+            status: this.tree.selectStatus(this.cascade),
         });
     };
 
     _getImage = () => {
-        if (this.tree.isSelect()) {
+        if (this.tree.isSelect(this.cascade)) {
             return DefaultPickListRow.select_image;
         } else {
             return DefaultPickListRow.notselect_image;
@@ -44,7 +45,7 @@ export default class extends React.Component {
                 <View style={styles.leafContainer}>
                     <Image source={this._getImage()} style={styles.cellSelected} />
                     <Text style={styles.leafText}>
-                        {this.tree.isSelect() ? '全不选' : '全选'}
+                        {this.tree.isSelect(this.cascade) ? '全不选' : '全选'}
                     </Text>
                 </View>
             </TouchableOpacity>
