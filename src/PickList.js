@@ -66,9 +66,10 @@ export default class extends React.Component {
             {[childrenKey]: data, [idKey]: this.defaultRootId, [labelKey]: firstTitleLine} :
             {[childrenKey]: [data], [idKey]: this.defaultRootId, [labelKey]: firstTitleLine};
         const tree = new Tree(treeRoot, undefined, childrenKey, idKey, labelKey);
+        this.isCascade = this.props.multilevel && this.props.multiselect;
         this.state = {
             levelItems: [tree],
-            selectedItems: tree.setInitialState(selectedIds),
+            selectedItems: tree.setInitialState(selectedIds, this.isCascade),
             searchText: '',
             isSearching: false,
         };
@@ -118,18 +119,23 @@ export default class extends React.Component {
             if (this.props.multiselect) {
                 this._selectItem(treeNode);
             } else {
-                treeNode.update();
-                const selectedItems = treeNode.isSelect() ? [treeNode] : [];
-                this.setState({selectedItems}, () => {
-                    this._clickOK();
-                });
+                if (treeNode.isSelect()) {
+                    treeNode.update(this.isCascade);
+                    const selectedItems = [];
+                    this.setState({selectedItems});
+                } else {
+                    const selectedItems = [treeNode];
+                    this.setState({selectedItems}, () => {
+                        this._clickOK();
+                    });
+                }
             }
         }
     };
 
     _clickBottomItem = (index) => {
         const node = this.state.selectedItems[index];
-        node.update();
+        node.update(this.isCascade);
         const nodes = [...this.state.selectedItems];
         nodes.splice(index, 1);
         this.setState({
@@ -154,7 +160,7 @@ export default class extends React.Component {
     };
 
     _selectItem = (item) => {
-        item.update();
+        item.update(this.isCascade);
         let selectedItems;
         if (item.isSelect()) {
             selectedItems = [...this.state.selectedItems, item];
