@@ -4,6 +4,7 @@ import PickListCell from './PickListCell';
 import PickListBottomBar from './PickListBottomBar';
 import PickListShowAllCell from './PickListShowAllCell';
 import PickListTitleLine from './PickListTitleLine';
+import Tree, * as TreeKeys from './Tree';
 
 export default PickList;
 
@@ -14,4 +15,6 @@ export {
     PickListBottomBar,
     PickListShowAllCell,
     PickListTitleLine,
+    Tree,
+    TreeKeys,
 };

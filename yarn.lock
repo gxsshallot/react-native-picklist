@@ -3778,9 +3778,9 @@ pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
 
-"pinyin@git+https://github.com/RNCommon/pinyin.git":
+"pinyin@https://github.com/RNCommon/pinyin.git":
   version "2.8.3"
-  resolved "git+https://github.com/RNCommon/pinyin.git#45e3baea4c76d17eceeda537fc7a60d9525e70d1"
+  resolved "https://github.com/RNCommon/pinyin.git#45e3baea4c76d17eceeda537fc7a60d9525e70d1"
   dependencies:
     commander "~1.1.1"
     object-assign "^4.0.1"
@@ -3980,12 +3980,11 @@ react-devtools-core@3.0.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-hecom-common@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.npmjs.org/react-native-hecom-common/-/react-native-hecom-common-0.1.2.tgz#3a7bcb3f44355c4743ad9c8130efdb1777c3b554"
+react-native-hecom-common@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.npmjs.org/react-native-hecom-common/-/react-native-hecom-common-0.1.3.tgz#115cf5fb75a83a1f288f334837df577a6c88f5e8"
   dependencies:
     md5 "^2.2.1"
-    pinyin "https://github.com/RNCommon/pinyin.git"
     rc-dialog "^6.5.11"
     react-native-image-zoom-viewer "^2.2.5"
     react-native-keyboard-aware-scroll-view "^0.5.0"

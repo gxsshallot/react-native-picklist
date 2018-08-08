@@ -7,8 +7,9 @@ import defaultRenderRow from './DefaultPickListRow';
 import PickListTitleLine from './PickListTitleLine';
 import PickListBottomBar from './PickListBottomBar';
 import PickListShowAllCell from './PickListShowAllCell';
-import { Tree, SearchBar } from 'react-native-hecom-common';
+import { SearchBar } from 'react-native-hecom-common';
 import { isIphoneX } from 'react-native-iphone-x-helper';
+import Tree from './Tree';
 
 export default class extends React.Component {
     static propTypes = {
@@ -119,7 +120,7 @@ export default class extends React.Component {
             if (this.props.multiselect) {
                 this._selectItem(treeNode);
             } else {
-                if (treeNode.isSelect()) {
+                if (treeNode.isSelect(this.isCascade)) {
                     treeNode.update(this.isCascade);
                     const selectedItems = [];
                     this.setState({selectedItems});
@@ -162,23 +163,23 @@ export default class extends React.Component {
     _selectItem = (item) => {
         item.update(this.isCascade);
         let selectedItems;
-        if (item.isSelect()) {
+        if (item.isSelect(this.isCascade)) {
             selectedItems = [...this.state.selectedItems, item];
         } else {
             selectedItems = this.state.selectedItems.filter(node => node.getId() !== item.getId());
         }
-        if (item.isSelect()) {
+        if (item.isSelect(this.isCascade)) {
             if (item.getId() === this.defaultRootId) {
                 const childrens = item.getChildren();
                 selectedItems = [...childrens[0], ...childrens[1]];
             } else if (!item.isLeaf()) {
                 selectedItems = selectedItems.filter(node => !node.hasAncestor(item));
             }
-        } else if (item.isNotSelect()) {
+        } else if (item.isNotSelect(this.isCascade)) {
             selectedItems = selectedItems.filter(node => !node.hasAncestor(item));
             const todos = [];
             selectedItems.forEach(node => {
-                if (item.hasAncestor(node) && node.isInCompleteSelect()) {
+                if (item.hasAncestor(node) && node.isInCompleteSelect(this.isCascade)) {
                     let ancestor = node;
                     while (ancestor) {
                         let tempAncestor = undefined;

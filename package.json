@@ -1,6 +1,6 @@
 {
   "name": "react-native-picklist",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "private": false,
   "description": "General page for single/multiple select/show with single/multiple data level.",
   "main": "src/index.js",
@@ -43,7 +43,8 @@
     "preset": "react-native"
   },
   "dependencies": {
-    "react-native-hecom-common": "^0.1.2",
+    "pinyin": "https://github.com/RNCommon/pinyin.git",
+    "react-native-hecom-common": "^0.1.3",
     "react-native-iphone-x-helper": "^1.0.3",
     "react-native-pure-navigation-bar": "^1.2.3"
   }
