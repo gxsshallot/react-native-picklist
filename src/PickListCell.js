@@ -3,9 +3,10 @@ import { TouchableOpacity, DeviceEventEmitter } from 'react-native';
 
 export default class extends React.Component {
     /**
-     * treeNode：Tree实例
-     * renderRow：行视图
-     * onPress：点击事件
+     * ...PickList.propTypes
+     * treeNode
+     * renderRow
+     * onPress
      */
 
     constructor(props) {

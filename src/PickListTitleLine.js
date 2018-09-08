@@ -3,8 +3,9 @@ import { ScrollView, StyleSheet, View, TouchableOpacity, Text, Image } from 'rea
 
 export default class extends React.Component {
     /**
-     * levelItems：展示的节点数组。
-     * onPress：点击事件。
+     * ...PickList.propTypes
+     * levelItems
+     * onPress
      */
 
     componentWillReceiveProps() {

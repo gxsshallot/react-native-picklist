@@ -14,38 +14,36 @@ import * as Labels from './PickListLabel';
 
 export default class extends React.Component {
     static propTypes = {
-        title: PropTypes.string.isRequired, // 标题
-        firstTitleLine: PropTypes.string, // 多层默认根标签文本
-        multilevel: PropTypes.bool.isRequired, // 是否多层
-        multiselect: PropTypes.bool, // 是否多选
-        data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]), // 数组(单层)或者树状结构(多层)
-        onFinish: PropTypes.func, // 选择成功后的回调函数(selected_node_array) => null
-        rightTitle: PropTypes.string, // 右上角按钮标题
-        rightClick: PropTypes.func, // 右上角按钮点击事件
-        renderRow: PropTypes.func, // 行展示(treeNode,rowId,levelId) => React.Component
-        renderLevelView: PropTypes.func, // 顶部层级关系栏(levelIds) => React.Component
-        renderChooseAllView: PropTypes.func, // 全选行视图() => React.Component
-        renderSeparator: PropTypes.func, // 分隔线视图() => React.Component
-        renderSectionSeparator: PropTypes.func, // 区域分隔线视图() => React.Component
-        renderHeader: PropTypes.func, // 自定义列表页的最上方
-        showBottomView: PropTypes.bool, // 是否显示底层
-        showSearchView: PropTypes.bool, // 是否显示搜索
-        showTitleLine: PropTypes.bool, // 是否显示标题栏
-        showAllCell: PropTypes.bool, // 是否显示全部按钮
-        directBackWhenSingle: PropTypes.bool, // 单层单选时是否直接返回
-        searchPlaceholder: PropTypes.string, // 搜索栏的Placeholder
-        selectedIds: PropTypes.array, // 已选中的Ids
-        selectable: PropTypes.func, // 节点是否可选(treeNode) => bool
-        childrenKey: PropTypes.string, // 节点中子项的键
-        idKey: PropTypes.string, // 节点中Id的键
-        labelKey: PropTypes.string, // 节点中可展示字段的键
-        searchKeys: PropTypes.array, // 普通搜索的键列表
-        pySearchKeys: PropTypes.array, // 拼音搜索键列表
-        flPySearchKeys: PropTypes.array, // 首字母拼音搜索键列表
-        sort: PropTypes.func, // 排序方法(a,b) => -1||0||1
-        onBack: PropTypes.func, // 回退页面
-        splitFunc: PropTypes.func, // 拆分上下结构的方法
-        width: PropTypes.number, // 页面宽度
+        title: PropTypes.string.isRequired,
+        firstTitleLine: PropTypes.string,
+        multilevel: PropTypes.bool,
+        multiselect: PropTypes.bool,
+        data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+        onFinish: PropTypes.func,
+        rightTitle: PropTypes.string,
+        rightClick: PropTypes.func,
+        renderRow: PropTypes.func,
+        renderSeparator: PropTypes.func,
+        renderSectionSeparator: PropTypes.func,
+        renderHeader: PropTypes.func,
+        showBottomView: PropTypes.bool,
+        showSearchView: PropTypes.bool,
+        showTitleLine: PropTypes.bool,
+        showAllCell: PropTypes.bool,
+        directBackWhenSingle: PropTypes.bool,
+        searchPlaceholder: PropTypes.string,
+        selectedIds: PropTypes.array,
+        selectable: PropTypes.func,
+        childrenKey: PropTypes.string,
+        idKey: PropTypes.string,
+        labelKey: PropTypes.string,
+        searchKeys: PropTypes.array,
+        pySearchKeys: PropTypes.array,
+        flPySearchKeys: PropTypes.array,
+        sort: PropTypes.func,
+        onBack: PropTypes.func.isRequired,
+        splitFunc: PropTypes.func,
+        width: PropTypes.number,
     };
 
     static get defaultProps() {
@@ -112,19 +110,19 @@ export default class extends React.Component {
         if (index === 0) {
             const curIndex = this.state.levelItems.length;
             if (curIndex <= 1) {
-                this.props.onBack && this.props.onBack();
+                this.props.onBack(this.props);
             } else {
                 this._handlePressToPrevPage(curIndex - 1);
             }
         } else {
-            this.props.onBack && this.props.onBack();
+            this.props.onBack(this.props);
         }
         return false;
     };
 
     _clickOK = () => {
         this.props.onFinish && this.props.onFinish(this.state.selectedItems);
-        this.props.onBack && this.props.onBack();
+        this.props.onBack(this.props);
     };
 
     _clickRow = (treeNode, isInternal = false) => {
@@ -431,23 +429,6 @@ const styles = StyleSheet.create({
     },
     listview: {
         backgroundColor: 'transparent',
-    },
-    naviBarLeft: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    leftButtonView: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    leftButtonImage: {
-        width: 18,
-        height: 16,
-    },
-    leftNaviText: {
-        marginLeft: 10,
-        fontSize: 15,
-        color: '#333333',
     },
     seperator: {
         height: 8,

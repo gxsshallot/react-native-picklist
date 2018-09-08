@@ -1,186 +1,90 @@
 # react-native-picklist
 
-[![Build Status](https://travis-ci.org/gaoxiaosong/react-native-picklist.svg?branch=master)](https://travis-ci.org/gaoxiaosong/react-native-picklist)
+[Chinese README](README-zh_CN.md)
 
-[Chinese README](https://github.com/gaoxiaosong/react-native-picklist/blob/master/README-zh_CN.md)
+[ScreenShots](resource/ScreenShot.md)
 
-[ScreenShots](https://github.com/gaoxiaosong/react-native-picklist/blob/master/resource/ScreenShot.md)
+This is a picklist page. It supports:
 
-[CHANGELOG](https://github.com/gaoxiaosong/react-native-picklist/blob/master/CHANGELOG.md)
-
-Here is a fully customizable navigation bar in React-Native. You can set the global unified style of navigation bar and add it as a react component in each page.
+* single-level or multi-level data
+* single-select or multi-select
+* show or hide the internal components
+* customize the UI component
+* search in the data automaticlly
+* section style page
 
 ## Install
 
 Install by Yarn:
 
 ```shell
-yarn add react-native-pure-navigation-bar
+yarn add react-native-picklist
 ```
 
 Install by NPM:
 
 ```shell
-npm install --save react-native-pure-navigation-bar
+npm install --save react-native-picklist
 ```
 
 ## Usage
 
-First import in the file:
+Import the module in the file:
 
 ```jsx
-import NaviBar from 'react-native-pure-navigation-bar';
+import PickList from 'react-native-picklist';
 ```
 
-Then add component in `render()` function:
+You can set the following properties or see example project to learn how to use it.
 
-```jsx
-render() {
-  return (
-    <View style={{flex: 1}}>
-      <NaviBar
-        title='CustomTitle'
-        {/* other properties if you want to specify it */}
-      />
-      {/* other components */}
-    </View>
-  );
-}
-```
+## Properties
 
-If you want to hide or show navigation bar dynamiclly, you can write these code:
+Required:
 
-```jsx
-render() {
-  return (
-    <View style={{flex: 1}}>
-      {this.state.showNaviBar && (
-        <NaviBar
-          title='CustomTitle'
-          {/* other properties if you want to specify it */}
-        />
-      )}
-      {/* other components */}
-    </View>
-  );
-}
-```
+* `title: string`:  Page title.
+* `data: object | object[]`: Data to show. We will construct a virtual root node to contain it.
+* `onBack: (props: PickList.props) => void`: Go back to the previous page.
 
-Or if you want a translucent status bar, you can write like this:
+Optional:
 
-```jsx
-import {StatusBar} from 'react-native';
-
-// ...
-
-render() {
-  return (
-    <View style={{flex: 1}}>
-      <StatusBar translucent={this.state.translucent} />
-      <NaviBar
-        translucent={this.state.translucent}
-        title='CustomTitle'
-        {/* other properties if you want to specify */}
-      />
-      {/* other components */}
-    </View>
-  );
-}
-```
-
-This navigation bar is only a component with 'relative' position, not 'absolute' position. If you want to use absolute position, please use the 'style' property in following section.
-
-## Constant
-
-You can import navigation bar height constant like this:
-
-```jsx
-import {STATUSBAR_HEIGHT} from 'react-native-pure-navigation-bar';
-```
-
-All constant about navigation bar height list below:
-
-| Name | iOS (X) | iOS (not X) | Android | Description |
-| :-: | :-: | :-: | :-: | :-: |
-| STATUSBAR_HEIGHT | 44 | 20 | StatusBar.currentHeight | Only status bar height |
-| NAVBAR_HEIGHT | 44 | 44 | 44 | Only navigation bar height |
-| TOTALBAR_HEIGHT | 88 | 64 | 44 + (translucent ? StatusBar.currentHeight : 0) | Total height of status bar and navigation bar |
-
-Other constant:
-
-| Name | Description |
-| :-: | :-: |
-| GOBACK_BUTTON | An identifier when you set 'leftElement' or 'rightElement' to identify the button as GoBack button |
-
-## Global Settings
-
-You can change the navigation bar settings at the startup, include navigation bar style, GoBack button image and function.
-
-First, you should import methed from library:
-
-```jsx
-import {setCustomStyle} from 'react-native-pure-navigation-bar';
-```
-
-All the method list below (no return value):
-
-| Name | Description | Param Format |
-| :-: | :-: | :-: |
-| setCustomStyle | Set all the style include bar or button or title | (key, style):<br>key: A style key which you can see the following 'Style' section<br>style: A style object created by StyleSheet or only an javascript object |
-| setGlobalGobackFunc | Set GoBack button function | (func):<br>func: A function with no param and no return value|
-| setGlobalGobackImage | Set GoBack button image | (image):<br>image: A number which means a local image or a string which is a remote image url |
-
-## Custom Setting
-
-You can control the action or style of navigation bar by passing 'props'.
-
-| PropName | Type | DefaultValue | Description |
-| :-: | :-: | :-: | :-: |
-| translucent | bool | false | Status bar translucent status. If it's true, background color is `transparent`, else `white` |
-| title | string or element | '' | Title view of text style or user custom view |
-| titleCenter | bool | true | Title is must at center or not |
-| hasSeperatorLine | bool | true | Bottom of navigation bar has a seperator line or not |
-| leftElement | string or element or array | GOBACK_BUTTON | Left buttons, a string means a button of text style, an element means a button view, an array of string means an array of button which maybe text or custom view |
-| rightElement | string or string array or element | null | Right buttons, same format as 'leftElement' |
-| onLeft | function | undefined | Left button click function, param is button index in 'leftElement', from 0 on. If return is false and button is goback button, then do not call the default goback action |
-| onRight | function | undefined | Right button click function, same format as 'onLeft' |
-| autoCloseKeyboard | bool | true | Auto dismiss keyboard when click button or not |
-| navigation | navigation object | null | A stack navigation object used for goback action |
-| style | style object | {} | A custom style which has highest priority, object's key is in following 'Style' section |
-
-## Style
-
-The component style is consist of three part:
-
-* User custom style, passed by component props, is highest level.
-* Global setting style, set by method in 'Global Settings' sections, is medium level, can be override by User custom style.
-* Inner style, written in library code, is lowest level, can be override by the two styles above.
-
-All the key you can customize in Global or Custom settings list below:
-
-| Key | Description | DefaultValue |
-| :-: | :-: | :-: |
-| container | The whole navigation bar | justifyContent: 'space-between'<br>flexDirection: 'row'<br>alignItems: 'center'<br>paddingTop: STATUSBAR_HEIGHT<br>height: TOTALBAR_HEIGHT<br>backgroundColor: 'white' |
-| seperator | Seperator line at the bottom | borderBottomWidth: StyleSheet.hairlineWidth<br>borderBottomColor: '#e6e6ea' |
-| title | Inner title text | fontSize: 18<br>color: '#394352'<br>textAlign: 'center'<br>overflow: 'hidden' |
-| titleContainer | Title container off center | flex: 1<br>justifyContent: 'center'<br>alignItems: 'center' |
-| titleCenterContainer | Title container at center | position: 'absolute'<br>left: 0<br>right: 0<br>top: STATUSBAR_HEIGHT<br>bottom: 0<br>justifyContent: 'center'<br>alignItems: 'center' |
-| buttonView | Text-type button touchable view | justifyContent: 'center'<br>alignItems: 'center'<br>minWidth: minWidth<br>height: NAVBAR_HEIGHT<br>paddingHorizontal: 8 |
-| buttonText | Text-type button text | color: '#394352'<br>fontSize: 17 |
-| leftView | Left view contains all left buttons | flexDirection: 'row'<br>justifyContent: 'center'<br>alignItems: 'flex-start' |
-| rightView | Right view contains all right buttons | flexDirection: 'row'<br>justifyContent: 'center'<br>alignItems: 'flex-end' |
-| gobackView | Goback button touchable view | minWidth: minWidth<br>height: NAVBAR_HEIGHT<br>justifyContent: 'center'<br>paddingHorizontal: 16 |
-| gobackImage | Goback button image | width: 18<br>height: 16 |
+* `firstTitleLine?: string`: First item displayed in `PickListTitleLine` when it has the multi-level data and show the title line.
+* `multilevel?: boolean`: Has multi-level data or not. Default is `false`.
+* `multiselect?: boolean`: Is multi-select or not. Default is `false`.
+* `onFinish?: (nodes: Tree[]) => void`: Pass the selected items when finish selecting.
+* `rightTitle?: string`: Button title on the right corner.
+* `rightClick?: () => void`: Button click callback on the right corner.
+* `renderRow?: (treeNode: Tree, props: PickList.props) => JSX.Component`: Customize a row display. You can override this property to make the list readonly. Default implement is in `PickListDefaultRow.js`.
+* `renderSeparator?: () => JSX.Component`: Customize cell separator.
+* `renderSectionSeparator?: () => JSX.Component`: Customize section separator.
+* `renderHeader?: (state: PickList.state) => JSX.Component`: Customize header of page.
+* `showBottomView?: boolean`: Show bottom bar or not.
+* `showSearchView?: boolean`: Show search bar or not.
+* `showTitleLine?: boolean`: Show title line at the header or not.
+* `showAllCell?: boolean`: Show select all or deselect all cell or not.
+* `directBackWhenSingle?: boolean`: Directly go back to previous page or not when single-select single-level data.
+* `searchPlaceholder?: string`: Placeholder of search bar.
+* `selectedIds?: array`: Initial selected item's identifier list.
+* `selectable?: (treeNode: Tree) => boolean`: Can a tree node selectable or not.
+* `childrenKey?: string`: Children key of tree node.
+* `idKey?: string`: Identifier key of tree node.
+* `labelKey?: string`: Label key of tree node.
+* `searchKeys?: string[]`: Normal search keys of tree node.
+* `pySearchKeys?: string[]`: Normal-Pinyin search keys of tree node.
+* `flPySearchKeys?: string[]`: FirstLetter-Pinyin search keys of tree node.
+* `sort?: (a: Tree, b: Tree) => -1 | 0 | 1`: Sort method for data list.
+* `splitFunc?: (arr: Tree[]) => Tree[][]`: Split method when generate sections of data list.
+* `width?: number`: Page width.
 
 ## Example Project
 
 You can open the example project by following steps:
 
-1. Use `yarn` or `npm install` to install the modules.
-1. Run `npm run bundle:ios` or `npm run bundle:android` to bundle the package.
-1. Run `npm start` in a seperate terminal.
-1. Use `Xcode` or `Android Studio` to open the project in `example/ios` or `example/android`.
-1. Run the project.
+1. `cd example`.
+2. Use `yarn` or `npm install` to install the modules.
+3. Run `npm run bundle:ios` or `npm run bundle:android` to bundle the package.
+4. Run `npm start` in a seperate terminal.
+5. Use `Xcode` or `Android Studio` to open the project in `example/ios` or `example/android`.
+6. Run the project.
 
 ## Reference
 

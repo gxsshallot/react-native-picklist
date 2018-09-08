@@ -4,9 +4,10 @@ import * as Labels from './PickListLabel';
 
 export default class extends React.Component {
     /**
-     * selectedItems：已选中的项。
-     * onPressOK：确定按钮点击。
-     * onPressItem：底部项点击事件。
+     * ...PickList.propTypes
+     * selectedItems
+     * onPressOK
+     * onPressItem
      */
 
     componentWillReceiveProps() {

@@ -3147,7 +3147,7 @@ react-native-iphone-x-helper@^1.1.0:
   resolved "https://registry.npmjs.org/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.1.0.tgz#3a881720900bd8d1c67de2c465ea9aa9296180a7"
 
 react-native-picklist@../:
-  version "0.1.1"
+  version "1.0.0"
   dependencies:
     react-native-general-searchbar "^1.0.0"
     react-native-general-tree "^1.0.2"

@@ -5,8 +5,9 @@ import * as Labels from './PickListLabel';
 
 export default class extends React.Component {
     /**
-     * treeNode：Tree实例
-     * onPress：点击事件
+     * ...PickList.propTypes
+     * treeNode
+     * onPress
      */
 
     constructor(props) {
@@ -45,7 +46,10 @@ export default class extends React.Component {
 
     render() {
         return (
-            <TouchableOpacity activeOpacity={0.8} onPress={() => this.props.onPress(this.tree)}>
+            <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => this.props.onPress(this.tree)}
+            >
                 <View style={styles.leafContainer}>
                     <Image source={this._getImage()} style={styles.cellSelected} />
                     <Text style={styles.leafText}>
