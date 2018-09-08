@@ -4,14 +4,9 @@
   "private": false,
   "description": "General page for single/multiple select/show with single/multiple data level.",
   "main": "src/index.js",
-  "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "lint": "eslint src/*.js src/**/*.js",
-    "test": "jest"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RNCommon/react-native-picklist.git"
+    "url": "git+https://github.com/gaoxiaosong/react-native-picklist.git"
   },
   "keywords": [
     "React-Native",
@@ -19,33 +14,16 @@
     "MultiSelect"
   ],
   "author": "Xiaosong Gao",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/RNCommon/react-native-picklist/issues",
+    "url": "https://github.com/gaoxiaosong/react-native-picklist/issues",
     "email": "gaoxiaosong06@gmail.com"
   },
-  "homepage": "https://github.com/RNCommon/react-native-picklist#readme",
-  "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.1",
-    "babel-jest": "^22.1.0",
-    "babel-preset-react-native": "^4.0.0",
-    "eslint": "^4.17.0",
-    "eslint-plugin-react": "^7.6.1",
-    "eslint-plugin-react-native": "^3.2.1",
-    "jest": "^22.1.4",
-    "prop-types": "^15.6.1",
-    "react": "^16.2.0",
-    "react-native": "^0.52.2",
-    "react-test-renderer": "^16.2.0"
-  },
-  "jest": {
-    "preset": "react-native"
-  },
+  "homepage": "https://github.com/gaoxiaosong/react-native-picklist#readme",
   "dependencies": {
-    "pinyin": "https://github.com/RNCommon/pinyin.git",
-    "react-native-hecom-common": "^0.1.3",
-    "react-native-iphone-x-helper": "^1.0.3",
-    "react-native-pure-navigation-bar": "^1.2.3"
+    "react-native-general-searchbar": "^1.0.0",
+    "react-native-general-tree": "^1.0.2",
+    "react-native-iphone-x-helper": "^1.1.0",
+    "react-native-pure-navigation-bar": "^1.2.6"
   }
 }

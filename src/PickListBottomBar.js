@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native';
+import * as Labels from './PickListLabel';
 
 export default class extends React.Component {
     /**
@@ -15,7 +16,7 @@ export default class extends React.Component {
     }
 
     _scrollToEnd = (animated) => {
-        this.scrollView.scrollToEnd({animated});
+        this.scrollView && this.scrollView.scrollToEnd({animated});
     };
 
     _renderBottomItemView = (node, index) => {
@@ -38,7 +39,7 @@ export default class extends React.Component {
         return (
             <View style={styles.bottomViewEmpty}>
                 <Text style={styles.bottomViewEmptyText}>
-                    请选择
+                    {Labels.chooseLabel}
                 </Text>
             </View>
         );
@@ -62,7 +63,7 @@ export default class extends React.Component {
                 <View style={styles.bottomViewButtonContainer}>
                     <TouchableOpacity activeOpacity={0.97} style={styles.bottomViewButton} onPress={onPress}>
                         <Text style={styles.bottomViewButtonText}>
-                            确定
+                            {Labels.okLabel}
                         </Text>
                     </TouchableOpacity>
                 </View>

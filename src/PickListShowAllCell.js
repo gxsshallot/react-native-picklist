@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, View, Image, Text, DeviceEventEmitter } from 'react-native';
-import * as DefaultPickListRow from './DefaultPickListRow';
+import * as PickListDefaultRow from './PickListDefaultRow';
+import * as Labels from './PickListLabel';
 
 export default class extends React.Component {
     /**
@@ -18,7 +19,10 @@ export default class extends React.Component {
     }
 
     componentWillMount() {
-        this.listener = DeviceEventEmitter.addListener(this.tree.listenerKey(), this._refresh);
+        this.listener = DeviceEventEmitter.addListener(
+            '__treenode__status__update__' + this.tree.getStringId(),
+            this._refresh
+        );
     }
 
     componentWillUnmount() {
@@ -32,10 +36,10 @@ export default class extends React.Component {
     };
 
     _getImage = () => {
-        if (this.tree.isSelect(this.cascade)) {
-            return DefaultPickListRow.select_image;
+        if (this.tree.isFullSelect(this.cascade)) {
+            return PickListDefaultRow.select_image;
         } else {
-            return DefaultPickListRow.notselect_image;
+            return PickListDefaultRow.notselect_image;
         }
     };
 
@@ -45,7 +49,9 @@ export default class extends React.Component {
                 <View style={styles.leafContainer}>
                     <Image source={this._getImage()} style={styles.cellSelected} />
                     <Text style={styles.leafText}>
-                        {this.tree.isSelect(this.cascade) ? '全不选' : '全选'}
+                        {this.tree.isFullSelect(this.cascade) ?
+                            Labels.deselectAllLabel :
+                            Labels.selectAllLabel}
                     </Text>
                 </View>
             </TouchableOpacity>

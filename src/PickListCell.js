@@ -18,7 +18,10 @@ export default class extends React.Component {
     }
 
     componentWillMount() {
-        this.listener = DeviceEventEmitter.addListener(this.tree.listenerKey(), this._refresh);
+        this.listener = DeviceEventEmitter.addListener(
+            '__treenode__status__update__' + this.tree.getStringId(),
+            this._refresh
+        );
     }
 
     componentWillUnmount() {
@@ -33,7 +36,10 @@ export default class extends React.Component {
 
     render() {
         return (
-            <TouchableOpacity activeOpacity={0.8} onPress={() => this.props.onPress(this.tree, false)}>
+            <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => this.props.onPress(this.tree, false)}
+            >
                 {this.props.renderRow(this.tree, this.props)}
             </TouchableOpacity>
         );

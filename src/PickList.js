@@ -1,15 +1,16 @@
 import React from 'react';
-import { LayoutAnimation, ListView, StyleSheet, View } from "react-native";
-import NaviBar, { GOBACK_BUTTON } from 'react-native-pure-navigation-bar';
+import { LayoutAnimation, ListView, StyleSheet, View, DeviceEventEmitter, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
+import NaviBar, { GOBACK_BUTTON } from 'react-native-pure-navigation-bar';
+import SearchBar from 'react-native-general-searchbar';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
+import Tree from 'react-native-general-tree';
 import PickListCell from './PickListCell';
-import defaultRenderRow from './DefaultPickListRow';
+import defaultRenderRow from './PickListDefaultRow';
 import PickListTitleLine from './PickListTitleLine';
 import PickListBottomBar from './PickListBottomBar';
 import PickListShowAllCell from './PickListShowAllCell';
-import { SearchBar } from 'react-native-hecom-common';
-import { isIphoneX } from 'react-native-iphone-x-helper';
-import Tree from './Tree';
+import * as Labels from './PickListLabel';
 
 export default class extends React.Component {
     static propTypes = {
@@ -25,48 +26,62 @@ export default class extends React.Component {
         renderLevelView: PropTypes.func, // 顶部层级关系栏(levelIds) => React.Component
         renderChooseAllView: PropTypes.func, // 全选行视图() => React.Component
         renderSeparator: PropTypes.func, // 分隔线视图() => React.Component
+        renderSectionSeparator: PropTypes.func, // 区域分隔线视图() => React.Component
         renderHeader: PropTypes.func, // 自定义列表页的最上方
         showBottomView: PropTypes.bool, // 是否显示底层
         showSearchView: PropTypes.bool, // 是否显示搜索
         showTitleLine: PropTypes.bool, // 是否显示标题栏
         showAllCell: PropTypes.bool, // 是否显示全部按钮
+        directBackWhenSingle: PropTypes.bool, // 单层单选时是否直接返回
+        searchPlaceholder: PropTypes.string, // 搜索栏的Placeholder
         selectedIds: PropTypes.array, // 已选中的Ids
         selectable: PropTypes.func, // 节点是否可选(treeNode) => bool
         childrenKey: PropTypes.string, // 节点中子项的键
         idKey: PropTypes.string, // 节点中Id的键
         labelKey: PropTypes.string, // 节点中可展示字段的键
-        searchKeys: PropTypes.array, // 可搜索的键列表
+        searchKeys: PropTypes.array, // 普通搜索的键列表
+        pySearchKeys: PropTypes.array, // 拼音搜索键列表
+        flPySearchKeys: PropTypes.array, // 首字母拼音搜索键列表
         sort: PropTypes.func, // 排序方法(a,b) => -1||0||1
         onBack: PropTypes.func, // 回退页面
         splitFunc: PropTypes.func, // 拆分上下结构的方法
+        width: PropTypes.number, // 页面宽度
     };
 
     static get defaultProps() {
         return {
             multilevel: false,
             multiselect: false,
-            showBottomView: true,
             showSearchView: true,
             showTitleLine: true,
             showAllCell: true,
+            directBackWhenSingle: true,
             selectable: () => true,
             renderRow: defaultRenderRow,
             childrenKey: 'children',
             idKey: 'id',
             labelKey: 'label',
             searchKeys: [],
-            sort: (a, b) => a.getPinyin() < b.getPinyin() ? -1 : 1,
+            pySearchKeys: [],
+            flPySearchKeys: [],
+            width: Dimensions.get('window').width,
         };
     }
 
     constructor(props) {
         super(props);
-        const {data, childrenKey, idKey, labelKey, firstTitleLine, selectedIds} = this.props;
+        const {data, childrenKey, idKey, labelKey, firstTitleLine, selectedIds} = props;
         this.defaultRootId = '__root__';
         const treeRoot = Array.isArray(data) ?
             {[childrenKey]: data, [idKey]: this.defaultRootId, [labelKey]: firstTitleLine} :
             {[childrenKey]: [data], [idKey]: this.defaultRootId, [labelKey]: firstTitleLine};
-        const tree = new Tree(treeRoot, undefined, childrenKey, idKey, labelKey);
+        const tree = new Tree(
+            treeRoot, undefined, childrenKey, idKey,
+            (treenode) => DeviceEventEmitter.emit(
+                '__treenode__status__update__' + treenode.getStringId()
+            ),
+            [labelKey, ...props.pySearchKeys],
+            [labelKey, ...props.flPySearchKeys]);
         this.isCascade = this.props.multilevel && this.props.multiselect;
         this.state = {
             levelItems: [tree],
@@ -88,7 +103,7 @@ export default class extends React.Component {
             frame: {
                 top: 0,
                 bottom: 0,
-                left: 0 - index * global.screenWidth(),
+                left: 0 - index * this.props.width,
             },
         });
     };
@@ -113,21 +128,32 @@ export default class extends React.Component {
     };
 
     _clickRow = (treeNode, isInternal = false) => {
-        if (this.props.multilevel && !isInternal && !treeNode.isLeaf() && !this.state.isSearching) {
+        if (this.props.multilevel &&
+            !isInternal &&
+            !treeNode.isLeaf() &&
+            !this.state.isSearching
+        ) {
             const levelItems = [...this.state.levelItems, treeNode];
             this._show(this.state.levelItems.length, levelItems);
         } else {
             if (this.props.multiselect) {
                 this._selectItem(treeNode);
             } else {
-                if (treeNode.isSelect(this.isCascade)) {
+                if (treeNode.isFullSelect(this.isCascade)) {
                     treeNode.update(this.isCascade);
                     const selectedItems = [];
                     this.setState({selectedItems});
                 } else {
+                    if (this.state.selectedItems.length > 0 &&
+                        !this.state.selectedItems[0].isEqual(treeNode)) {
+                        this.state.selectedItems[0].update(this.isCascade);
+                    }
+                    treeNode.update(this.isCascade);
                     const selectedItems = [treeNode];
                     this.setState({selectedItems}, () => {
-                        this._clickOK();
+                        if (this.props.directBackWhenSingle) {
+                            this._clickOK();
+                        }
                     });
                 }
             }
@@ -163,15 +189,15 @@ export default class extends React.Component {
     _selectItem = (item) => {
         item.update(this.isCascade);
         let selectedItems;
-        if (item.isSelect(this.isCascade)) {
+        if (item.isFullSelect(this.isCascade)) {
             selectedItems = [...this.state.selectedItems, item];
         } else {
-            selectedItems = this.state.selectedItems.filter(node => node.getId() !== item.getId());
+            selectedItems = this.state.selectedItems
+                .filter(node => !node.isEqual(item));
         }
-        if (item.isSelect(this.isCascade)) {
-            if (item.getId() === this.defaultRootId) {
-                const childrens = item.getChildren();
-                selectedItems = [...childrens[0], ...childrens[1]];
+        if (item.isFullSelect(this.isCascade)) {
+            if (item.getStringId() === this.defaultRootId) {
+                selectedItems = [...item.getChildren()];
             } else if (!item.isLeaf()) {
                 selectedItems = selectedItems.filter(node => !node.hasAncestor(item));
             }
@@ -179,17 +205,15 @@ export default class extends React.Component {
             selectedItems = selectedItems.filter(node => !node.hasAncestor(item));
             const todos = [];
             selectedItems.forEach(node => {
-                if (item.hasAncestor(node) && node.isInCompleteSelect(this.isCascade)) {
+                if (item.hasAncestor(node)) {
                     let ancestor = node;
                     while (ancestor) {
                         let tempAncestor = undefined;
-                        const childrens = ancestor.getChildren();
-                        [...childrens[0], ...childrens[1]].forEach(child => {
-                            if (child.getId() !== item.getId()) {
-                                todos.push(child);
-                            }
+                        ancestor.getChildren().forEach(child => {
                             if (item.hasAncestor(child)) {
                                 tempAncestor = child;
+                            } else if (!item.isEqual(child)) {
+                                todos.push(child);
                             }
                         });
                         ancestor = tempAncestor;
@@ -208,10 +232,13 @@ export default class extends React.Component {
         if (rightTitle && rightTitle.length > 0) {
             rightElement.rightElement = rightTitle;
             rightElement.onRight = rightClick || this._clickOK;
+        } else if (!this.props.multiselect && !this.props.directBackWhenSingle) {
+            rightElement.rightElement = Labels.okLabel;
+            rightElement.onRight = this._clickOK;
         }
         const leftElement = [GOBACK_BUTTON];
         if (this.props.multilevel) {
-            leftElement.push('关闭');
+            leftElement.push(Labels.closeLabel);
         }
         return (
             <NaviBar
@@ -224,9 +251,12 @@ export default class extends React.Component {
     };
 
     _renderSearchBar = () => {
+        const placeholder = this.props.searchPlaceholder ||
+            Labels.searchPlaceholderLabel;
         return (
             <View style={{backgroundColor: 'white'}}>
                 <SearchBar
+                    placeholder={placeholder}
                     searchText={this.state.searchText}
                     onPressCancel={() => {
                         LayoutAnimation.linear();
@@ -242,12 +272,13 @@ export default class extends React.Component {
     };
 
     _renderSearchingView = () => {
-        const style = [styles.searchingViewContainer, {width: global.screenWidth()}];
+        const style = [styles.searchingViewContainer, {width: this.props.width}];
         const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         const data = this.state.levelItems[0].search(
             this.state.searchText,
             this.props.searchKeys,
             this.props.multiselect,
+            false,
             false
         );
         return (
@@ -258,8 +289,8 @@ export default class extends React.Component {
                     dataSource={dataSource.cloneWithRows(data)}
                     enableEmptySections={true}
                     renderRow={this._renderRow}
-                    style={[styles.listview, {width: global.screenWidth()}]}
-                    contentContainerStyle={{width: global.screenWidth()}}
+                    style={[styles.listview, {width: this.props.width}]}
+                    contentContainerStyle={{width: this.props.width}}
                 />
             </View>
         );
@@ -293,7 +324,8 @@ export default class extends React.Component {
                 />
             );
         } else {
-            return this._renderSeparator();
+            const func = this.props.renderSectionSeparator || this._renderSeparator;
+            return func();
         }
     };
 
@@ -327,9 +359,10 @@ export default class extends React.Component {
     _renderPage = (index) => {
         const treeNode = this.state.levelItems[index];
         const listDataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        const nodeArr = this.props.splitFunc ?
-            this.props.splitFunc(treeNode, this.props.sort) :
-            treeNode.getChildren(this.props.sort);
+        const sort = this.props.sort || ((a, b) => 
+            a.getPinyin(this.props.labelKey) < b.getPinyin(this.props.labelKey) ? -1 : 1
+        );
+        const nodeArr = treeNode.getSplitChildren(sort, this.props.splitFunc);
         const dataSource = [...nodeArr[0], ...nodeArr[1]];
         if (nodeArr[0].length > 0 && nodeArr[1].length > 0) {
             dataSource.splice(nodeArr[0].length, 0, undefined);
@@ -345,19 +378,19 @@ export default class extends React.Component {
                 renderHeader={hasShowAll ? this._renderShowAll : undefined}
                 renderRow={this._renderRow}
                 renderSeparator={this.props.renderSeparator}
-                style={[styles.listview, {width: global.screenWidth()}]}
-                contentContainerStyle={{width: global.screenWidth()}}
+                style={[styles.listview, {width: this.props.width}]}
+                contentContainerStyle={{width: this.props.width}}
             />
         );
     };
 
     _renderEmptyPage = (index) => {
-        return <View key={index} style={{width: global.screenWidth()}} />;
+        return <View key={index} style={{width: this.props.width}} />;
     };
 
     _renderPageView = () => {
         const deepth = this.state.levelItems.length;
-        const totalWidth = global.screenWidth() * deepth;
+        const totalWidth = this.props.width * deepth;
         return (
             <View style={[{width: totalWidth}, styles.displayView, this.state.frame]}>
                 {
@@ -374,13 +407,16 @@ export default class extends React.Component {
     };
 
     render() {
+        const hasBottom = this.props.showBottomView !== undefined ?
+            this.props.showBottomView :
+            this.props.multiselect;
         return (
             <View style={styles.view}>
                 {this._renderNaviBar()}
                 {this.props.showSearchView && this._renderSearchBar()}
                 {!this.state.isSearching && this._renderHeader()}
                 {this.state.isSearching ? this._renderSearchingView() : this._renderPageView()}
-                {this.props.showBottomView && (this.props.multiselect || this.props.multilevel) && this._renderBottomView()}
+                {hasBottom && this._renderBottomView()}
             </View>
         );
     }
@@ -391,7 +427,7 @@ const styles = StyleSheet.create({
         flex: 1,
         overflow: 'hidden',
         backgroundColor: '#eff1f1',
-        paddingBottom: isIphoneX() ? 34 : 0,
+        paddingBottom: getBottomSpace(),
     },
     listview: {
         backgroundColor: 'transparent',

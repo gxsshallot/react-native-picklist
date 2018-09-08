@@ -1,6 +1,5 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ArrowImage } from 'react-native-hecom-common';
 
 export default (treeNode, props) => {
     const isMultiLevel = props.multilevel;
@@ -9,7 +8,7 @@ export default (treeNode, props) => {
 
 export const singleLevelNode = (treeNode, props) => {
     const {labelKey} = props;
-    const isSelected = treeNode.isSelect(props.multilevel && props.multiselect);
+    const isSelected = treeNode.isFullSelect(false);
     return (
         <View style={styles.row}>
             <View style={styles.container}>
@@ -53,7 +52,10 @@ export const multiLevelNotLeafNode = (treeNode, props) => {
                 )}
                 <Text style={[styles.treeCellText, {marginLeft: selectable ? 0 : 25}]}>{info}</Text>
             </View>
-            <ArrowImage style={styles.arrowImage} />
+            <Image
+                source={require('./image/arrow_right.png')}
+                style={styles.arrowImage}
+            />
         </View>
     );
 };
@@ -66,9 +68,9 @@ export const single_check_image = require('./image/single_check.png');
 export const getImage = (treeNode, cascade) => {
     if (treeNode.isNotSelect(cascade)) {
         return notselect_image;
-    } else if (treeNode.isSelect(cascade)) {
+    } else if (treeNode.isFullSelect(cascade)) {
         return select_image;
-    } else if (treeNode.isInCompleteSelect(cascade)) {
+    } else if (treeNode.isIncompleteSelect(cascade)) {
         return incomp_image;
     } else {
         return undefined;
@@ -138,6 +140,9 @@ const styles = StyleSheet.create({
         color: '#333333',
     },
     arrowImage: {
+        width: 13,
+        height: 16,
+        marginLeft: 10,
         marginRight: 0,
     },
 });

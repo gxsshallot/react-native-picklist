@@ -1,5 +1,2 @@
-.babelrc
-.eslintrc.js
-.travis.yml
-yarn.lock
-/.idea
+/example
+/resource

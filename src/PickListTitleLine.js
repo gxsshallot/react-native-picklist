@@ -1,6 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
-import { ArrowImage } from 'react-native-hecom-common';
+import { ScrollView, StyleSheet, View, TouchableOpacity, Text, Image } from 'react-native';
 
 export default class extends React.Component {
     /**
@@ -15,7 +14,7 @@ export default class extends React.Component {
     }
 
     _scrollToEnd = (animated) => {
-        this.scrollView.scrollToEnd({animated});
+        this.scrollView && this.scrollView.scrollToEnd({animated});
     };
 
     _renderItem = (item, index) => {
@@ -29,7 +28,12 @@ export default class extends React.Component {
                         {item.getInfo()[labelKey]}
                     </Text>
                 </TouchableOpacity>
-                {!isLast && <ArrowImage style={styles.titleLineImage} />}
+                {!isLast && (
+                    <Image
+                        source={require('./image/arrow_right.png')}
+                        style={styles.titleLineImage}
+                    />
+                )}
             </View>
         );
     };
@@ -39,7 +43,7 @@ export default class extends React.Component {
             <View style={styles.titleLineContainer}>
                 <ScrollView
                     horizontal={true}
-                    style={{width: global.screenWidth() - 32}}
+                    style={{width: this.props.width - 32}}
                     contentContainerStyle={[styles.titleLineScrollView]}
                     showsHorizontalScrollIndicator={false}
                     ref={(ref) => this.scrollView = ref}
@@ -71,7 +75,6 @@ const styles = StyleSheet.create({
     titleLineImage: {
         width: 8,
         height: 8,
-        marginLeft: 0,
-        marginRight: 0,
+        marginHorizontal: 5,
     },
 });
