@@ -38,8 +38,6 @@ export default class extends React.Component {
         idKey: PropTypes.string,
         labelKey: PropTypes.string,
         searchKeys: PropTypes.array,
-        pySearchKeys: PropTypes.array,
-        flPySearchKeys: PropTypes.array,
         sort: PropTypes.func,
         onBack: PropTypes.func.isRequired,
         splitFunc: PropTypes.func,
@@ -60,8 +58,6 @@ export default class extends React.Component {
             idKey: 'id',
             labelKey: 'label',
             searchKeys: [],
-            pySearchKeys: [],
-            flPySearchKeys: [],
             width: Dimensions.get('window').width,
         };
     }
@@ -77,9 +73,7 @@ export default class extends React.Component {
             treeRoot, undefined, childrenKey, idKey,
             (treenode) => DeviceEventEmitter.emit(
                 '__treenode__status__update__' + treenode.getStringId()
-            ),
-            [labelKey, ...props.pySearchKeys],
-            [labelKey, ...props.flPySearchKeys]);
+            ));
         this.isCascade = this.props.multilevel && this.props.multiselect;
         this.state = {
             levelItems: [tree],
@@ -358,7 +352,7 @@ export default class extends React.Component {
         const treeNode = this.state.levelItems[index];
         const listDataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         const sort = this.props.sort || ((a, b) => 
-            a.getPinyin(this.props.labelKey) < b.getPinyin(this.props.labelKey) ? -1 : 1
+            a.getInfo()[this.props.labelKey] < b.getInfo()[this.props.labelKey] ? -1 : 1
         );
         const nodeArr = treeNode.getSplitChildren(sort, this.props.splitFunc);
         const dataSource = [...nodeArr[0], ...nodeArr[1]];

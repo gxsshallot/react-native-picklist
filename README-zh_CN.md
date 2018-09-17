@@ -67,8 +67,6 @@ import PickList from 'react-native-picklist';
 * `idKey?: string`: 数据节点中id对应的键.
 * `labelKey?: string`: 数据节点中标签对应的键.
 * `searchKeys?: string[]`: 数据节点中普通搜索的键列表.
-* `pySearchKeys?: string[]`: 数据节点中常规拼音搜索的键列表.
-* `flPySearchKeys?: string[]`: 数据节点中首字母拼音搜索的键列表.
 * `sort?: (a: Tree, b: Tree) => -1 | 0 | 1`: 数据列表的排序方法.
 * `splitFunc?: (arr: Tree[]) => Tree[][]`: 数据列表拆分区域的方法.
 * `width?: number`: 页面宽度.

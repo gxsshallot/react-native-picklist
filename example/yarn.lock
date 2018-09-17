@@ -1027,12 +1027,6 @@ commander@^2.9.0, commander@~2.13.0:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.13.0.tgz#6964bca67685df7c1f1430c584f07d7597885b9c"
 
-commander@~1.1.1:
-  version "1.1.1"
-  resolved "http://registry.npmjs.org/commander/-/commander-1.1.1.tgz#50d1651868ae60eccff0a2d9f34595376bc6b041"
-  dependencies:
-    keypress "0.1.x"
-
 component-emitter@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.2.1.tgz#137918d6d78283f7df7a6b7c5a63e140e69425e6"
@@ -2213,10 +2207,6 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-keypress@0.1.x:
-  version "0.1.0"
-  resolved "https://registry.npmjs.org/keypress/-/keypress-0.1.0.tgz#4a3188d4291b66b4f65edb99f806aa9ae293592a"
-
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
@@ -2679,10 +2669,6 @@ nan@^2.9.2:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.11.0.tgz#574e360e4d954ab16966ec102c0c049fd961a099"
 
-nan@~2.10.0:
-  version "2.10.0"
-  resolved "https://registry.npmjs.org/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f"
-
 nanomatch@^1.2.9:
   version "1.2.13"
   resolved "https://registry.yarnpkg.com/nanomatch/-/nanomatch-1.2.13.tgz#b87a8aa4fc0de8fe6be88895b38983ff265bd119"
@@ -2749,12 +2735,6 @@ node-pre-gyp@^0.10.0:
     rimraf "^2.6.1"
     semver "^5.3.0"
     tar "^4"
-
-nodejieba@^2.2.1:
-  version "2.2.6"
-  resolved "https://registry.npmjs.org/nodejieba/-/nodejieba-2.2.6.tgz#17cd416705b7b01c062e6cd9d7179b30453eb4a3"
-  dependencies:
-    nan "~2.10.0"
 
 nopt@^4.0.1:
   version "4.0.1"
@@ -3001,15 +2981,6 @@ pify@^2.0.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
 
-pinyin@^2.8.3:
-  version "2.8.3"
-  resolved "https://registry.npmjs.org/pinyin/-/pinyin-2.8.3.tgz#301ccb4358ccfe802523c4bd640a612bee4d7c4b"
-  dependencies:
-    commander "~1.1.1"
-    object-assign "^4.0.1"
-  optionalDependencies:
-    nodejieba "^2.2.1"
-
 plist@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/plist/-/plist-2.0.1.tgz#0a32ca9481b1c364e92e18dc55c876de9d01da8b"
@@ -3136,11 +3107,9 @@ react-native-general-searchbar@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/react-native-general-searchbar/-/react-native-general-searchbar-1.0.0.tgz#e2cc329c7264fac78cc913e109a57f4b063e598f"
 
-react-native-general-tree@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/react-native-general-tree/-/react-native-general-tree-1.0.2.tgz#f03943482272c209c02f4f9df7d5093708ecd28b"
-  dependencies:
-    pinyin "^2.8.3"
+react-native-general-tree@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/react-native-general-tree/-/react-native-general-tree-1.0.3.tgz#5c36a6e3ffea5e4d3019877f38102c9594f927e9"
 
 react-native-iphone-x-helper@^1.1.0:
   version "1.1.0"
@@ -3150,7 +3119,7 @@ react-native-picklist@../:
   version "1.0.0"
   dependencies:
     react-native-general-searchbar "^1.0.0"
-    react-native-general-tree "^1.0.2"
+    react-native-general-tree "^1.0.3"
     react-native-iphone-x-helper "^1.1.0"
     react-native-pure-navigation-bar "^1.2.6"
 

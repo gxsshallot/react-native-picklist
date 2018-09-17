@@ -22,7 +22,7 @@
   "homepage": "https://github.com/gaoxiaosong/react-native-picklist#readme",
   "dependencies": {
     "react-native-general-searchbar": "^1.0.0",
-    "react-native-general-tree": "^1.0.2",
+    "react-native-general-tree": "^1.0.3",
     "react-native-iphone-x-helper": "^1.1.0",
     "react-native-pure-navigation-bar": "^1.2.6"
   }

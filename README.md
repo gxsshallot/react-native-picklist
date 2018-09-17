@@ -69,8 +69,6 @@ Optional:
 * `idKey?: string`: Identifier key of tree node.
 * `labelKey?: string`: Label key of tree node.
 * `searchKeys?: string[]`: Normal search keys of tree node.
-* `pySearchKeys?: string[]`: Normal-Pinyin search keys of tree node.
-* `flPySearchKeys?: string[]`: FirstLetter-Pinyin search keys of tree node.
 * `sort?: (a: Tree, b: Tree) => -1 | 0 | 1`: Sort method for data list.
 * `splitFunc?: (arr: Tree[]) => Tree[][]`: Split method when generate sections of data list.
 * `width?: number`: Page width.
