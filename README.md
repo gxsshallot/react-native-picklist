@@ -61,6 +61,7 @@ Optional:
 * `showSearchView?: boolean`: Show search bar or not.
 * `showTitleLine?: boolean`: Show title line at the header or not.
 * `showAllCell?: boolean`: Show select all or deselect all cell or not.
+* `showCount?: boolean`: Show not leaf item's children count and selected count.
 * `directBackWhenSingle?: boolean`: Directly go back to previous page or not when single-select single-level data.
 * `searchPlaceholder?: string`: Placeholder of search bar.
 * `selectedIds?: array`: Initial selected item's identifier list.

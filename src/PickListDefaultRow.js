@@ -39,9 +39,12 @@ export const multiLevelLeafNode = (treeNode, props) => {
 
 export const multiLevelNotLeafNode = (treeNode, props) => {
     const image = getImage(treeNode, props.multilevel && props.multiselect);
-    const {onPress, labelKey} = props;
+    const {onPress, labelKey, showCount} = props;
     const selectable = props.selectable(treeNode);
     const info = treeNode.getInfo()[labelKey];
+    const leafs = treeNode.getLeafChildren();
+    const selectedLeafs = leafs.filter(item => item.isFullSelect());
+    const arrowStyle = showCount ? {marginLeft: 0} : {marginLeft: 10};
     return (
         <View key={info} style={styles.treeCellContainer}>
             <View style={styles.treeCellLeft}>
@@ -52,10 +55,17 @@ export const multiLevelNotLeafNode = (treeNode, props) => {
                 )}
                 <Text style={[styles.treeCellText, {marginLeft: selectable ? 0 : 25}]}>{info}</Text>
             </View>
-            <Image
-                source={require('./image/arrow_right.png')}
-                style={styles.arrowImage}
-            />
+            <View style={styles.treeCellRight}>
+                {showCount && (
+                    <Text style={styles.treeCellCount}>
+                        {[selectedLeafs.length.toString(), leafs.length.toString()].join('/')}
+                    </Text>
+                )}
+                <Image
+                    source={require('./image/arrow_right.png')}
+                    style={[styles.arrowImage, arrowStyle]}
+                />
+            </View>
         </View>
     );
 };
@@ -139,10 +149,18 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333333',
     },
+    treeCellRight: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    treeCellCount: {
+        fontSize: 16,
+        color: '#999999',
+        marginHorizontal: 4,
+    },
     arrowImage: {
         width: 13,
         height: 16,
-        marginLeft: 10,
         marginRight: 0,
     },
 });

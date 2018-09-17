@@ -1,6 +1,6 @@
 {
   "name": "react-native-picklist",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "description": "General page for single/multiple select/show with single/multiple data level.",
   "main": "src/index.js",

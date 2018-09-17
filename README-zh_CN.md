@@ -59,6 +59,7 @@ import PickList from 'react-native-picklist';
 * `showSearchView?: boolean`: 是否显示搜索栏.
 * `showTitleLine?: boolean`: 是否在头部显示标题栏.
 * `showAllCell?: boolean`: 是否显示全选或全不选按钮.
+* `showCount?: boolean`: 是否显示非叶节点的叶节点数量和选中数量.
 * `directBackWhenSingle?: boolean`: 单选单层结构数据时, 是否直接返回上一页.
 * `searchPlaceholder?: string`: 搜索栏的占位内容.
 * `selectedIds?: array`: 初始的已选中项的id列表.

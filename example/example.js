@@ -37,6 +37,7 @@ class Example extends React.Component {
             isPlainData: undefined,
             isMulti: undefined,
             directBackWhenSingle: undefined,
+            showCount: undefined,
         };
     }
 
@@ -79,6 +80,7 @@ class Example extends React.Component {
                 multiselect={this.state.isMulti}
                 directBackWhenSingle={this.state.directBackWhenSingle}
                 selectedIds={selectedIds}
+                showCount={this.state.showCount}
                 onFinish={this._onFinish}
                 idKey={'code'}
                 labelKey={'name'}
@@ -131,6 +133,7 @@ class Example extends React.Component {
                         isPlainData: true,
                         isMulti: false,
                         directBackWhenSingle: false,
+                        showCount: false,
                     });
                 })}
                 {this._renderItem('b', 'Plain Data + Single Select + Direct Back', () => {
@@ -141,6 +144,7 @@ class Example extends React.Component {
                         isPlainData: true,
                         isMulti: false,
                         directBackWhenSingle: true,
+                        showCount: false,
                     });
                 })}
                 {this._renderItem('c', 'Plain Data + Multi Select', () => {
@@ -150,6 +154,7 @@ class Example extends React.Component {
                         title: 'Plain Multi',
                         isPlainData: true,
                         isMulti: true,
+                        showCount: false,
                     });
                 })}
                 {this._renderItem('d', 'Tree Data + Single Select', () => {
@@ -160,6 +165,7 @@ class Example extends React.Component {
                         isPlainData: false,
                         isMulti: false,
                         directBackWhenSingle: false,
+                        showCount: false,
                     });
                 })}
                 {this._renderItem('e', 'Tree Data + Single Select + Direct Back', () => {
@@ -170,6 +176,7 @@ class Example extends React.Component {
                         isPlainData: false,
                         isMulti: false,
                         directBackWhenSingle: true,
+                        showCount: false,
                     });
                 })}
                 {this._renderItem('f', 'Tree Data + Multi Select', () => {
@@ -179,6 +186,17 @@ class Example extends React.Component {
                         title: 'Tree Multi',
                         isPlainData: false,
                         isMulti: true,
+                        showCount: false,
+                    });
+                })}
+                {this._renderItem('g', 'Tree Data + Multi Select + Count', () => {
+                    this.setState({
+                        key: 'g',
+                        isPickList: true,
+                        title: 'Tree Multi',
+                        isPlainData: false,
+                        isMulti: true,
+                        showCount: true,
                     });
                 })}
             </View>
