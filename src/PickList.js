@@ -1,9 +1,8 @@
 import React from 'react';
-import { LayoutAnimation, ListView, StyleSheet, View, DeviceEventEmitter, Dimensions } from 'react-native';
+import { SafeAreaView, LayoutAnimation, ListView, StyleSheet, View, DeviceEventEmitter, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import NaviBar, { GOBACK_BUTTON } from 'react-native-pure-navigation-bar';
 import SearchBar from 'react-native-general-searchbar';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
 import Tree from 'react-native-general-tree';
 import PickListCell from './PickListCell';
 import defaultRenderRow from './PickListDefaultRow';
@@ -42,7 +41,6 @@ export default class extends React.Component {
         sort: PropTypes.func,
         onBack: PropTypes.func.isRequired,
         splitFunc: PropTypes.func,
-        width: PropTypes.number,
     };
 
     static get defaultProps() {
@@ -60,7 +58,6 @@ export default class extends React.Component {
             idKey: 'id',
             labelKey: 'label',
             searchKeys: [],
-            width: Dimensions.get('window').width,
         };
     }
 
@@ -82,6 +79,7 @@ export default class extends React.Component {
             selectedItems: tree.setInitialState(selectedIds, this.isCascade),
             searchText: '',
             isSearching: false,
+            screenWidth: 0,
         };
     }
 
@@ -97,7 +95,7 @@ export default class extends React.Component {
             frame: {
                 top: 0,
                 bottom: 0,
-                left: 0 - index * this.props.width,
+                left: 0 - index * this.state.screenWidth,
             },
         });
     };
@@ -248,7 +246,10 @@ export default class extends React.Component {
         const placeholder = this.props.searchPlaceholder ||
             Labels.searchPlaceholderLabel;
         return (
-            <View style={{backgroundColor: 'white'}}>
+            <SafeAreaView
+                style={styles.searchbarContainer}
+                forceInset={{top: 'never', bottom: 'never', left: 'always', right: 'always'}}
+            >
                 <SearchBar
                     placeholder={placeholder}
                     searchText={this.state.searchText}
@@ -258,19 +259,19 @@ export default class extends React.Component {
                     }}
                     onSubmitEditing={this._onSubmit}
                     onChangeText={this._onSearch}
-                    hasCancel={true}
+                    canCancel={true}
                     isSearching={this.state.isSearching}
                 />
-            </View>
+            </SafeAreaView>
         );
     };
 
     _renderSearchingView = () => {
-        const style = [styles.searchingViewContainer, {width: this.props.width}];
+        const style = [styles.searchingViewContainer, {width: this.state.screenWidth}];
         const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         const data = this.state.levelItems[0].search(
             this.state.searchText,
-            this.props.searchKeys,
+            [...this.props.searchKeys, this.props.labelKey],
             this.props.multiselect,
             false,
             false
@@ -283,8 +284,8 @@ export default class extends React.Component {
                     dataSource={dataSource.cloneWithRows(data)}
                     enableEmptySections={true}
                     renderRow={this._renderRow}
-                    style={[styles.listview, {width: this.props.width}]}
-                    contentContainerStyle={{width: this.props.width}}
+                    style={[styles.listview, {width: this.state.screenWidth}]}
+                    contentContainerStyle={{width: this.state.screenWidth}}
                 />
             </View>
         );
@@ -372,19 +373,19 @@ export default class extends React.Component {
                 renderHeader={hasShowAll ? this._renderShowAll : undefined}
                 renderRow={this._renderRow}
                 renderSeparator={this.props.renderSeparator}
-                style={[styles.listview, {width: this.props.width}]}
-                contentContainerStyle={{width: this.props.width}}
+                style={[styles.listview, {width: this.state.screenWidth}]}
+                contentContainerStyle={{width: this.state.screenWidth}}
             />
         );
     };
 
     _renderEmptyPage = (index) => {
-        return <View key={index} style={{width: this.props.width}} />;
+        return <View key={index} style={{width: this.state.screenWidth}} />;
     };
 
     _renderPageView = () => {
         const deepth = this.state.levelItems.length;
-        const totalWidth = this.props.width * deepth;
+        const totalWidth = this.state.screenWidth * deepth;
         return (
             <View style={[{width: totalWidth}, styles.displayView, this.state.frame]}>
                 {
@@ -408,8 +409,29 @@ export default class extends React.Component {
             <View style={styles.view}>
                 {this._renderNaviBar()}
                 {this.props.showSearchView && this._renderSearchBar()}
-                {!this.state.isSearching && this._renderHeader()}
-                {this.state.isSearching ? this._renderSearchingView() : this._renderPageView()}
+                <SafeAreaView
+                    style={styles.innersafeview}
+                    forceInset={{top: 'never', bottom: 'never', left: 'always', right: 'always'}}
+                >
+                    <View
+                        style={{flex: 1, overflow: 'hidden'}}
+                        onLayout={({nativeEvent: {layout: {width}}}) => {
+                            if (width > 0 && width !== this.state.screenWidth) {
+                                this.setState({
+                                    screenWidth: width,
+                                    frame: {
+                                        top: 0,
+                                        bottom: 0,
+                                        left: 0 - (this.state.levelItems.length - 1) * width,
+                                    }
+                                });
+                            }
+                        }}
+                    >
+                        {!this.state.isSearching && this._renderHeader()}
+                        {this.state.isSearching ? this._renderSearchingView() : this._renderPageView()}
+                    </View>
+                </SafeAreaView>
                 {hasBottom && this._renderBottomView()}
             </View>
         );
@@ -421,7 +443,14 @@ const styles = StyleSheet.create({
         flex: 1,
         overflow: 'hidden',
         backgroundColor: '#eff1f1',
-        paddingBottom: getBottomSpace(),
+    },
+    innersafeview: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
+    searchbarContainer: {
+        flex: 0,
+        backgroundColor: 'white',
     },
     listview: {
         backgroundColor: 'transparent',

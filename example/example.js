@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppRegistry, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, SafeAreaView, AppRegistry, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import PickList, { PickListLabels } from 'react-native-picklist';
 import NaviBar from 'react-native-pure-navigation-bar';
 
@@ -122,84 +122,89 @@ class Example extends React.Component {
 
     _renderMenuView = () => {
         return (
-            <View style={styles.container}>
+            <SafeAreaView
+                style={styles.container}
+                forceInset={{top: 'never', bottom: 'always', left: 'always', right: 'always'}}
+            >
                 <NaviBar title={'Test'} leftElement={null} />
-                {this._renderLanguageItem()}
-                {this._renderItem('a', 'Plain Data + Single Select', () => {
-                    this.setState({
-                        key: 'a',
-                        isPickList: true,
-                        title: 'Plain Single',
-                        isPlainData: true,
-                        isMulti: false,
-                        directBackWhenSingle: false,
-                        showCount: false,
-                    });
-                })}
-                {this._renderItem('b', 'Plain Data + Single Select + Direct Back', () => {
-                    this.setState({
-                        key: 'b',
-                        isPickList: true,
-                        title: 'Plain Single Back',
-                        isPlainData: true,
-                        isMulti: false,
-                        directBackWhenSingle: true,
-                        showCount: false,
-                    });
-                })}
-                {this._renderItem('c', 'Plain Data + Multi Select', () => {
-                    this.setState({
-                        key: 'c',
-                        isPickList: true,
-                        title: 'Plain Multi',
-                        isPlainData: true,
-                        isMulti: true,
-                        showCount: false,
-                    });
-                })}
-                {this._renderItem('d', 'Tree Data + Single Select', () => {
-                    this.setState({
-                        key: 'd',
-                        isPickList: true,
-                        title: 'Tree Single',
-                        isPlainData: false,
-                        isMulti: false,
-                        directBackWhenSingle: false,
-                        showCount: false,
-                    });
-                })}
-                {this._renderItem('e', 'Tree Data + Single Select + Direct Back', () => {
-                    this.setState({
-                        key: 'e',
-                        isPickList: true,
-                        title: 'Tree Single Back',
-                        isPlainData: false,
-                        isMulti: false,
-                        directBackWhenSingle: true,
-                        showCount: false,
-                    });
-                })}
-                {this._renderItem('f', 'Tree Data + Multi Select', () => {
-                    this.setState({
-                        key: 'f',
-                        isPickList: true,
-                        title: 'Tree Multi',
-                        isPlainData: false,
-                        isMulti: true,
-                        showCount: false,
-                    });
-                })}
-                {this._renderItem('g', 'Tree Data + Multi Select + Count', () => {
-                    this.setState({
-                        key: 'g',
-                        isPickList: true,
-                        title: 'Tree Multi',
-                        isPlainData: false,
-                        isMulti: true,
-                        showCount: true,
-                    });
-                })}
-            </View>
+                <ScrollView style={{flex: 1}}>
+                    {this._renderLanguageItem()}
+                    {this._renderItem('a', 'Plain Data + Single Select', () => {
+                        this.setState({
+                            key: 'a',
+                            isPickList: true,
+                            title: 'Plain Single',
+                            isPlainData: true,
+                            isMulti: false,
+                            directBackWhenSingle: false,
+                            showCount: false,
+                        });
+                    })}
+                    {this._renderItem('b', 'Plain Data + Single Select + Direct Back', () => {
+                        this.setState({
+                            key: 'b',
+                            isPickList: true,
+                            title: 'Plain Single Back',
+                            isPlainData: true,
+                            isMulti: false,
+                            directBackWhenSingle: true,
+                            showCount: false,
+                        });
+                    })}
+                    {this._renderItem('c', 'Plain Data + Multi Select', () => {
+                        this.setState({
+                            key: 'c',
+                            isPickList: true,
+                            title: 'Plain Multi',
+                            isPlainData: true,
+                            isMulti: true,
+                            showCount: false,
+                        });
+                    })}
+                    {this._renderItem('d', 'Tree Data + Single Select', () => {
+                        this.setState({
+                            key: 'd',
+                            isPickList: true,
+                            title: 'Tree Single',
+                            isPlainData: false,
+                            isMulti: false,
+                            directBackWhenSingle: false,
+                            showCount: false,
+                        });
+                    })}
+                    {this._renderItem('e', 'Tree Data + Single Select + Direct Back', () => {
+                        this.setState({
+                            key: 'e',
+                            isPickList: true,
+                            title: 'Tree Single Back',
+                            isPlainData: false,
+                            isMulti: false,
+                            directBackWhenSingle: true,
+                            showCount: false,
+                        });
+                    })}
+                    {this._renderItem('f', 'Tree Data + Multi Select', () => {
+                        this.setState({
+                            key: 'f',
+                            isPickList: true,
+                            title: 'Tree Multi',
+                            isPlainData: false,
+                            isMulti: true,
+                            showCount: false,
+                        });
+                    })}
+                    {this._renderItem('g', 'Tree Data + Multi Select + Count', () => {
+                        this.setState({
+                            key: 'g',
+                            isPickList: true,
+                            title: 'Tree Multi',
+                            isPlainData: false,
+                            isMulti: true,
+                            showCount: true,
+                        });
+                    })}
+                </ScrollView>
+            </SafeAreaView>
         );
     };
 

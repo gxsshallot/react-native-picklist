@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, ScrollView, SafeAreaView } from 'react-native';
 import * as Labels from './PickListLabel';
 
 export default class extends React.Component {
@@ -49,7 +49,10 @@ export default class extends React.Component {
     render() {
         const {selectedItems, onPress} = this.props;
         return (
-            <View style={styles.bottomViewContainer}>
+            <SafeAreaView
+                style={styles.bottomViewContainer}
+                forceInset={{top: 'never', bottom: 'always', left: 'always', right: 'always'}}
+            >
                 <ScrollView
                     ref={ref => this.scrollView = ref}
                     showsHorizontalScrollIndicator={false}
@@ -68,13 +71,14 @@ export default class extends React.Component {
                         </Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }
 
 const styles = StyleSheet.create({
     bottomViewContainer: {
+        flex: 0,
         flexDirection: 'row',
         backgroundColor: '#ffffff',
         borderTopWidth: StyleSheet.hairlineWidth,
