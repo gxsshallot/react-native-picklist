@@ -43,7 +43,6 @@ Required:
 
 * `title: string`:  Page title.
 * `data: object | object[]`: Data to show. We will construct a virtual root node to contain it.
-* `onBack: (props: PickList.props) => void`: Go back to the previous page.
 
 Optional:
 

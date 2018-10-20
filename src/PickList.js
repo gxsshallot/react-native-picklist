@@ -2,6 +2,7 @@ import React from 'react';
 import { SafeAreaView, LayoutAnimation, ListView, StyleSheet, View, DeviceEventEmitter, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import NaviBar, { GOBACK_BUTTON } from 'react-native-pure-navigation-bar';
+import { withNavigation } from 'react-navigation';
 import SearchBar from 'react-native-general-searchbar';
 import Tree from 'react-native-general-tree';
 import PickListCell from './PickListCell';
@@ -11,7 +12,7 @@ import PickListBottomBar from './PickListBottomBar';
 import PickListShowAllCell from './PickListShowAllCell';
 import * as Labels from './PickListLabel';
 
-export default class extends React.Component {
+class PickList extends React.Component {
     static propTypes = {
         title: PropTypes.string.isRequired,
         firstTitleLine: PropTypes.string,
@@ -39,7 +40,6 @@ export default class extends React.Component {
         labelKey: PropTypes.string,
         searchKeys: PropTypes.array,
         sort: PropTypes.func,
-        onBack: PropTypes.func.isRequired,
         splitFunc: PropTypes.func,
     };
 
@@ -100,23 +100,27 @@ export default class extends React.Component {
         });
     };
 
+    _popToPrevious = () => {
+        this.props.navigation && this.props.navigation.goBack();
+    };
+
     _clickBack = (index) => {
         if (index === 0) {
             const curIndex = this.state.levelItems.length;
             if (curIndex <= 1) {
-                this.props.onBack(this.props);
+                this._popToPrevious();
             } else {
                 this._handlePressToPrevPage(curIndex - 1);
             }
         } else {
-            this.props.onBack(this.props);
+            this._popToPrevious();
         }
         return false;
     };
 
     _clickOK = () => {
         this.props.onFinish && this.props.onFinish(this.state.selectedItems);
-        this.props.onBack(this.props);
+        this._popToPrevious();
     };
 
     _clickRow = (treeNode, isInternal = false) => {
@@ -437,6 +441,8 @@ export default class extends React.Component {
         );
     }
 }
+
+export default withNavigation(PickList);
 
 const styles = StyleSheet.create({
     view: {

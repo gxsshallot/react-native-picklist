@@ -41,7 +41,6 @@ import PickList from 'react-native-picklist';
 
 * `title: string`: 页面标题.
 * `data: object | object[]`: 展示的数据. 我们将创建一个虚拟的根节点包含它.
-* `onBack: (props: PickList.props) => void`: 回退到上一页面.
 
 可选:
 

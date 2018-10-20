@@ -1,7 +1,33 @@
 import React from 'react';
-import { ScrollView, SafeAreaView, AppRegistry, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, SafeAreaView, AppRegistry, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import PickList, { PickListLabels } from 'react-native-picklist';
 import NaviBar from 'react-native-pure-navigation-bar';
+import { createStackNavigator } from 'react-navigation';
+
+class TestPage extends React.Component {
+    render() {
+        const {data, selectedIds, title, isPlainData, isMulti, directBackWhenSingle, showCount, onFinish} = this.props.navigation.state.params;
+        return (
+            <PickList
+                data={data}
+                title={title}
+                firstTitleLine={'Test'}
+                multilevel={!isPlainData}
+                multiselect={isMulti}
+                directBackWhenSingle={directBackWhenSingle}
+                selectedIds={selectedIds}
+                showCount={showCount}
+                onFinish={onFinish}
+                idKey={'code'}
+                labelKey={'name'}
+                childrenKey={'subitems'}
+                closeLabel={'Close'}
+                selectAllLabel={'Select All'}
+                deselectAllLabel={'Deselect All'}
+            />
+        );
+    }
+}
 
 class Example extends React.Component {
     constructor(props) {
@@ -31,13 +57,7 @@ class Example extends React.Component {
         ];
         this.state = {
             language: 'en',
-            isPickList: false,
             key: undefined,
-            title: undefined,
-            isPlainData: undefined,
-            isMulti: undefined,
-            directBackWhenSingle: undefined,
-            showCount: undefined,
         };
     }
 
@@ -55,8 +75,7 @@ class Example extends React.Component {
         PickListLabels.chooseLabel = isEn ? 'Please choose' : '请选择';
     };
 
-    _onFinish = (nodeArr) => {
-        const key = 'selectedItems' + this.state.key;
+    _onFinish = (key, nodeArr) => {
         this.setState({
             [key]: nodeArr.map(node => node.getInfo()),
         });
@@ -67,30 +86,16 @@ class Example extends React.Component {
         this.setState({language}, () => this._setLanguage());
     };
 
-    _renderPickList = () => {
-        const key = 'selectedItems' + this.state.key;
-        const data = this.state.isPlainData ? this.plainData : this.treeData;
+    test = (state) => {
+        const key = 'selectedItems' + state.key;
+        const data = state.isPlainData ? this.plainData : this.treeData;
         const selectedIds = (this.state[key] || []).map(item => item.code);
-        return (
-            <PickList
-                data={data}
-                title={this.state.title}
-                firstTitleLine={'Test'}
-                multilevel={!this.state.isPlainData}
-                multiselect={this.state.isMulti}
-                directBackWhenSingle={this.state.directBackWhenSingle}
-                selectedIds={selectedIds}
-                showCount={this.state.showCount}
-                onFinish={this._onFinish}
-                idKey={'code'}
-                labelKey={'name'}
-                childrenKey={'subitems'}
-                onBack={() => this.setState({isPickList: false, key: undefined})}
-                closeLabel={'Close'}
-                selectAllLabel={'Select All'}
-                deselectAllLabel={'Deselect All'}
-            />
-        );
+        this.props.navigation.navigate('Test', {
+            ...state,
+            data,
+            selectedIds,
+            onFinish: this._onFinish.bind(this, key),
+        });
     };
 
     _renderLanguageItem = () => {
@@ -120,7 +125,7 @@ class Example extends React.Component {
         );
     };
 
-    _renderMenuView = () => {
+    render() {
         return (
             <SafeAreaView
                 style={styles.container}
@@ -130,9 +135,8 @@ class Example extends React.Component {
                 <ScrollView style={{flex: 1}}>
                     {this._renderLanguageItem()}
                     {this._renderItem('a', 'Plain Data + Single Select', () => {
-                        this.setState({
+                        this.test({
                             key: 'a',
-                            isPickList: true,
                             title: 'Plain Single',
                             isPlainData: true,
                             isMulti: false,
@@ -141,9 +145,8 @@ class Example extends React.Component {
                         });
                     })}
                     {this._renderItem('b', 'Plain Data + Single Select + Direct Back', () => {
-                        this.setState({
+                        this.test({
                             key: 'b',
-                            isPickList: true,
                             title: 'Plain Single Back',
                             isPlainData: true,
                             isMulti: false,
@@ -152,9 +155,8 @@ class Example extends React.Component {
                         });
                     })}
                     {this._renderItem('c', 'Plain Data + Multi Select', () => {
-                        this.setState({
+                        this.test({
                             key: 'c',
-                            isPickList: true,
                             title: 'Plain Multi',
                             isPlainData: true,
                             isMulti: true,
@@ -162,9 +164,8 @@ class Example extends React.Component {
                         });
                     })}
                     {this._renderItem('d', 'Tree Data + Single Select', () => {
-                        this.setState({
+                        this.test({
                             key: 'd',
-                            isPickList: true,
                             title: 'Tree Single',
                             isPlainData: false,
                             isMulti: false,
@@ -173,9 +174,8 @@ class Example extends React.Component {
                         });
                     })}
                     {this._renderItem('e', 'Tree Data + Single Select + Direct Back', () => {
-                        this.setState({
+                        this.test({
                             key: 'e',
-                            isPickList: true,
                             title: 'Tree Single Back',
                             isPlainData: false,
                             isMulti: false,
@@ -184,9 +184,8 @@ class Example extends React.Component {
                         });
                     })}
                     {this._renderItem('f', 'Tree Data + Multi Select', () => {
-                        this.setState({
+                        this.test({
                             key: 'f',
-                            isPickList: true,
                             title: 'Tree Multi',
                             isPlainData: false,
                             isMulti: true,
@@ -194,9 +193,8 @@ class Example extends React.Component {
                         });
                     })}
                     {this._renderItem('g', 'Tree Data + Multi Select + Count', () => {
-                        this.setState({
+                        this.test({
                             key: 'g',
-                            isPickList: true,
                             title: 'Tree Multi',
                             isPlainData: false,
                             isMulti: true,
@@ -206,10 +204,6 @@ class Example extends React.Component {
                 </ScrollView>
             </SafeAreaView>
         );
-    };
-
-    render() {
-        return this.state.isPickList ? this._renderPickList() : this._renderMenuView();
     }
 }
 
@@ -238,4 +232,11 @@ const styles = StyleSheet.create({
     },
 });
 
-AppRegistry.registerComponent('test', () => Example);
+const navigator = createStackNavigator({
+    Example: {screen: Example},
+    Test: {screen: TestPage},
+}, {
+    headerMode: 'none',
+});
+
+AppRegistry.registerComponent('test', () => navigator);
