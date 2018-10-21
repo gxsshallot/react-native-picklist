@@ -25,6 +25,12 @@ yarn add react-native-picklist
 npm install --save react-native-picklist
 ```
 
+你应该同样安装来自`peerDependencies`的依赖库:
+
+* react
+* react-native
+* react-navigation
+
 ## 使用
 
 在文件中导入模块:

@@ -27,6 +27,12 @@ Install by NPM:
 npm install --save react-native-picklist
 ```
 
+You should also install the package in `peerDependencies`:
+
+* react
+* react-native
+* react-navigation
+
 ## Usage
 
 Import the module in the file:
