@@ -4,12 +4,12 @@ import PickListCell from './PickListCell';
 import PickListBottomBar from './PickListBottomBar';
 import PickListShowAllCell from './PickListShowAllCell';
 import PickListTitleLine from './PickListTitleLine';
-import * as PickListLabels from './PickListLabel';
+import * as PickListLabel from './PickListLabel';
 
 export default PickList;
 
 export {
-    PickListLabels,
+    PickListLabel,
     PickListDefaultRow,
     PickListRowUtil,
     PickListCell,

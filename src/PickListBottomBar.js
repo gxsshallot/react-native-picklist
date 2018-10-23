@@ -2,15 +2,8 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, ScrollView, SafeAreaView } from 'react-native';
 import * as Labels from './PickListLabel';
 
-export default class extends React.Component {
-    /**
-     * ...PickList.propTypes
-     * selectedItems
-     * onPressOK
-     * onPressItem
-     */
-
-    componentWillReceiveProps() {
+export default class extends React.PureComponent {
+    UNSAFE_componentWillReceiveProps() {
         setTimeout(() => {
             this._scrollToEnd(false);
         }, 0);
@@ -65,7 +58,11 @@ export default class extends React.Component {
                         : this._renderBottomEmptyView()}
                 </ScrollView>
                 <View style={styles.bottomViewButtonContainer}>
-                    <TouchableOpacity activeOpacity={0.97} style={styles.bottomViewButton} onPress={onPress}>
+                    <TouchableOpacity
+                        activeOpacity={0.97}
+                        style={styles.bottomViewButton}
+                        onPress={onPress}
+                    >
                         <Text style={styles.bottomViewButtonText}>
                             {Labels.okLabel}
                         </Text>

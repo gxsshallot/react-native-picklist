@@ -58,6 +58,12 @@ class PickList extends React.Component {
             idKey: 'id',
             labelKey: 'label',
             searchKeys: [],
+            closeLabel: '关闭',
+            searchLabel: '搜索',
+            selectAllLabel: '全选';
+            deselectAllLabel: '全不选';
+            okLabel: '确定',
+            chooseLabel: '请选择',
         };
     }
 
@@ -248,7 +254,7 @@ class PickList extends React.Component {
 
     _renderSearchBar = () => {
         const placeholder = this.props.searchPlaceholder ||
-            Labels.searchPlaceholderLabel;
+            Labels.searchLabel;
         return (
             <SafeAreaView
                 style={styles.searchbarContainer}
@@ -358,10 +364,7 @@ class PickList extends React.Component {
     _renderPage = (index) => {
         const treeNode = this.state.levelItems[index];
         const listDataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        const sort = this.props.sort || ((a, b) => 
-            a.getInfo()[this.props.labelKey] < b.getInfo()[this.props.labelKey] ? -1 : 1
-        );
-        const nodeArr = treeNode.getSplitChildren(sort, this.props.splitFunc);
+        const nodeArr = treeNode.getSplitChildren(this.props.splitFunc, this.props.sort);
         const dataSource = [...nodeArr[0], ...nodeArr[1]];
         if (nodeArr[0].length > 0 && nodeArr[1].length > 0) {
             dataSource.splice(nodeArr[0].length, 0, undefined);

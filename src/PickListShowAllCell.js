@@ -1,15 +1,9 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, View, Image, Text, DeviceEventEmitter } from 'react-native';
-import * as PickListDefaultRow from './PickListDefaultRow';
+import * as RowUtil from './PickListDefaultRow';
 import * as Labels from './PickListLabel';
 
-export default class extends React.Component {
-    /**
-     * ...PickList.propTypes
-     * treeNode
-     * onPress
-     */
-
+export default class extends React.PureComponent {
     constructor(props) {
         super(props);
         this.tree = props.treeNode;
@@ -19,7 +13,7 @@ export default class extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.listener = DeviceEventEmitter.addListener(
             '__treenode__status__update__' + this.tree.getStringId(),
             this._refresh
@@ -38,9 +32,9 @@ export default class extends React.Component {
 
     _getImage = () => {
         if (this.tree.isFullSelect(this.cascade)) {
-            return PickListDefaultRow.select_image;
+            return RowUtil.select_image;
         } else {
-            return PickListDefaultRow.notselect_image;
+            return RowUtil.notselect_image;
         }
     };
 
@@ -54,8 +48,8 @@ export default class extends React.Component {
                     <Image source={this._getImage()} style={styles.cellSelected} />
                     <Text style={styles.leafText}>
                         {this.tree.isFullSelect(this.cascade) ?
-                            Labels.deselectAllLabel :
-                            Labels.selectAllLabel}
+                            this.props.deselectAllLabel :
+                            this.props.selectAllLabel}
                     </Text>
                 </View>
             </TouchableOpacity>

@@ -1,10 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default (treeNode, props) => {
-    const isMultiLevel = props.multilevel;
-    return isMultiLevel ? multiLevelNode(treeNode, props) : singleLevelNode(treeNode, props);
-};
+export default (treeNode, props) => props.multilevel ? multiLevelNode(treeNode, props) : singleLevelNode(treeNode, props);
 
 export const singleLevelNode = (treeNode, props) => {
     const {labelKey} = props;
