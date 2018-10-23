@@ -53,12 +53,6 @@ yarn add react-native-picklist
 npm install --save react-native-picklist
 ```
 
-你应该同样安装来自`peerDependencies`的依赖库:
-
-* react
-* react-native
-* react-navigation
-
 ## 使用
 
 在文件中导入模块:
@@ -100,19 +94,25 @@ import PickList from 'react-native-picklist';
 * `searchKeys`: 数据节点中普通搜索的键列表.
 * `sort`: 数据列表的排序方法.
 * `split`: 数据列表拆分区域的方法.
-* `searchLabel`: 搜索栏的占位内容.
+* `flatListProps`: 当数据是平级的时候, `FlatList`的属性.
+* `sectionListProps`: 当数据被拆分成区域时, `SectionList`的属性.
+* `searchListProps`: 当搜索时`FlatList`的属性.
+* `labels`: 内部使用的标签文本.
+
+你可以全局的改变标签文本, 使用如下命令:
+
+```javascript
+import {InnerPickList} from 'react-native-picklist';
+
+InnerPickList.defaultProps.labels.xxx = 'xxx';
+```
 
 ## 样例工程
 
 你可以使用如下步骤来打开样例工程：
 
-1. `cd example`.
-1. 使用`yarn`或`npm install`安装模块。
-1. 在iOS中, 需要在`ios`目录中运行`pod install`命令.
-1. 运行`npm run bundle:ios`或`npm run bundle:android`打包。
-1. 在一个单独的终端中运行`npm start`。
-1. 使用`Xcode`或`Android Studio`打开`example/ios`或`example/android`中的工程。
-1. 运行工程。
+1. 进入`example`目录, 使用`yarn`或`npm install`安装模块, 在一个单独的终端中运行`npm start`.
+1. 创建一个样例工程, 使用入口文件`index`和模块名称`test`.
 
 ## 参考
 

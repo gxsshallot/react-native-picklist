@@ -55,12 +55,6 @@ Install by NPM:
 npm install --save react-native-picklist
 ```
 
-You should also install the package in `peerDependencies`:
-
-* react
-* react-native
-* react-navigation
-
 ## Usage
 
 Import the module in the file:
@@ -102,19 +96,25 @@ Optional:
 * `searchKeys`: Normal search keys of tree node.
 * `sort`: Sort method for data list.
 * `split`: Split method when generate sections of data list.
-* `searchLabel`: Placeholder of search bar.
+* `flatListProps`: Props of `FlatList` when data is flat.
+* `sectionListProps`: Props of `SectionList` when data is splitted to sections.
+* `searchListProps`: Props of `FlatList` when searching.
+* `labels`: Label text in component.
+
+You can change labels globally by following statement:
+
+```javascript
+import {InnerPickList} from 'react-native-picklist';
+
+InnerPickList.defaultProps.labels.xxx = 'xxx';
+```
 
 ## Example Project
 
 You can open the example project by following steps:
 
-1. `cd example`.
-1. Use `yarn` or `npm install` to install the modules.
-1. For iOS, you should run `pod install` in `ios` directory.
-1. Run `npm run bundle:ios` or `npm run bundle:android` to bundle the package.
-1. Run `npm start` in a seperate terminal.
-1. Use `Xcode` or `Android Studio` to open the project in `example/ios` or `example/android`.
-1. Run the project.
+1. Enter `example`. Use `yarn` or `npm install` to install the modules. Run `npm start` in a seperate terminal.
+1. Create a example project with entry file `index` and module name `test`.
 
 ## Reference
 
