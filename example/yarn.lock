@@ -3994,27 +3994,32 @@ react-native-drawer-layout@1.3.2:
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
 
-react-native-general-searchbar@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/react-native-general-searchbar/-/react-native-general-searchbar-1.0.0.tgz#e2cc329c7264fac78cc913e109a57f4b063e598f"
-  integrity sha512-Ocp2KBL6qJiUHmKgXu69Ehg0Kg9boPBeok8Hf/fXcSX6nZHBifa9QVEIKAYPq7VTNHd9DnC0Cu3G06B/7eqRhA==
-
-react-native-general-tree@^1.0.3:
+react-native-general-searchbar@^1.0.3:
   version "1.0.3"
-  resolved "https://registry.npmjs.org/react-native-general-tree/-/react-native-general-tree-1.0.3.tgz#5c36a6e3ffea5e4d3019877f38102c9594f927e9"
-  integrity sha512-sDG9J3dJGnoN9YzQNVDy45scdwo0fQ8hyZQ4nrMfatvnFQSYrJC5JwxpVFAbjuz0XtUf3SLXtFGP8xec3djxjg==
+  resolved "https://registry.yarnpkg.com/react-native-general-searchbar/-/react-native-general-searchbar-1.0.3.tgz#be3552653e9e520c8449d2751f1cb433ab142418"
+  integrity sha512-ab3bcfw5am3HHlab5luf83903fTXzZSR2W+27VAsdBzgZ2fZBvoAVcwCGXL+o1+uflrq2kzGxDfs/bStBsWa0A==
+
+react-native-general-tree@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-general-tree/-/react-native-general-tree-1.0.5.tgz#6d67949b2918c4489b8428457245cb157c741215"
+  integrity sha512-jBhyGCCJNCE5pCnADxXDVWf+RJOEuZzhkrgFr/KWVrnreRS51bgmDmItwD5uHm/p7lYsHchwKI3YcHVqxSEd1w==
 
 react-native-picklist@../:
-  version "1.1.0"
+  version "1.1.2"
   dependencies:
-    react-native-general-searchbar "^1.0.0"
-    react-native-general-tree "^1.0.3"
-    react-native-pure-navigation-bar "^1.3.4"
+    react-native-general-searchbar "^1.0.3"
+    react-native-general-tree "^1.0.5"
+    react-native-pure-navigation-bar "^1.3.7"
 
 react-native-pure-navigation-bar@^1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/react-native-pure-navigation-bar/-/react-native-pure-navigation-bar-1.3.4.tgz#c0518da780464fcefa3fab140a175832c600287d"
   integrity sha512-+vSIGNZ+nVI6rhA7vMg94mGWWmItbKFNYAkGtSg8VzRfNsXunR48cH9b8xqlMb/w6Me9sVDjq8MsaVkteagrvA==
+
+react-native-pure-navigation-bar@^1.3.7:
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/react-native-pure-navigation-bar/-/react-native-pure-navigation-bar-1.3.7.tgz#24a04aa5d64cde4a03dd43cb4a39a283123ea7c7"
+  integrity sha512-MqH6jHiHOkYKFgctWBRPzqdGZtTnq9KHZM9edHSTK7HuDK52Lo/Jynd+tJ7vwVVB7AZQhYvk8dA7GhIcrZPBjg==
 
 react-native-safe-area-view@0.11.0:
   version "0.11.0"

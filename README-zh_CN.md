@@ -1,7 +1,5 @@
 # react-native-picklist
 
-[实际截图](resource/ScreenShot.md)
-
 这是一个PickList页面. 它支持如下功能:
 
 * 单层或多层结构的数据
@@ -10,6 +8,36 @@
 * 自定义UI组件
 * 自动搜索数据
 * 分区样式的页面
+
+## 实际截图
+
+### iPhone X
+
+<p float="left">
+
+<img src="/resource/iPhoneX-PlainSingle.png" width="22%">
+
+<img src="/resource/iPhoneX-PlainMulti.png" width="22%">
+
+<img src="/resource/iPhoneX-TreeMulti.png" width="22%">
+
+<img src="/resource/iPhoneX-TreeMultiStatus.png" width="22%">
+
+</p>
+
+### Android
+
+<p float="left">
+
+<img src="/resource/Android-PlainSingle.png" width="22%">
+
+<img src="/resource/Android-PlainMulti.png" width="22%">
+
+<img src="/resource/Android-TreeMulti.png" width="22%">
+
+<img src="/resource/Android-TreeMultiStatus.png" width="22%">
+
+</p>
 
 ## 安装
 

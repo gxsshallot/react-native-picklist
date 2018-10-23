@@ -1,8 +1,6 @@
 # react-native-picklist
 
-[Chinese README](README-zh_CN.md)
-
-[ScreenShots](resource/ScreenShot.md)
+[中文说明](README-zh_CN.md)
 
 This is a picklist page. It supports:
 
@@ -12,6 +10,36 @@ This is a picklist page. It supports:
 * customize the UI component
 * search in the data automaticlly
 * section style page
+
+## ScreenShots
+
+### iPhone X
+
+<p float="left">
+
+<img src="/resource/iPhoneX-PlainSingle.png" width="22%">
+
+<img src="/resource/iPhoneX-PlainMulti.png" width="22%">
+
+<img src="/resource/iPhoneX-TreeMulti.png" width="22%">
+
+<img src="/resource/iPhoneX-TreeMultiStatus.png" width="22%">
+
+</p>
+
+### Android
+
+<p float="left">
+
+<img src="/resource/Android-PlainSingle.png" width="22%">
+
+<img src="/resource/Android-PlainMulti.png" width="22%">
+
+<img src="/resource/Android-TreeMulti.png" width="22%">
+
+<img src="/resource/Android-TreeMultiStatus.png" width="22%">
+
+</p>
 
 ## Install
 
