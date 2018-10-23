@@ -73,37 +73,34 @@ import PickList from 'react-native-picklist';
 
 必填:
 
-* `title: string`: 页面标题.
-* `data: object | object[]`: 展示的数据. 我们将创建一个虚拟的根节点包含它.
+* `title`: 页面标题.
+* `data`: 展示的数据. 我们将创建一个虚拟的根节点包含它.
 
 可选:
 
-* `firstTitleLine?: string`: 当有多层结构数据并且显示标题行时, 在`PickListTitleLine`控件中显示的第一个标签.
-* `multilevel?: boolean`: 是否是多层结构数据. 默认是`false`.
-* `multiselect?: boolean`: 是否是多选. 默认是`false`.
-* `onFinish?: (nodes: Tree[]) => void`: 当选择完成时, 返回选中的节点列表.
-* `rightTitle?: string`: 右上角按钮标题.
-* `rightClick?: () => void`: 右上角按钮点击回调.
-* `renderRow?: (treeNode: Tree, props: PickList.props) => JSX.Component`: 自定义行展示. 你可以使用这个属性来实现只读的页面. 默认实现在`PickListDefaultRow.js`.
-* `renderSeparator?: () => JSX.Component`: 自定义单元格分隔线.
-* `renderSectionSeparator?: () => JSX.Component`: 自定义区域分隔线.
-* `renderHeader?: (state: PickList.state) => JSX.Component`: 自定义列表页的头部.
-* `showBottomView?: boolean`: 是否显示底部栏.
-* `showSearchView?: boolean`: 是否显示搜索栏.
-* `showTitleLine?: boolean`: 是否在头部显示标题栏.
-* `showAllCell?: boolean`: 是否显示全选或全不选按钮.
-* `showCount?: boolean`: 是否显示非叶节点的叶节点数量和选中数量.
-* `directBackWhenSingle?: boolean`: 单选单层结构数据时, 是否直接返回上一页.
-* `searchPlaceholder?: string`: 搜索栏的占位内容.
-* `selectedIds?: array`: 初始的已选中项的id列表.
-* `selectable?: (treeNode: Tree) => boolean`: 一个数据节点是否可选.
-* `childrenKey?: string`: 数据节点中子节点列表对应的键.
-* `idKey?: string`: 数据节点中id对应的键.
-* `labelKey?: string`: 数据节点中标签对应的键.
-* `searchKeys?: string[]`: 数据节点中普通搜索的键列表.
-* `sort?: (a: Tree, b: Tree) => -1 | 0 | 1`: 数据列表的排序方法.
-* `splitFunc?: (arr: Tree[]) => Tree[][]`: 数据列表拆分区域的方法.
-* `width?: number`: 页面宽度.
+* `firstTitleLine`: 当有多层结构数据并且显示标题行时, 在`PickListTitleLine`控件中显示的第一个标签.
+* `multilevel`: 是否是多层结构数据. 默认是`false`.
+* `multiselect`: 是否是多选. 默认是`false`.
+* `onFinish`: 当选择完成时, 返回选中的节点列表.
+* `rightTitle`: 右上角按钮标题.
+* `rightClick`: 右上角按钮点击回调.
+* `renderRow`: 自定义行展示. 你可以使用这个属性来实现只读的页面. 默认实现在`PickListDefaultRow.js`.
+* `renderHeader`: 自定义列表页的头部.
+* `showBottomView`: 是否显示底部栏.
+* `showSearchView`: 是否显示搜索栏.
+* `showTitleLine`: 是否在头部显示标题栏.
+* `showAllCell`: 是否显示全选或全不选按钮.
+* `showCount`: 是否显示非叶节点的叶节点数量和选中数量.
+* `directBackWhenSingle`: 单选单层结构数据时, 是否直接返回上一页.
+* `selectedIds`: 初始的已选中项的id列表.
+* `selectable`: 一个数据节点是否可选.
+* `childrenKey`: 数据节点中子节点列表对应的键.
+* `idKey`: 数据节点中id对应的键.
+* `labelKey`: 数据节点中标签对应的键.
+* `searchKeys`: 数据节点中普通搜索的键列表.
+* `sort`: 数据列表的排序方法.
+* `split`: 数据列表拆分区域的方法.
+* `searchLabel`: 搜索栏的占位内容.
 
 ## 样例工程
 

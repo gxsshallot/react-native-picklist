@@ -1,7 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, View, Image, Text, DeviceEventEmitter } from 'react-native';
 import * as RowUtil from './PickListDefaultRow';
-import * as Labels from './PickListLabel';
 
 export default class extends React.PureComponent {
     constructor(props) {

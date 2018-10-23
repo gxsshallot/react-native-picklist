@@ -75,37 +75,34 @@ You can set the following properties or see example project to learn how to use 
 
 Required:
 
-* `title: string`:  Page title.
-* `data: object | object[]`: Data to show. We will construct a virtual root node to contain it.
+* `title`:  Page title.
+* `data`: Data to show. We will construct a virtual root node to contain it.
 
 Optional:
 
-* `firstTitleLine?: string`: First item displayed in `PickListTitleLine` when it has the multi-level data and show the title line.
-* `multilevel?: boolean`: Has multi-level data or not. Default is `false`.
-* `multiselect?: boolean`: Is multi-select or not. Default is `false`.
-* `onFinish?: (nodes: Tree[]) => void`: Pass the selected items when finish selecting.
-* `rightTitle?: string`: Button title on the right corner.
-* `rightClick?: () => void`: Button click callback on the right corner.
-* `renderRow?: (treeNode: Tree, props: PickList.props) => JSX.Component`: Customize a row display. You can override this property to make the list readonly. Default implement is in `PickListDefaultRow.js`.
-* `renderSeparator?: () => JSX.Component`: Customize cell separator.
-* `renderSectionSeparator?: () => JSX.Component`: Customize section separator.
-* `renderHeader?: (state: PickList.state) => JSX.Component`: Customize header of page.
-* `showBottomView?: boolean`: Show bottom bar or not.
-* `showSearchView?: boolean`: Show search bar or not.
-* `showTitleLine?: boolean`: Show title line at the header or not.
-* `showAllCell?: boolean`: Show select all or deselect all cell or not.
-* `showCount?: boolean`: Show not leaf item's children count and selected count.
-* `directBackWhenSingle?: boolean`: Directly go back to previous page or not when single-select single-level data.
-* `searchPlaceholder?: string`: Placeholder of search bar.
-* `selectedIds?: array`: Initial selected item's identifier list.
-* `selectable?: (treeNode: Tree) => boolean`: Can a tree node selectable or not.
-* `childrenKey?: string`: Children key of tree node.
-* `idKey?: string`: Identifier key of tree node.
-* `labelKey?: string`: Label key of tree node.
-* `searchKeys?: string[]`: Normal search keys of tree node.
-* `sort?: (a: Tree, b: Tree) => -1 | 0 | 1`: Sort method for data list.
-* `splitFunc?: (arr: Tree[]) => Tree[][]`: Split method when generate sections of data list.
-* `width?: number`: Page width.
+* `firstTitleLine`: First item displayed in `PickListTitleLine` when it has the multi-level data and show the title line.
+* `multilevel`: Has multi-level data or not. Default is `false`.
+* `multiselect`: Is multi-select or not. Default is `false`.
+* `onFinish`: Pass the selected items when finish selecting.
+* `rightTitle`: Button title on the right corner.
+* `rightClick`: Button click callback on the right corner.
+* `renderRow`: Customize a row display. You can override this property to make the list readonly. Default implement is in `PickListDefaultRow.js`.
+* `renderHeader`: Customize header of page.
+* `showBottomView`: Show bottom bar or not.
+* `showSearchView`: Show search bar or not.
+* `showTitleLine`: Show title line at the header or not.
+* `showAllCell`: Show select all or deselect all cell or not.
+* `showCount`: Show not leaf item's children count and selected count.
+* `directBackWhenSingle`: Directly go back to previous page or not when single-select single-level data.
+* `selectedIds`: Initial selected item's identifier list.
+* `selectable`: Can a tree node selectable or not.
+* `childrenKey`: Children key of tree node.
+* `idKey`: Identifier key of tree node.
+* `labelKey`: Label key of tree node.
+* `searchKeys`: Normal search keys of tree node.
+* `sort`: Sort method for data list.
+* `split`: Split method when generate sections of data list.
+* `searchLabel`: Placeholder of search bar.
 
 ## Example Project
 

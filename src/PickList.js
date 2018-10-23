@@ -1,8 +1,7 @@
 import React from 'react';
-import { SafeAreaView, LayoutAnimation, ListView, StyleSheet, View, DeviceEventEmitter, Dimensions } from 'react-native';
-import PropTypes from 'prop-types';
-import NaviBar, { GOBACK_BUTTON } from 'react-native-pure-navigation-bar';
+import { SafeAreaView, LayoutAnimation, ListView, FlatList, SectionList, StyleSheet, View, DeviceEventEmitter, Dimensions } from 'react-native';
 import { withNavigation } from 'react-navigation';
+import NaviBar, { GOBACK_BUTTON } from 'react-native-pure-navigation-bar';
 import SearchBar from 'react-native-general-searchbar';
 import Tree from 'react-native-general-tree';
 import PickListCell from './PickListCell';
@@ -10,62 +9,29 @@ import defaultRenderRow from './PickListDefaultRow';
 import PickListTitleLine from './PickListTitleLine';
 import PickListBottomBar from './PickListBottomBar';
 import PickListShowAllCell from './PickListShowAllCell';
-import * as Labels from './PickListLabel';
 
-class PickList extends React.Component {
-    static propTypes = {
-        title: PropTypes.string.isRequired,
-        firstTitleLine: PropTypes.string,
-        multilevel: PropTypes.bool,
-        multiselect: PropTypes.bool,
-        data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-        onFinish: PropTypes.func,
-        rightTitle: PropTypes.string,
-        rightClick: PropTypes.func,
-        renderRow: PropTypes.func,
-        renderSeparator: PropTypes.func,
-        renderSectionSeparator: PropTypes.func,
-        renderHeader: PropTypes.func,
-        showBottomView: PropTypes.bool,
-        showSearchView: PropTypes.bool,
-        showTitleLine: PropTypes.bool,
-        showAllCell: PropTypes.bool,
-        showCount: PropTypes.bool,
-        directBackWhenSingle: PropTypes.bool,
-        searchPlaceholder: PropTypes.string,
-        selectedIds: PropTypes.array,
-        selectable: PropTypes.func,
-        childrenKey: PropTypes.string,
-        idKey: PropTypes.string,
-        labelKey: PropTypes.string,
-        searchKeys: PropTypes.array,
-        sort: PropTypes.func,
-        splitFunc: PropTypes.func,
+export class InnerPickList extends React.PureComponent {
+    static defaultProps = {
+        multilevel: false,
+        multiselect: false,
+        showSearchView: true,
+        showTitleLine: true,
+        showAllCell: true,
+        showCount: false,
+        directBackWhenSingle: true,
+        selectable: () => true,
+        renderRow: defaultRenderRow,
+        childrenKey: 'children',
+        idKey: 'id',
+        labelKey: 'label',
+        searchKeys: [],
+        closeLabel: 'Close',
+        searchLabel: 'Search',
+        selectAllLabel: 'Select All',
+        deselectAllLabel: 'Deselect All',
+        okLabel: 'OK',
+        chooseLabel: 'Please Choose',
     };
-
-    static get defaultProps() {
-        return {
-            multilevel: false,
-            multiselect: false,
-            showSearchView: true,
-            showTitleLine: true,
-            showAllCell: true,
-            showCount: false,
-            directBackWhenSingle: true,
-            selectable: () => true,
-            renderRow: defaultRenderRow,
-            childrenKey: 'children',
-            idKey: 'id',
-            labelKey: 'label',
-            searchKeys: [],
-            closeLabel: '关闭',
-            searchLabel: '搜索',
-            selectAllLabel: '全选';
-            deselectAllLabel: '全不选';
-            okLabel: '确定',
-            chooseLabel: '请选择',
-        };
-    }
 
     constructor(props) {
         super(props);
@@ -235,12 +201,12 @@ class PickList extends React.Component {
             rightElement.rightElement = rightTitle;
             rightElement.onRight = rightClick || this._clickOK;
         } else if (!this.props.multiselect && !this.props.directBackWhenSingle) {
-            rightElement.rightElement = Labels.okLabel;
+            rightElement.rightElement = this.props.okLabel;
             rightElement.onRight = this._clickOK;
         }
         const leftElement = [GOBACK_BUTTON];
         if (this.props.multilevel) {
-            leftElement.push(Labels.closeLabel);
+            leftElement.push(this.props.closeLabel);
         }
         return (
             <NaviBar
@@ -253,15 +219,13 @@ class PickList extends React.Component {
     };
 
     _renderSearchBar = () => {
-        const placeholder = this.props.searchPlaceholder ||
-            Labels.searchLabel;
         return (
             <SafeAreaView
                 style={styles.searchbarContainer}
                 forceInset={{top: 'never', bottom: 'never', left: 'always', right: 'always'}}
             >
                 <SearchBar
-                    placeholder={placeholder}
+                    placeholder={this.props.searchLabel}
                     searchText={this.state.searchText}
                     onPressCancel={() => {
                         LayoutAnimation.linear();
@@ -277,8 +241,7 @@ class PickList extends React.Component {
     };
 
     _renderSearchingView = () => {
-        const style = [styles.searchingViewContainer, {width: this.state.screenWidth}];
-        const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        const style = {width: this.state.screenWidth};
         const data = this.state.levelItems[0].search(
             this.state.searchText,
             [...this.props.searchKeys, this.props.labelKey],
@@ -287,15 +250,15 @@ class PickList extends React.Component {
             false
         );
         return (
-            <View style={style}>
-                <ListView
+            <View style={[styles.searchingViewContainer, style]}>
+                <FlatList
                     key={this.state.searchText}
-                    automaticallyAdjustContentInsets={false}
-                    dataSource={dataSource.cloneWithRows(data)}
-                    enableEmptySections={true}
-                    renderRow={this._renderRow}
-                    style={[styles.listview, {width: this.state.screenWidth}]}
-                    contentContainerStyle={{width: this.state.screenWidth}}
+                    data={data}
+                    renderItem={this._renderRow}
+                    style={[styles.listview, style]}
+                    contentContainerStyle={style}
+                    keyExtractor={(item) => item.getStringId()}
+                    {...this.props.searchListProps}
                 />
             </View>
         );
@@ -312,31 +275,23 @@ class PickList extends React.Component {
         );
     };
 
-    _renderSeparator = () => {
+    _renderRow = ({item}) => {
         return (
-            <View style={styles.seperator} />
+            <PickListCell
+                {...this.props}
+                isSearching={this.state.isSearching}
+                treeNode={item}
+                onPress={this._clickRow}
+            />
         );
     };
 
-    _renderRow = (treeNode) => {
-        if (treeNode) {
-            return (
-                <PickListCell
-                    {...this.props}
-                    isSearching={this.state.isSearching}
-                    treeNode={treeNode}
-                    onPress={this._clickRow}
-                />
-            );
-        } else {
-            const func = this.props.renderSectionSeparator || this._renderSeparator;
-            return func();
-        }
-    };
-
     _renderHeader = () => {
-        const {renderHeader} = this.props;
-        return renderHeader ? renderHeader(this.state) : this._renderTitleLine();
+        if (this.props.renderHeader) {
+            return this.props.renderHeader(this.state.selectedItems);
+        } else {
+            return this._renderTitleLine();
+        }
     };
 
     _renderTitleLine = () => {
@@ -362,26 +317,24 @@ class PickList extends React.Component {
     };
 
     _renderPage = (index) => {
+        const {split, sort, sectionListProps, flatListProps, multilevel, multiselect, showAllCell} = this.props;
+        const style = {width: this.state.screenWidth};
         const treeNode = this.state.levelItems[index];
-        const listDataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        const nodeArr = treeNode.getSplitChildren(this.props.splitFunc, this.props.sort);
-        const dataSource = [...nodeArr[0], ...nodeArr[1]];
-        if (nodeArr[0].length > 0 && nodeArr[1].length > 0) {
-            dataSource.splice(nodeArr[0].length, 0, undefined);
-        }
-        const listViewDataSource = listDataSource.cloneWithRows(dataSource);
-        const hasShowAll = this.props.multilevel && this.props.multiselect && this.props.showAllCell;
+        const nodeArr = treeNode.getSplitChildren(split, sort);
+        const isSection = nodeArr.some(item => Array.isArray(item.data));
+        const ListClass = isSection ? SectionList : FlatList;
+        const ListProps = isSection ? sectionListProps : flatListProps;
+        const hasShowAll = multilevel && multiselect && showAllCell;
         return (
-            <ListView
+            <ListClass
                 key={index}
-                automaticallyAdjustContentInsets={false}
-                enableEmptySections={true}
-                dataSource={listViewDataSource}
-                renderHeader={hasShowAll ? this._renderShowAll : undefined}
-                renderRow={this._renderRow}
-                renderSeparator={this.props.renderSeparator}
-                style={[styles.listview, {width: this.state.screenWidth}]}
-                contentContainerStyle={{width: this.state.screenWidth}}
+                data={nodeArr}
+                renderItem={this._renderRow}
+                ListHeaderComponent={hasShowAll && this._renderShowAll}
+                style={[styles.listview, style]}
+                contentContainerStyle={style}
+                keyExtractor={(item) => item.getStringId()}
+                {...ListProps}
             />
         );
     };
@@ -445,7 +398,7 @@ class PickList extends React.Component {
     }
 }
 
-export default withNavigation(PickList);
+export default withNavigation(InnerPickList);
 
 const styles = StyleSheet.create({
     view: {

@@ -2,13 +2,6 @@ import React from 'react';
 import { TouchableOpacity, DeviceEventEmitter } from 'react-native';
 
 export default class extends React.Component {
-    /**
-     * ...PickList.propTypes
-     * treeNode
-     * renderRow
-     * onPress
-     */
-
     constructor(props) {
         super(props);
         this.tree = props.treeNode;
@@ -18,7 +11,7 @@ export default class extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.listener = DeviceEventEmitter.addListener(
             '__treenode__status__update__' + this.tree.getStringId(),
             this._refresh

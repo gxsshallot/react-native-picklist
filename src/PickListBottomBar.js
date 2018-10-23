@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, ScrollView, SafeAreaView } from 'react-native';
-import * as Labels from './PickListLabel';
 
 export default class extends React.PureComponent {
     UNSAFE_componentWillReceiveProps() {
@@ -33,7 +32,7 @@ export default class extends React.PureComponent {
         return (
             <View style={styles.bottomViewEmpty}>
                 <Text style={styles.bottomViewEmptyText}>
-                    {Labels.chooseLabel}
+                    {this.props.chooseLabel}
                 </Text>
             </View>
         );
@@ -64,7 +63,7 @@ export default class extends React.PureComponent {
                         onPress={onPress}
                     >
                         <Text style={styles.bottomViewButtonText}>
-                            {Labels.okLabel}
+                            {this.props.okLabel}
                         </Text>
                     </TouchableOpacity>
                 </View>

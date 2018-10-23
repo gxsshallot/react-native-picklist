@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, SafeAreaView, AppRegistry, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import PickList, { PickListLabels } from 'react-native-picklist';
+import PickList, {InnerPickList} from 'react-native-picklist';
 import NaviBar from 'react-native-pure-navigation-bar';
 import { createStackNavigator } from 'react-navigation';
 
@@ -21,9 +21,6 @@ class TestPage extends React.Component {
                 idKey={'code'}
                 labelKey={'name'}
                 childrenKey={'subitems'}
-                closeLabel={'Close'}
-                selectAllLabel={'Select All'}
-                deselectAllLabel={'Deselect All'}
             />
         );
     }
@@ -67,12 +64,12 @@ class Example extends React.Component {
 
     _setLanguage = () => {
         const isEn = this.state.language === 'en';
-        PickListLabels.closeLabel = isEn ? 'Close' : '关闭';
-        PickListLabels.selectAllLabel = isEn ? 'Select All' : '全选';
-        PickListLabels.deselectAllLabel = isEn ? 'Deselect All' : '全不选';
-        PickListLabels.searchPlaceholderLabel = isEn ? 'Search' : '搜索';
-        PickListLabels.okLabel = isEn ? 'OK' : '确定';
-        PickListLabels.chooseLabel = isEn ? 'Please choose' : '请选择';
+        InnerPickList.defaultProps.closeLabel = isEn ? 'Close' : '关闭';
+        InnerPickList.defaultProps.selectAllLabel = isEn ? 'Select All' : '全选';
+        InnerPickList.defaultProps.deselectAllLabel = isEn ? 'Deselect All' : '全不选';
+        InnerPickList.defaultProps.searchLabel = isEn ? 'Search' : '搜索';
+        InnerPickList.defaultProps.okLabel = isEn ? 'OK' : '确定';
+        InnerPickList.defaultProps.chooseLabel = isEn ? 'Please choose' : '请选择';
     };
 
     _onFinish = (key, nodeArr) => {
