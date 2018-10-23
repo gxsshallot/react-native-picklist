@@ -47,8 +47,8 @@ export default class extends React.PureComponent {
                     <Image source={this._getImage()} style={styles.cellSelected} />
                     <Text style={styles.leafText}>
                         {this.tree.isFullSelect(this.cascade) ?
-                            this.props.deselectAllLabel :
-                            this.props.selectAllLabel}
+                            this.props.labels.deselectAll :
+                            this.props.labels.selectAll}
                     </Text>
                 </View>
             </TouchableOpacity>

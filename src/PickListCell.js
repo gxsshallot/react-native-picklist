@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, DeviceEventEmitter } from 'react-native';
+import defaultRenderRow from './PickListDefaultRow';
 
 export default class extends React.Component {
     constructor(props) {
@@ -29,12 +30,13 @@ export default class extends React.Component {
     };
 
     render() {
+        const renderRow = this.props.renderRow || defaultRenderRow;
         return (
             <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => this.props.onPress(this.tree, false)}
             >
-                {this.props.renderRow(this.tree, this.props)}
+                {renderRow(this.tree, this.props)}
             </TouchableOpacity>
         );
     }

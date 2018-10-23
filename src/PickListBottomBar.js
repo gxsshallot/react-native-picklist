@@ -32,7 +32,7 @@ export default class extends React.PureComponent {
         return (
             <View style={styles.bottomViewEmpty}>
                 <Text style={styles.bottomViewEmptyText}>
-                    {this.props.chooseLabel}
+                    {this.props.labels.choose}
                 </Text>
             </View>
         );
@@ -63,7 +63,7 @@ export default class extends React.PureComponent {
                         onPress={onPress}
                     >
                         <Text style={styles.bottomViewButtonText}>
-                            {this.props.okLabel}
+                            {this.props.labels.ok}
                         </Text>
                     </TouchableOpacity>
                 </View>

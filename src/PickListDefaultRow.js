@@ -37,7 +37,7 @@ export const multiLevelLeafNode = (treeNode, props) => {
 export const multiLevelNotLeafNode = (treeNode, props) => {
     const image = getImage(treeNode, props.multilevel && props.multiselect);
     const {onPress, labelKey, showCount} = props;
-    const selectable = props.selectable(treeNode);
+    const selectable = props.selectable ? props.selectable(treeNode) : true;
     const info = treeNode.getInfo()[labelKey];
     const leafs = treeNode.getLeafChildren();
     const selectedLeafs = leafs.filter(item => item.isFullSelect());
@@ -50,7 +50,9 @@ export const multiLevelNotLeafNode = (treeNode, props) => {
                         <Image source={image} style={styles.cellSelected} />
                     </TouchableOpacity>
                 )}
-                <Text style={[styles.treeCellText, {marginLeft: selectable ? 0 : 25}]}>{info}</Text>
+                <Text style={[styles.treeCellText, {marginLeft: selectable ? 0 : 25}]}>
+                    {info}
+                </Text>
             </View>
             <View style={styles.treeCellRight}>
                 {showCount && (

@@ -5,7 +5,6 @@ import NaviBar, { GOBACK_BUTTON } from 'react-native-pure-navigation-bar';
 import SearchBar from 'react-native-general-searchbar';
 import Tree from 'react-native-general-tree';
 import PickListCell from './PickListCell';
-import defaultRenderRow from './PickListDefaultRow';
 import PickListTitleLine from './PickListTitleLine';
 import PickListBottomBar from './PickListBottomBar';
 import PickListShowAllCell from './PickListShowAllCell';
@@ -19,18 +18,17 @@ export class InnerPickList extends React.PureComponent {
         showAllCell: true,
         showCount: false,
         directBackWhenSingle: true,
-        selectable: () => true,
-        renderRow: defaultRenderRow,
         childrenKey: 'children',
         idKey: 'id',
         labelKey: 'label',
-        searchKeys: [],
-        closeLabel: 'Close',
-        searchLabel: 'Search',
-        selectAllLabel: 'Select All',
-        deselectAllLabel: 'Deselect All',
-        okLabel: 'OK',
-        chooseLabel: 'Please Choose',
+        labels: {
+            close: 'Close',
+            search: 'Search',
+            selectAll: 'Select All',
+            deselectAll: 'Deselect All',
+            ok: 'OK',
+            choose: 'Please Choose',
+        },
     };
 
     constructor(props) {
@@ -201,12 +199,12 @@ export class InnerPickList extends React.PureComponent {
             rightElement.rightElement = rightTitle;
             rightElement.onRight = rightClick || this._clickOK;
         } else if (!this.props.multiselect && !this.props.directBackWhenSingle) {
-            rightElement.rightElement = this.props.okLabel;
+            rightElement.rightElement = this.props.labels.ok;
             rightElement.onRight = this._clickOK;
         }
         const leftElement = [GOBACK_BUTTON];
         if (this.props.multilevel) {
-            leftElement.push(this.props.closeLabel);
+            leftElement.push(this.props.labels.close);
         }
         return (
             <NaviBar
@@ -225,7 +223,7 @@ export class InnerPickList extends React.PureComponent {
                 forceInset={{top: 'never', bottom: 'never', left: 'always', right: 'always'}}
             >
                 <SearchBar
-                    placeholder={this.props.searchLabel}
+                    placeholder={this.props.labels.search}
                     searchText={this.state.searchText}
                     onPressCancel={() => {
                         LayoutAnimation.linear();
@@ -242,9 +240,10 @@ export class InnerPickList extends React.PureComponent {
 
     _renderSearchingView = () => {
         const style = {width: this.state.screenWidth};
+        const searchKeys = this.props.searchKeys || [];
         const data = this.state.levelItems[0].search(
             this.state.searchText,
-            [...this.props.searchKeys, this.props.labelKey],
+            [...searchKeys, this.props.labelKey],
             this.props.multiselect,
             false,
             false

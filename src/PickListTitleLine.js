@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, TouchableOpacity, Text, Image } from 'react-native';
 
-export default class extends React.Component {
+export default class extends React.PureComponent {
     UNSAFE_componentWillReceiveProps() {
         setTimeout(() => {
             this._scrollToEnd(false);

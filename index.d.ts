@@ -1,9 +1,14 @@
 import * as React from 'react';
-import { ImageRequireSource, FlatListProps, SectionListProps } from 'react-native';
-import Tree from 'react-native-general-tree';
+import { ImageRequireSource, FlatListProps, SectionListProps, StyleProp, ViewProps } from 'react-native';
+import Tree, { SelectType } from 'react-native-general-tree';
 
 export interface PickListState {
-
+    levelItems: Tree[];
+    selectedItems: Tree[];
+    isSearching: boolean;
+    searchText: string;
+    screenWidth: number;
+    frame?: StyleProp<ViewProps>;
 }
 
 export interface PickListProps {
@@ -34,13 +39,17 @@ export interface PickListProps {
     flatListProps?: FlatListProps;
     sectionListProps?: SectionListProps;
     searchListProps?: FlatListProps;
-    closeLabel?: string;
-    searchLabel?: string;
-    selectAllLabel?: string;
-    deselectAllLabel?: string;
-    okLabel?: string;
-    chooseLabel?: string;
+    labels: {
+        close?: string;
+        search?: string;
+        selectAll?: string;
+        deselectAll?: string;
+        ok?: string;
+        choose?: string;
+    };
 }
+
+export default class PickList extends React.PureComponent<PickListProps, PickListState>;
 
 export type PickListRowFunc = (treeNode: Tree, props: PickListProps) => React.ReactElement;
 
@@ -75,9 +84,21 @@ interface BottomBarProps extends PickListProps {
 
 export class PickListBottomBar extends React.PureComponent<BottomBarProps> {};
 
-export {
-    PickListCell,
-    PickListTitleLine,
-};
+interface CellProps extends PickListProps {
+    isSearching: boolean;
+    treeNode: Tree;
+    onPress: (treeNode: Tree, isInternal: boolean) => void;
+}
 
-export default PickList;
+interface CellState {
+    status: SelectType;
+}
+
+export class PickListCell extends React.Component<CellProps, CellState> {};
+
+interface TitleLineProps extends PickListProps {
+    levelItems: Tree[];
+    onPress: (index: number) => void;
+}
+
+export class PickListTitleLine extends React.PureComponent<TitleLineProps> {};

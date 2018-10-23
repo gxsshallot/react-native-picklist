@@ -64,12 +64,12 @@ class Example extends React.Component {
 
     _setLanguage = () => {
         const isEn = this.state.language === 'en';
-        InnerPickList.defaultProps.closeLabel = isEn ? 'Close' : '关闭';
-        InnerPickList.defaultProps.selectAllLabel = isEn ? 'Select All' : '全选';
-        InnerPickList.defaultProps.deselectAllLabel = isEn ? 'Deselect All' : '全不选';
-        InnerPickList.defaultProps.searchLabel = isEn ? 'Search' : '搜索';
-        InnerPickList.defaultProps.okLabel = isEn ? 'OK' : '确定';
-        InnerPickList.defaultProps.chooseLabel = isEn ? 'Please choose' : '请选择';
+        InnerPickList.defaultProps.labels.close = isEn ? 'Close' : '关闭';
+        InnerPickList.defaultProps.labels.selectAll = isEn ? 'Select All' : '全选';
+        InnerPickList.defaultProps.labels.deselectAll = isEn ? 'Deselect All' : '全不选';
+        InnerPickList.defaultProps.labels.search = isEn ? 'Search' : '搜索';
+        InnerPickList.defaultProps.labels.ok = isEn ? 'OK' : '确定';
+        InnerPickList.defaultProps.labels.choose = isEn ? 'Please choose' : '请选择';
     };
 
     _onFinish = (key, nodeArr) => {
