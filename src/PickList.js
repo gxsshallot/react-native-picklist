@@ -319,20 +319,30 @@ export class InnerPickList extends React.PureComponent {
         const {split, sort, sectionListProps, flatListProps, multilevel, multiselect, showAllCell} = this.props;
         const style = {width: this.state.screenWidth};
         const treeNode = this.state.levelItems[index];
-        const nodeArr = treeNode.getSplitChildren(split, sort);
-        const isSection = nodeArr.some(item => Array.isArray(item.data));
+        let nodeArr, isSection;
+        if (split) {
+            isSection = true;
+            nodeArr = split(treeNode.getChildren());
+        } else {
+            isSection = false;
+            nodeArr = treeNode.getChildren();
+            if (sort) {
+                nodeArr = nodeArr.sort(sort);
+            }
+        }
         const ListClass = isSection ? SectionList : FlatList;
+        const dataProps = isSection ? {sections: nodeArr} : {data: nodeArr};
         const ListProps = isSection ? sectionListProps : flatListProps;
         const hasShowAll = multilevel && multiselect && showAllCell;
         return (
             <ListClass
                 key={index}
-                data={nodeArr}
                 renderItem={this._renderRow}
                 ListHeaderComponent={hasShowAll && this._renderShowAll}
                 style={[styles.listview, style]}
                 contentContainerStyle={style}
                 keyExtractor={(item) => item.getStringId()}
+                {...dataProps}
                 {...ListProps}
             />
         );

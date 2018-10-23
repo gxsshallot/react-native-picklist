@@ -49,6 +49,8 @@ export interface PickListProps {
     };
 }
 
+export class InnerPickList extends React.PureComponent<PickListProps, PickListState>;
+
 export default class PickList extends React.PureComponent<PickListProps, PickListState>;
 
 export type PickListRowFunc = (treeNode: Tree, props: PickListProps) => React.ReactElement;
