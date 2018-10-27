@@ -3828,22 +3828,22 @@ react-native-general-searchbar@^1.0.5:
   resolved "https://registry.yarnpkg.com/react-native-general-searchbar/-/react-native-general-searchbar-1.0.5.tgz#da193a93dd5726cf6cc9e7f33900a6fbfe7d3c62"
   integrity sha512-Vt9SIOzz9YU8iMg2t3lbN9humRDfKLowI7DwKtWf2rxmnUGD0kXHxIbwpsvG7Lcl5fsgvNufS317uOm1r2MPIg==
 
-react-native-general-tree@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/react-native-general-tree/-/react-native-general-tree-1.0.6.tgz#6bbbaec25dbaa5e06bb775258c185b585c248281"
-  integrity sha512-hcg0S/ofm+YAaRwaZnrWFoEBfVJdiqCtq/Myu1fTWSYj71Y9cXajcDb3ymwAQ0Nc/HoRX5oe+Uw16fsa5s52NA==
+react-native-general-tree@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/react-native-general-tree/-/react-native-general-tree-1.0.7.tgz#8987dc4468013b1fdeab916a1989ea064ad12dee"
+  integrity sha512-m7WYW9iJGB1XcJyTqLEALkFJr91f7FJXZzdaQVPtBuMjhIawXId8MMIkuyZTUXhUZNolA7sS+XyQ2sL4pK6REA==
 
 react-native-picklist@../:
-  version "1.1.3"
+  version "1.1.5"
   dependencies:
     react-native-general-searchbar "^1.0.5"
-    react-native-general-tree "^1.0.6"
-    react-native-pure-navigation-bar "^1.3.7"
+    react-native-general-tree "^1.0.7"
+    react-native-pure-navigation-bar "^1.4.3"
 
-react-native-pure-navigation-bar@1.3.7, react-native-pure-navigation-bar@^1.3.7:
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/react-native-pure-navigation-bar/-/react-native-pure-navigation-bar-1.3.7.tgz#24a04aa5d64cde4a03dd43cb4a39a283123ea7c7"
-  integrity sha512-MqH6jHiHOkYKFgctWBRPzqdGZtTnq9KHZM9edHSTK7HuDK52Lo/Jynd+tJ7vwVVB7AZQhYvk8dA7GhIcrZPBjg==
+react-native-pure-navigation-bar@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/react-native-pure-navigation-bar/-/react-native-pure-navigation-bar-1.4.3.tgz#fa09e8ec81702935e467dab5d3c21cb92f13e97a"
+  integrity sha512-e8cRgWRGdMSg3bVZOYWTHccjFAJ2iPlpozH+kgxIlhm8KrrZkk1ihfxVj6U8NbkXpC6m8xKfdbTjSjfOvziNsw==
 
 react-native-safe-area-view@0.11.0:
   version "0.11.0"

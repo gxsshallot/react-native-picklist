@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, SafeAreaView, AppRegistry, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, AppRegistry, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import PickList, {InnerPickList} from 'react-native-picklist';
 import NaviBar from 'react-native-pure-navigation-bar';
 import { createStackNavigator } from 'react-navigation';
@@ -124,10 +124,7 @@ class Example extends React.Component {
 
     render() {
         return (
-            <SafeAreaView
-                style={styles.container}
-                forceInset={{top: 'never', bottom: 'always', left: 'always', right: 'always'}}
-            >
+            <View style={styles.container}>
                 <NaviBar title={'Test'} leftElement={null} />
                 <ScrollView style={{flex: 1}}>
                     {this._renderLanguageItem()}
@@ -199,7 +196,7 @@ class Example extends React.Component {
                         });
                     })}
                 </ScrollView>
-            </SafeAreaView>
+            </View>
         );
     }
 }

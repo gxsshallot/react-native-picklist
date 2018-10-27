@@ -1,15 +1,15 @@
 # react-native-picklist
 
-[中文说明](README-zh_CN.md)
+[![npm version](https://img.shields.io/npm/v/react-native-picklist.svg?style=flat)](https://www.npmjs.com/package/react-native-picklist)
 
 This is a picklist page. It supports:
 
-* single-level or multi-level data
-* single-select or multi-select
-* show or hide the internal components
-* customize the UI component
-* search in the data automaticlly
-* section style page
+* Single Level or Multiple Level data.
+* Single Select or Multiple Select.
+* Show or Hide the internal components.
+* Customize the UI component.
+* Search in the data automaticlly.
+* Section style page.
 
 ## ScreenShots
 
@@ -115,7 +115,3 @@ You can open the example project by following steps:
 
 1. Enter `example`. Use `yarn` or `npm install` to install the modules. Run `npm start` in a seperate terminal.
 1. Create a example project with entry file `index` and module name `test`.
-
-## Reference
-
-Please see this repository: [react-native-items](https://github.com/gaoxiaosong/react-native-items).
