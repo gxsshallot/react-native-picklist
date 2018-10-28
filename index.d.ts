@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ImageRequireSource, FlatListProps, SectionListProps, StyleProp, ViewProps } from 'react-native';
-import Tree, { SelectType } from 'react-native-general-tree';
+import Tree, { SelectValueType } from 'general-tree';
 
 export interface PickListState {
     levelItems: Tree[];
@@ -93,7 +93,7 @@ interface CellProps extends PickListProps {
 }
 
 interface CellState {
-    status: SelectType;
+    status: SelectValueType;
 }
 
 export class PickListCell extends React.Component<CellProps, CellState> {};

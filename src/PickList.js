@@ -3,7 +3,7 @@ import { SafeAreaView, LayoutAnimation, ListView, FlatList, SectionList, StyleSh
 import { withNavigation } from 'react-navigation';
 import NaviBar, { GOBACK_BUTTON } from 'react-native-pure-navigation-bar';
 import SearchBar from 'react-native-general-searchbar';
-import Tree from 'react-native-general-tree';
+import Tree from 'general-tree';
 import PickListCell from './PickListCell';
 import PickListTitleLine from './PickListTitleLine';
 import PickListBottomBar from './PickListBottomBar';

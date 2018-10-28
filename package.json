@@ -23,8 +23,8 @@
   "homepage": "https://github.com/gaoxiaosong/react-native-picklist#readme",
   "dependencies": {
     "react-native-general-searchbar": "^1.0.5",
-    "react-native-general-tree": "^1.0.7",
-    "react-native-pure-navigation-bar": "^1.4.3"
+    "general-tree": "^1.0.0",
+    "react-native-pure-navigation-bar": "^1.4.4"
   },
   "peerDependencies": {
     "react": "*",

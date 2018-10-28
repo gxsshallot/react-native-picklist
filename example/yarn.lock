@@ -2199,6 +2199,11 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
+general-tree@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/general-tree/-/general-tree-1.0.0.tgz#0d77d3707db22f16af50e3c35c3157fbd7948778"
+  integrity sha512-CYkD0cwyFMP8fjmuI9qTJn4KU6CTLBX7zi+1cZEIe6gKmT6JncUL3IY7SwWou8XuxYaUVTc+xSjhgIlfBzs2Yg==
+
 get-caller-file@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.3.tgz#f978fa4c90d1dfe7ff2d6beda2a515e713bdcf4a"
@@ -3828,22 +3833,17 @@ react-native-general-searchbar@^1.0.5:
   resolved "https://registry.yarnpkg.com/react-native-general-searchbar/-/react-native-general-searchbar-1.0.5.tgz#da193a93dd5726cf6cc9e7f33900a6fbfe7d3c62"
   integrity sha512-Vt9SIOzz9YU8iMg2t3lbN9humRDfKLowI7DwKtWf2rxmnUGD0kXHxIbwpsvG7Lcl5fsgvNufS317uOm1r2MPIg==
 
-react-native-general-tree@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/react-native-general-tree/-/react-native-general-tree-1.0.7.tgz#8987dc4468013b1fdeab916a1989ea064ad12dee"
-  integrity sha512-m7WYW9iJGB1XcJyTqLEALkFJr91f7FJXZzdaQVPtBuMjhIawXId8MMIkuyZTUXhUZNolA7sS+XyQ2sL4pK6REA==
-
 react-native-picklist@../:
   version "1.1.5"
   dependencies:
+    general-tree "^1.0.0"
     react-native-general-searchbar "^1.0.5"
-    react-native-general-tree "^1.0.7"
-    react-native-pure-navigation-bar "^1.4.3"
+    react-native-pure-navigation-bar "^1.4.4"
 
-react-native-pure-navigation-bar@^1.4.3:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/react-native-pure-navigation-bar/-/react-native-pure-navigation-bar-1.4.3.tgz#fa09e8ec81702935e467dab5d3c21cb92f13e97a"
-  integrity sha512-e8cRgWRGdMSg3bVZOYWTHccjFAJ2iPlpozH+kgxIlhm8KrrZkk1ihfxVj6U8NbkXpC6m8xKfdbTjSjfOvziNsw==
+react-native-pure-navigation-bar@^1.4.4:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/react-native-pure-navigation-bar/-/react-native-pure-navigation-bar-1.4.4.tgz#884670e2bb47e84d1ea7ef22466b13a91e0e0e88"
+  integrity sha512-UhilgzVKDybnmQQieK/aNlQK1OJ8UvPtawyxFjvr3KjljPmEW3tQeY+VK2er86yz83JIs4kQOjlpiOgMs5C3CQ==
 
 react-native-safe-area-view@0.11.0:
   version "0.11.0"
