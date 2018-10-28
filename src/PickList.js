@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, LayoutAnimation, ListView, FlatList, SectionList, StyleSheet, View, DeviceEventEmitter, Dimensions } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import NaviBar, { GOBACK_BUTTON } from 'react-native-pure-navigation-bar';
+import NaviBar, { GOBACK_BUTTON, forceInset } from 'react-native-pure-navigation-bar';
 import SearchBar from 'react-native-general-searchbar';
 import Tree from 'general-tree';
 import PickListCell from './PickListCell';
@@ -220,7 +220,7 @@ export class InnerPickList extends React.PureComponent {
         return (
             <SafeAreaView
                 style={styles.searchbarContainer}
-                forceInset={{top: 'never', bottom: 'never', left: 'always', right: 'always'}}
+                forceInset={forceInset(0, 1, 0, 1)}
             >
                 <SearchBar
                     placeholder={this.props.labels.search}
@@ -380,7 +380,7 @@ export class InnerPickList extends React.PureComponent {
                 {this.props.showSearchView && this._renderSearchBar()}
                 <SafeAreaView
                     style={styles.innersafeview}
-                    forceInset={{top: 'never', bottom: 'never', left: 'always', right: 'always'}}
+                    forceInset={forceInset(0, 1, 0, 1)}
                 >
                     <View
                         style={{flex: 1, overflow: 'hidden'}}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, ScrollView, SafeAreaView } from 'react-native';
+import { forceInset } from 'react-native-pure-navigation-bar';
 
 export default class extends React.PureComponent {
     UNSAFE_componentWillReceiveProps() {
@@ -43,7 +44,7 @@ export default class extends React.PureComponent {
         return (
             <SafeAreaView
                 style={styles.bottomViewContainer}
-                forceInset={{top: 'never', bottom: 'always', left: 'always', right: 'always'}}
+                forceInset={forceInset(0, 1, 1, 1)}
             >
                 <ScrollView
                     ref={ref => this.scrollView = ref}
