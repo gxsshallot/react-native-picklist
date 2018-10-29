@@ -1,6 +1,6 @@
 {
   "name": "react-native-picklist",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "private": false,
   "description": "General page for single/multiple select/show with single/multiple data level.",
   "main": "src/index.js",
@@ -22,13 +22,10 @@
   },
   "homepage": "https://github.com/gaoxiaosong/react-native-picklist#readme",
   "dependencies": {
-    "react-native-general-searchbar": "^1.0.6",
-    "general-tree": "^1.0.0",
-    "react-native-pure-navigation-bar": "^1.4.4"
+    "general-tree": "^1.0.0"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-native": "*",
-    "react-navigation": "*"
+    "react-native-pure-navigation-bar": "*",
+    "react-native-general-searchbar": "*"
   }
 }

@@ -55,6 +55,13 @@ Install by NPM:
 npm install --save react-native-picklist
 ```
 
+You should install `peerDependencies` packages in your `package.json`:
+
+* [react-native-pure-navigation-bar](https://github.com/gaoxiaosong/react-native-pure-navigation-bar)
+* [react-native-general-searchbar](https://github.com/gaoxiaosong/react-native-general-searchbar)
+
+Because when you change the `defaultProps` of navigation bar or search bar, we should make sure that there is only one instance of these packages in your `node_modules` directory.
+
 ## Usage
 
 Import the module in the file:
