@@ -1,6 +1,7 @@
 # react-native-picklist
 
 [![npm version](https://img.shields.io/npm/v/react-native-picklist.svg?style=flat)](https://www.npmjs.com/package/react-native-picklist)
+[![Build Status](https://travis-ci.org/gaoxiaosong/react-native-picklist.svg?branch=master)](https://travis-ci.org/gaoxiaosong/react-native-picklist)
 
 This is a picklist page. It supports:
 
