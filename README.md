@@ -14,33 +14,15 @@ This is a picklist page. It supports:
 
 ## ScreenShots
 
-### iPhone X
-
 <p float="left">
 
-<img src="/resource/iPhoneX-PlainSingle.png" width="22%">
+<img src="/resource/1.gif" width="25%">
 
-<img src="/resource/iPhoneX-PlainMulti.png" width="22%">
-
-<img src="/resource/iPhoneX-TreeMulti.png" width="22%">
-
-<img src="/resource/iPhoneX-TreeMultiStatus.png" width="22%">
+<img src="/resource/2.gif" width="25%">
 
 </p>
 
-### Android
-
-<p float="left">
-
-<img src="/resource/Android-PlainSingle.png" width="22%">
-
-<img src="/resource/Android-PlainMulti.png" width="22%">
-
-<img src="/resource/Android-TreeMulti.png" width="22%">
-
-<img src="/resource/Android-TreeMultiStatus.png" width="22%">
-
-</p>
+Same UI on Android.
 
 ## Install
 
