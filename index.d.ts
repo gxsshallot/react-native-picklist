@@ -22,11 +22,13 @@ export interface PickListProps {
     rightClick?: (index?: number) => void;
     renderRow?: (treeNode: Tree, props: PickListProps) => React.ReactElement;
     renderHeader?: (selectedItems: Tree[]) => React.ReactElement;
+    showNaviBar?: boolean;
     showBottomView?: boolean;
     showSearchView?: boolean;
     showTitleLine?: boolean;
     showAllCell?: boolean;
     showCount?: boolean;
+    numberOfTextLines?: number;
     directBackWhenSingle?: boolean;
     selectedIds?: Array;
     selectable?: (treeNode: Tree) => boolean;
@@ -49,9 +51,15 @@ export interface PickListProps {
     };
 }
 
-export class InnerPickList extends React.PureComponent<PickListProps, PickListState>;
+export class InnerPickList extends React.PureComponent<PickListProps, PickListState> {
+    getSelectedItems: () => Tree[];
+    backToPreviousPage: () => boolean;
+};
 
-export default class PickList extends React.PureComponent<PickListProps, PickListState>;
+export default class PickList extends React.PureComponent<PickListProps, PickListState> {
+    getSelectedItems: () => Tree[];
+    backToPreviousPage: () => boolean;
+};
 
 export type PickListRowFunc = (treeNode: Tree, props: PickListProps) => React.ReactElement;
 
