@@ -89,6 +89,7 @@ Optional:
 * `showTitleLine`: Show title line at the header or not.
 * `showAllCell`: Show select all or deselect all cell or not.
 * `showCount`: Show not leaf item's children count and selected count.
+* `numberOfTextLines`: Max number of lines of `Text` component in one row. Default is `0`, means no restrict of lines. You can set to `1` for single line text mode.
 * `directBackWhenSingle`: Directly go back to previous page or not when single-select single-level data.
 * `selectedIds`: Initial selected item's identifier list.
 * `selectable`: Can a tree node selectable or not.

@@ -18,6 +18,7 @@ export class InnerPickList extends React.PureComponent {
         showTitleLine: true,
         showAllCell: true,
         showCount: false,
+        numberOfTextLines: 0,
         directBackWhenSingle: true,
         childrenKey: 'children',
         idKey: 'id',

@@ -4,15 +4,17 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 export default (treeNode, props) => props.multilevel ? multiLevelNode(treeNode, props) : singleLevelNode(treeNode, props);
 
 export const singleLevelNode = (treeNode, props) => {
-    const {labelKey} = props;
+    const {labelKey, numberOfTextLines} = props;
     const isSelected = treeNode.isFullSelect(false);
     return (
         <View style={styles.row}>
             <View style={styles.container}>
-                <Text style={styles.text}>
+                <Text style={styles.text} numberOfLines={numberOfTextLines}>
                     {treeNode.getInfo()[labelKey]}
                 </Text>
-                {isSelected && <Image source={single_check_image} style={styles.icon} />}
+                {isSelected ? (
+                    <Image source={single_check_image} style={styles.icon} />
+                ) : <View style={styles.icon} />}
             </View>
         </View>
     );
@@ -24,19 +26,21 @@ export const multiLevelNode = (treeNode, props) => {
 
 export const multiLevelLeafNode = (treeNode, props) => {
     const image = getImage(treeNode, props.multilevel && props.multiselect);
-    const {labelKey} = props;
+    const {labelKey, numberOfTextLines} = props;
     const info = treeNode.getInfo()[labelKey];
     return (
         <View key={info} style={styles.leafContainer}>
             <Image source={image} style={styles.cellSelected} />
-            <Text style={styles.leafText}>{info}</Text>
+            <Text style={styles.leafText} numberOfLines={numberOfTextLines}>
+                {info}
+            </Text>
         </View>
     );
 };
 
 export const multiLevelNotLeafNode = (treeNode, props) => {
     const image = getImage(treeNode, props.multilevel && props.multiselect);
-    const {onPress, labelKey, showCount} = props;
+    const {onPress, labelKey, showCount, numberOfTextLines} = props;
     const selectable = props.selectable ? props.selectable(treeNode) : true;
     const info = treeNode.getInfo()[labelKey];
     const leafs = treeNode.getLeafChildren();
@@ -50,7 +54,10 @@ export const multiLevelNotLeafNode = (treeNode, props) => {
                         <Image source={image} style={styles.cellSelected} />
                     </TouchableOpacity>
                 )}
-                <Text style={[styles.treeCellText, {marginLeft: selectable ? 0 : 25}]}>
+                <Text
+                    style={[styles.treeCellText, {marginLeft: selectable ? 0 : 25}]}
+                    numberOfLines={numberOfTextLines}
+                >
                     {info}
                 </Text>
             </View>
@@ -92,19 +99,21 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
     },
     container: {
-        height: 48,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        paddingVertical: 16,
         paddingRight: 15,
         borderBottomWidth: StyleSheet.hairlineWidth,
         borderBottomColor: '#e6e6ea',
     },
     text: {
+        flex: 1,
         fontSize: 16,
         color: '#333333',
     },
     icon: {
+        marginLeft: 4,
         width: 19,
         height: 22,
     },
@@ -118,12 +127,13 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     leafText: {
+        flex: 1,
+        marginVertical: 20,
         fontSize: 16,
         color: '#333333',
     },
     treeCellContainer: {
         backgroundColor: 'white',
-        height: 48,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -133,7 +143,6 @@ const styles = StyleSheet.create({
     },
     leafContainer: {
         backgroundColor: 'white',
-        height: 56,
         flexDirection: 'row',
         alignItems: 'center',
         paddingRight: 15,
@@ -141,10 +150,13 @@ const styles = StyleSheet.create({
         borderBottomColor: '#e6e6ea',
     },
     treeCellLeft: {
+        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
     },
     treeCellText: {
+        flex: 1,
+        marginVertical: 16,
         fontSize: 16,
         color: '#333333',
     },
