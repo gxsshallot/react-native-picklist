@@ -13,6 +13,7 @@ export class InnerPickList extends React.PureComponent {
     static defaultProps = {
         multilevel: false,
         multiselect: false,
+        showNaviBar: true,
         showSearchView: true,
         showTitleLine: true,
         showAllCell: true,
@@ -52,6 +53,20 @@ export class InnerPickList extends React.PureComponent {
             screenWidth: 0,
         };
     }
+
+    getSelectedItems = () => {
+        return [...this.state.selectedItems];
+    };
+
+    backToPreviousPage = () => {
+        const curIndex = this.state.levelItems.length;
+        if (curIndex <= 1) {
+            return false;
+        } else {
+            this._handlePressToPrevPage(curIndex - 1);
+            return true;
+        }
+    };
 
     _handlePressToPrevPage = (index) => {
         const levelItems = this.state.levelItems.slice(0, index);

@@ -83,6 +83,7 @@ Optional:
 * `rightClick`: Button click callback on the right corner.
 * `renderRow`: Customize a row display. You can override this property to make the list readonly. Default implement is in `PickListDefaultRow.js`.
 * `renderHeader`: Customize header of page.
+* `showNaviBar`: Show navigation bar or not.
 * `showBottomView`: Show bottom bar or not.
 * `showSearchView`: Show search bar or not.
 * `showTitleLine`: Show title line at the header or not.
@@ -109,6 +110,22 @@ import {InnerPickList} from 'react-native-picklist';
 
 InnerPickList.defaultProps.labels.xxx = 'xxx';
 ```
+
+You can call function with PickList view reference:
+
+```javascript
+<PickList
+    ref={this.picklist = ref}
+    ...
+/>
+
+this.picklist.xxx();
+```
+
+Following functions supported:
+
+* `getSelectedItems: () => Tree[]`: Get current selected items. You can handle these with [Tree API](https://github.com/gaoxiaosong/general-tree#Interface).
+* `backToPreviousPage: () => boolean`: Auto go back to previous page. If it is the first page, it returns false. Otherwise it returns true.
 
 ## Example Project
 
