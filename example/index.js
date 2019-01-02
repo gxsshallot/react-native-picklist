@@ -70,6 +70,7 @@ class Example extends React.Component {
         InnerPickList.defaultProps.labels.search = isEn ? 'Search' : '搜索';
         InnerPickList.defaultProps.labels.ok = isEn ? 'OK' : '确定';
         InnerPickList.defaultProps.labels.choose = isEn ? 'Please choose' : '请选择';
+        InnerPickList.defaultProps.labels.cancel = isEn ? 'Cancel' : '取消';
     };
 
     _onFinish = (key, nodeArr) => {

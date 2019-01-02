@@ -48,6 +48,7 @@ export interface PickListProps {
         deselectAll?: string;
         ok?: string;
         choose?: string;
+        cancel?: string;
     };
 }
 

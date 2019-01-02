@@ -30,6 +30,7 @@ export class InnerPickList extends React.PureComponent {
             deselectAll: 'Deselect All',
             ok: 'OK',
             choose: 'Please Choose',
+            cancel: 'Cancel',
         },
     };
 
@@ -240,6 +241,7 @@ export class InnerPickList extends React.PureComponent {
             >
                 <SearchBar
                     placeholder={this.props.labels.search}
+                    cancelText={this.props.labels.cancel}
                     searchText={this.state.searchText}
                     onPressCancel={() => {
                         LayoutAnimation.linear();
