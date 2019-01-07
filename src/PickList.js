@@ -20,6 +20,7 @@ export class InnerPickList extends React.PureComponent {
         showCount: false,
         numberOfTextLines: 0,
         directBackWhenSingle: true,
+        cancelableWhenDirectBack: true,
         childrenKey: 'children',
         idKey: 'id',
         labelKey: 'label',
@@ -123,9 +124,14 @@ export class InnerPickList extends React.PureComponent {
                 this._selectItem(treeNode);
             } else {
                 if (treeNode.isFullSelect(this.isCascade)) {
-                    treeNode.update(this.isCascade);
-                    const selectedItems = [];
-                    this.setState({selectedItems});
+                    if (this.props.directBackWhenSingle && 
+                        !this.props.cancelableWhenDirectBack) {
+                        this._clickOK();
+                    } else {
+                        treeNode.update(this.isCascade);
+                        const selectedItems = [];
+                        this.setState({selectedItems});
+                    }
                 } else {
                     if (this.state.selectedItems.length > 0 &&
                         !this.state.selectedItems[0].isEqual(treeNode)) {

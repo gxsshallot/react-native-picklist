@@ -30,6 +30,7 @@ export interface PickListProps {
     showCount?: boolean;
     numberOfTextLines?: number;
     directBackWhenSingle?: boolean;
+    cancelableWhenDirectBack?: boolean;
     selectedIds?: Array;
     selectable?: (treeNode: Tree) => boolean;
     childrenKey?: string;
