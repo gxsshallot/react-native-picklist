@@ -394,7 +394,7 @@ export class InnerPickList extends React.PureComponent {
             this.props.multiselect;
         return (
             <View style={styles.view}>
-                {this._renderNaviBar()}
+                {this.props.showNaviBar && this._renderNaviBar()}
                 {this.props.showSearchView && this._renderSearchBar()}
                 <SafeAreaView
                     style={styles.innersafeview}
