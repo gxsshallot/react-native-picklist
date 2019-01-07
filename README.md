@@ -3,6 +3,8 @@
 [![npm version](https://img.shields.io/npm/v/react-native-picklist.svg?style=flat)](https://www.npmjs.com/package/react-native-picklist)
 [![Build Status](https://travis-ci.org/gaoxiaosong/react-native-picklist.svg?branch=master)](https://travis-ci.org/gaoxiaosong/react-native-picklist)
 
+[中文说明](https://www.jianshu.com/p/e78b6187f5a0)
+
 This is a picklist page. It supports:
 
 * Single Level or Multiple Level data.
