@@ -660,6 +660,11 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@hecom/image-arrow@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@hecom/image-arrow/-/image-arrow-1.0.0.tgz#f3a016506c33eab1bd7c931854094bdb2dc1ce1a"
+  integrity sha512-97/MAzMkx7mAV+hQCz+DswZkrqGbqaHa7Wpo/KTjDL8adhsdlacPQhJeUL8Fcsj44WRzvts/NgdXhl5wDgAudA==
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -1731,7 +1736,7 @@ cross-spawn@^5.0.1, cross-spawn@^5.1.0:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
-debug@2.6.9, debug@^2.1.2, debug@^2.2.0, debug@^2.6.8, debug@^2.6.9:
+debug@2.6.9, debug@^2.1.2, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   integrity sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
@@ -1900,6 +1905,8 @@ exec-sh@^0.2.0:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/exec-sh/-/exec-sh-0.2.2.tgz#2a5e7ffcbd7d0ba2755bdecb16e5a427dfbdec36"
   integrity sha512-FIUCJz1RbuS0FKTdaAafAByGS0CPvU3R0MeHxgtl+djzCc//F8HakL8GzmVNZanasTbTAY/3DRFA0KpVqj/eAw==
+  dependencies:
+    merge "^1.2.0"
 
 execa@^0.7.0:
   version "0.7.0"
@@ -1920,6 +1927,19 @@ expand-brackets@^0.1.4:
   integrity sha1-3wcoTjQqgHzXM6xa9yQR5YHRF3s=
   dependencies:
     is-posix-bracket "^0.1.0"
+
+expand-brackets@^2.1.4:
+  version "2.1.4"
+  resolved "http://registry.npm.taobao.org/expand-brackets/download/expand-brackets-2.1.4.tgz#b77735e315ce30f6b6eff0f83b04151a22449622"
+  integrity sha1-t3c14xXOMPa27/D4OwQVGiJEliI=
+  dependencies:
+    debug "^2.3.3"
+    define-property "^0.2.5"
+    extend-shallow "^2.0.1"
+    posix-character-classes "^0.1.0"
+    regex-not "^1.0.0"
+    snapdragon "^0.8.1"
+    to-regex "^3.0.1"
 
 expand-range@^1.8.1:
   version "1.8.2"
@@ -1970,6 +1990,15 @@ extglob@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/extglob/-/extglob-2.0.4.tgz#ad00fe4dc612a9232e8718711dc5cb5ab0285543"
   integrity sha512-Nmb6QXkELsuBr24CJSkilo6UHHgbekK5UiZgfE6UHD3Eb27YC6oD+bhcT+tJ6cl8dmsgdQxnWlcry8ksBIBLpw==
+  dependencies:
+    array-unique "^0.3.2"
+    define-property "^1.0.0"
+    expand-brackets "^2.1.4"
+    extend-shallow "^2.0.1"
+    fragment-cache "^0.2.1"
+    regex-not "^1.0.0"
+    snapdragon "^0.8.1"
+    to-regex "^3.0.1"
 
 fancy-log@^1.3.2:
   version "1.3.2"
@@ -2175,10 +2204,10 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
-general-tree@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/general-tree/-/general-tree-1.0.1.tgz#dd74526f34d7eb293c179a1c0bd042d8bcbb82e6"
-  integrity sha512-SYndcE78OeShifXqPCeOoVZSFwsyrTMXFRuoNnjq5DWLZsQsDNMnKB8l9JHBQD+6l2RYDX8F614Yj7+SI3MYCw==
+general-tree@^1.1.0:
+  version "1.1.0"
+  resolved "http://registry.npm.taobao.org/general-tree/download/general-tree-1.1.0.tgz#e48b1ca342fcbe6c570916acd293a601f80705aa"
+  integrity sha1-5Isco0L8vmxXCRas0pOmAfgHBao=
 
 get-caller-file@^1.0.1:
   version "1.0.3"
@@ -2859,6 +2888,11 @@ merge-stream@^1.0.1:
   integrity sha1-QEEgLVCKNCugAXQAjfDCUbjBNeE=
   dependencies:
     readable-stream "^2.0.1"
+
+merge@^1.2.0:
+  version "1.2.1"
+  resolved "http://registry.npm.taobao.org/merge/download/merge-1.2.1.tgz#38bebf80c3220a8a487b6fcfb3941bb11720c145"
+  integrity sha1-OL6/gMMiCopIe2/Ps5QbsRcgwUU=
 
 metro-babel-register@^0.47.1:
   version "0.47.1"
@@ -3667,6 +3701,11 @@ plugin-error@^0.1.2:
     arr-union "^2.0.1"
     extend-shallow "^1.1.2"
 
+posix-character-classes@^0.1.0:
+  version "0.1.1"
+  resolved "http://registry.npm.taobao.org/posix-character-classes/download/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
+  integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
+
 preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
@@ -3800,21 +3839,11 @@ react-native-general-searchbar@^1.0.6:
   integrity sha512-JPQWtEN5tIJR7QhDgGzI0l78E1AhwR5pdKVeeNWplhlNUGmy5Rwt1/J4F5rR5yAembUA72E2MNaR8TiUGfSXXQ==
 
 react-native-picklist@../:
-  version "1.1.8"
+  version "1.2.1"
   dependencies:
-    general-tree "^1.0.0"
+    "@hecom/image-arrow" "^1.0.0"
+    general-tree "^1.1.0"
     react-native-general-searchbar "^1.0.6"
-    react-native-pure-navigation-bar "^1.4.6"
-
-react-native-pure-navigation-bar@^1.4.4:
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/react-native-pure-navigation-bar/-/react-native-pure-navigation-bar-1.4.4.tgz#884670e2bb47e84d1ea7ef22466b13a91e0e0e88"
-  integrity sha512-UhilgzVKDybnmQQieK/aNlQK1OJ8UvPtawyxFjvr3KjljPmEW3tQeY+VK2er86yz83JIs4kQOjlpiOgMs5C3CQ==
-
-react-native-pure-navigation-bar@^1.4.6:
-  version "1.4.7"
-  resolved "https://registry.npmjs.org/react-native-pure-navigation-bar/-/react-native-pure-navigation-bar-1.4.7.tgz#02f71f488ab389bee52da1e3bc1e92e2b10d7824"
-  integrity sha512-fnRii+CNyeEklahUB96dpSA9v0vPzwt801M3nWHg8tpclbcmXKqGYgiLYE9y2qn8GCQ0UbkEekA/4YCkw2cgCg==
 
 react-native-safe-area-view@0.11.0:
   version "0.11.0"

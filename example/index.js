@@ -1,10 +1,11 @@
 import React from 'react';
 import { ScrollView, AppRegistry, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import PickList, {InnerPickList} from 'react-native-picklist';
-import NaviBar from 'react-native-pure-navigation-bar';
+import PickList from 'react-native-picklist';
 import { createStackNavigator } from 'react-navigation';
 
 class TestPage extends React.Component {
+    static navigationOptions = PickList.navigationOptions;
+    
     render() {
         const {data, selectedIds, title, isPlainData, isMulti, directBackWhenSingle, showCount, onFinish} = this.props.navigation.state.params;
         return (
@@ -21,12 +22,17 @@ class TestPage extends React.Component {
                 idKey={'code'}
                 labelKey={'name'}
                 childrenKey={'subitems'}
+                navigation={this.props.navigation}
             />
         );
     }
 }
 
 class Example extends React.Component {
+    static navigationOptions = {
+        title: 'Test',
+    };
+
     constructor(props) {
         super(props);
         this.plainData = [
@@ -62,71 +68,9 @@ class Example extends React.Component {
         this._setLanguage();
     }
 
-    _setLanguage = () => {
-        const isEn = this.state.language === 'en';
-        InnerPickList.defaultProps.labels.close = isEn ? 'Close' : '关闭';
-        InnerPickList.defaultProps.labels.selectAll = isEn ? 'Select All' : '全选';
-        InnerPickList.defaultProps.labels.deselectAll = isEn ? 'Deselect All' : '全不选';
-        InnerPickList.defaultProps.labels.search = isEn ? 'Search' : '搜索';
-        InnerPickList.defaultProps.labels.ok = isEn ? 'OK' : '确定';
-        InnerPickList.defaultProps.labels.choose = isEn ? 'Please choose' : '请选择';
-        InnerPickList.defaultProps.labels.cancel = isEn ? 'Cancel' : '取消';
-    };
-
-    _onFinish = (key, nodeArr) => {
-        this.setState({
-            [key]: nodeArr.map(node => node.getInfo()),
-        });
-    };
-
-    _changeLanguage = () => {
-        const language = this.state.language === 'en' ? 'zh' : 'en';
-        this.setState({language}, () => this._setLanguage());
-    };
-
-    test = (state) => {
-        const key = 'selectedItems' + state.key;
-        const data = state.isPlainData ? this.plainData : this.treeData;
-        const selectedIds = (this.state[key] || []).map(item => item.code);
-        this.props.navigation.navigate('Test', {
-            ...state,
-            data,
-            selectedIds,
-            onFinish: this._onFinish.bind(this, key),
-        });
-    };
-
-    _renderLanguageItem = () => {
-        const isEn = this.state.language === 'en';
-        const text = isEn ? 'To Chinese Language' : '转换为英语';
-        return (
-            <TouchableOpacity style={styles.touch} onPress={this._changeLanguage}>
-                <Text style={styles.text}>
-                    {text}
-                </Text>
-            </TouchableOpacity>
-        );
-    };
-
-    _renderItem = (key, text, onClick) => {
-        const innerKey = 'selectedItems' + key;
-        if (this.state[innerKey] && this.state[innerKey].length > 0) {
-            const names = this.state[innerKey].map(item => item.name);
-            text = text + '\n' + names.join(',');
-        }
-        return (
-            <TouchableOpacity style={styles.touch} onPress={onClick}>
-                <Text style={styles.text}>
-                    {text}
-                </Text>
-            </TouchableOpacity>
-        );
-    };
-
     render() {
         return (
             <View style={styles.container}>
-                <NaviBar title={'Test'} leftElement={null} />
                 <ScrollView style={{flex: 1}}>
                     {this._renderLanguageItem()}
                     {this._renderItem('a', 'Plain Data + Single Select', () => {
@@ -200,6 +144,67 @@ class Example extends React.Component {
             </View>
         );
     }
+
+    _renderLanguageItem = () => {
+        const isEn = this.state.language === 'en';
+        const text = isEn ? 'To Chinese Language' : '转换为英语';
+        return (
+            <TouchableOpacity style={styles.touch} onPress={this._changeLanguage}>
+                <Text style={styles.text}>
+                    {text}
+                </Text>
+            </TouchableOpacity>
+        );
+    };
+
+    _renderItem = (key, text, onClick) => {
+        const innerKey = 'selectedItems' + key;
+        if (this.state[innerKey] && this.state[innerKey].length > 0) {
+            const names = this.state[innerKey].map(item => item.name);
+            text = text + '\n' + names.join(',');
+        }
+        return (
+            <TouchableOpacity style={styles.touch} onPress={onClick}>
+                <Text style={styles.text}>
+                    {text}
+                </Text>
+            </TouchableOpacity>
+        );
+    };
+
+    _setLanguage = () => {
+        const isEn = this.state.language === 'en';
+        PickList.defaultProps.labels.close = isEn ? 'Close' : '关闭';
+        PickList.defaultProps.labels.selectAll = isEn ? 'Select All' : '全选';
+        PickList.defaultProps.labels.deselectAll = isEn ? 'Deselect All' : '全不选';
+        PickList.defaultProps.labels.search = isEn ? 'Search' : '搜索';
+        PickList.defaultProps.labels.ok = isEn ? 'OK' : '确定';
+        PickList.defaultProps.labels.choose = isEn ? 'Please choose' : '请选择';
+        PickList.defaultProps.labels.cancel = isEn ? 'Cancel' : '取消';
+    };
+
+    _onFinish = (key, nodeArr) => {
+        this.setState({
+            [key]: nodeArr.map(node => node.getInfo()),
+        });
+    };
+
+    _changeLanguage = () => {
+        const language = this.state.language === 'en' ? 'zh' : 'en';
+        this.setState({language}, () => this._setLanguage());
+    };
+
+    test = (state) => {
+        const key = 'selectedItems' + state.key;
+        const data = state.isPlainData ? this.plainData : this.treeData;
+        const selectedIds = (this.state[key] || []).map(item => item.code);
+        this.props.navigation.navigate('Test', {
+            ...state,
+            data,
+            selectedIds,
+            onFinish: this._onFinish.bind(this, key),
+        });
+    };
 }
 
 const styles = StyleSheet.create({
@@ -231,7 +236,7 @@ const navigator = createStackNavigator({
     Example: {screen: Example},
     Test: {screen: TestPage},
 }, {
-    headerMode: 'none',
+    headerMode: 'float',
 });
 
 AppRegistry.registerComponent('test', () => navigator);

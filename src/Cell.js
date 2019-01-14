@@ -1,8 +1,18 @@
 import React from 'react';
-import { TouchableOpacity, DeviceEventEmitter } from 'react-native';
-import defaultRenderRow from './PickListDefaultRow';
+import { TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
+import Types from './Types';
+import defaultRenderRow from './DefaultRow';
 
-export default class extends React.Component {
+export default class extends React.PureComponent {
+    static propTypes = {
+        ...Types,
+        notifyMap: PropTypes.object.isRequired,
+        isSearching: PropTypes.bool.isRequired,
+        treeNode: PropTypes.object.isRequired,
+        onPress: PropTypes.func.isRequired,
+    };
+
     constructor(props) {
         super(props);
         this.tree = props.treeNode;
@@ -13,17 +23,14 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
-        this.listener = DeviceEventEmitter.addListener(
-            '__treenode__status__update__' + this.tree.getStringId(),
-            this._refresh
-        );
+        this.props.notifyMap[this.tree.getPath()] = this;
     }
 
     componentWillUnmount() {
-        this.listener.remove();
+        delete this.props.notifyMap[this.tree.getPath()];
     }
 
-    _refresh = () => {
+    refresh = () => {
         this.setState({
             status: this.tree.selectStatus(this.cascade),
         });

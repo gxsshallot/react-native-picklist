@@ -14,6 +14,7 @@ export interface PickListState {
 export interface PickListProps {
     title: string;
     data: {} | Array;
+    navigation: any;
     firstTitleLine?: string;
     multilevel?: boolean;
     multiselect?: boolean;
@@ -22,7 +23,6 @@ export interface PickListProps {
     rightClick?: (index?: number) => void;
     renderRow?: (treeNode: Tree, props: PickListProps) => React.ReactElement;
     renderHeader?: (selectedItems: Tree[]) => React.ReactElement;
-    showNaviBar?: boolean;
     showBottomView?: boolean;
     showSearchView?: boolean;
     showTitleLine?: boolean;
@@ -42,6 +42,7 @@ export interface PickListProps {
     flatListProps?: FlatListProps;
     sectionListProps?: SectionListProps;
     searchListProps?: FlatListProps;
+    buttonProps?: ViewProps;
     labels: {
         close?: string;
         search?: string;
@@ -52,11 +53,6 @@ export interface PickListProps {
         cancel?: string;
     };
 }
-
-export class InnerPickList extends React.PureComponent<PickListProps, PickListState> {
-    getSelectedItems: () => Tree[];
-    backToPreviousPage: () => boolean;
-};
 
 export default class PickList extends React.PureComponent<PickListProps, PickListState> {
     getSelectedItems: () => Tree[];
@@ -72,10 +68,10 @@ interface RowUtilType {
     multiLevelNode: PickListRowFunc;
     multiLevelLeafNode: PickListRowFunc;
     multiLevelNotLeafNode: PickListRowFunc;
-    notselect_image: ImageRequireSource;
-    select_image: ImageRequireSource;
-    incomp_image: ImageRequireSource;
-    single_check_image: ImageRequireSource;
+    notselect_image: () => ImageRequireSource;
+    select_image: () => ImageRequireSource;
+    incomp_image: () => ImageRequireSource;
+    single_check_image: () => ImageRequireSource;
     getImage: (treeNode: Tree, cascade?: boolean) => ImageRequireSource | void;
 }
 

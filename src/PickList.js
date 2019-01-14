@@ -1,19 +1,29 @@
 import React from 'react';
-import { SafeAreaView, LayoutAnimation, ListView, FlatList, SectionList, StyleSheet, View, DeviceEventEmitter, Dimensions } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import NaviBar, { GOBACK_BUTTON, forceInset } from 'react-native-pure-navigation-bar';
+import { SafeAreaView, LayoutAnimation, FlatList, SectionList, StyleSheet, View, Button } from 'react-native';
+import HeaderBackButton from 'react-navigation-stack/dist/views/Header/HeaderBackButton';
 import SearchBar from 'react-native-general-searchbar';
 import Tree from 'general-tree';
-import PickListCell from './PickListCell';
-import PickListTitleLine from './PickListTitleLine';
-import PickListBottomBar from './PickListBottomBar';
-import PickListShowAllCell from './PickListShowAllCell';
+import Cell from './Cell';
+import TitleLine from './TitleLine';
+import BottomBar from './BottomBar';
+import ShowAllCell from './ShowAllCell';
+import Types from './Types';
 
-export class InnerPickList extends React.PureComponent {
+export default class extends React.PureComponent {
+    static navigationOptions = ({navigation}) => {
+        const navParams = navigation.state.params || {};
+        return {
+            title: navParams._title_,
+            headerRight: navParams._right_,
+            headerLeft: navParams._left_,
+        };
+    };
+
+    static propTypes = Types;
+
     static defaultProps = {
         multilevel: false,
         multiselect: false,
-        showNaviBar: true,
         showSearchView: true,
         showTitleLine: true,
         showAllCell: true,
@@ -39,14 +49,17 @@ export class InnerPickList extends React.PureComponent {
         super(props);
         const {data, childrenKey, idKey, labelKey, firstTitleLine, selectedIds} = props;
         this.defaultRootId = '__root__';
+        this.notifyMap = {};
         const treeRoot = Array.isArray(data) ?
             {[childrenKey]: data, [idKey]: this.defaultRootId, [labelKey]: firstTitleLine} :
             {[childrenKey]: [data], [idKey]: this.defaultRootId, [labelKey]: firstTitleLine};
         const tree = new Tree(
             treeRoot, undefined, childrenKey, idKey,
-            (treenode) => DeviceEventEmitter.emit(
-                '__treenode__status__update__' + treenode.getStringId()
-            ));
+            (treenode) => {
+                const comp = this.notifyMap[treenode.getPath()];
+                comp && comp.refresh();
+            }
+        );
         this.isCascade = this.props.multilevel && this.props.multiselect;
         this.state = {
             levelItems: [tree],
@@ -56,6 +69,232 @@ export class InnerPickList extends React.PureComponent {
             screenWidth: 0,
         };
     }
+
+    componentDidMount() {
+        const navOptions = {_title_: this.props.title};
+        const {rightTitle, rightClick} = this.props;
+        if (rightTitle && rightTitle.length > 0) {
+            navOptions._right_ = (
+                <Button
+                    title={rightTitle}
+                    onPress={rightClick || this._clickOK}
+                    {...this.props.buttonProps}
+                />
+            );
+        } else if (!this.props.multiselect && !this.props.directBackWhenSingle) {
+            navOptions._right_ = (
+                <Button
+                    title={this.props.labels.ok}
+                    onPress={this._clickOK}
+                    {...this.props.buttonProps}
+                />
+            );
+        }
+        if (this.props.multilevel) {
+            navOptions._left_ = (props) => {
+                return (
+                    <View style={styles.leftButtons}>
+                        <HeaderBackButton
+                            {...props}
+                            onPress={this._clickBack.bind(this, 0)}
+                        />
+                        <Button
+                            title={this.props.labels.close}
+                            onPress={this._clickBack.bind(this, 1)}
+                            {...this.props.buttonProps}
+                        />
+                    </View>
+                );
+            };
+        }
+        this.props.navigation.setParams(navOptions);
+    }
+
+    render() {
+        const hasBottom = this.props.showBottomView !== undefined ?
+            this.props.showBottomView :
+            this.props.multiselect;
+        return (
+            <View style={styles.view}>
+                {this.props.showSearchView && this._renderSearchBar()}
+                <SafeAreaView style={styles.innersafeview}>
+                    <View
+                        style={{flex: 1, overflow: 'hidden'}}
+                        onLayout={({nativeEvent: {layout: {width}}}) => {
+                            if (width > 0 && width !== this.state.screenWidth) {
+                                this.setState({
+                                    screenWidth: width,
+                                    frame: {
+                                        top: 0,
+                                        bottom: 0,
+                                        left: 0 - (this.state.levelItems.length - 1) * width,
+                                    }
+                                });
+                            }
+                        }}
+                    >
+                        {!this.state.isSearching && this._renderHeader()}
+                        {this.state.isSearching ? this._renderSearchingView() : this._renderPageView()}
+                    </View>
+                </SafeAreaView>
+                {hasBottom && this._renderBottomView()}
+            </View>
+        );
+    }
+
+    _renderSearchBar = () => {
+        return (
+            <SafeAreaView style={styles.searchbarContainer}>
+                <SearchBar
+                    placeholder={this.props.labels.search}
+                    cancelText={this.props.labels.cancel}
+                    searchText={this.state.searchText}
+                    onPressCancel={() => {
+                        LayoutAnimation.linear();
+                        this.setState({isSearching: false, searchText: ''});
+                    }}
+                    onSubmitEditing={this._onSubmit}
+                    onChangeText={this._onSearch}
+                    canCancel={true}
+                    isSearching={this.state.isSearching}
+                />
+            </SafeAreaView>
+        );
+    };
+
+    _renderSearchingView = () => {
+        const style = {width: this.state.screenWidth};
+        const searchKeys = this.props.searchKeys || [];
+        const data = this.state.levelItems[0].search(
+            this.state.searchText,
+            [...searchKeys, this.props.labelKey],
+            this.props.multiselect,
+            false,
+            false
+        );
+        return (
+            <View style={[styles.searchingViewContainer, style]}>
+                <FlatList
+                    key={this.state.searchText}
+                    data={data}
+                    renderItem={this._renderRow}
+                    style={[styles.listview, style]}
+                    contentContainerStyle={style}
+                    keyExtractor={(item) => item.getStringId()}
+                    {...this.props.searchListProps}
+                />
+            </View>
+        );
+    };
+
+    _renderBottomView = () => {
+        return (
+            <BottomBar
+                {...this.props}
+                selectedItems={this.state.selectedItems}
+                onPress={this._clickOK}
+                onPressItem={this._clickBottomItem}
+            />
+        );
+    };
+
+    _renderRow = ({item}) => {
+        return (
+            <Cell
+                {...this.props}
+                notifyMap={this.notifyMap}
+                isSearching={this.state.isSearching}
+                treeNode={item}
+                onPress={this._clickRow}
+            />
+        );
+    };
+
+    _renderHeader = () => {
+        if (this.props.renderHeader) {
+            return this.props.renderHeader(this.state.selectedItems);
+        } else {
+            return this._renderTitleLine();
+        }
+    };
+
+    _renderTitleLine = () => {
+        const {multilevel, showTitleLine} = this.props;
+        return multilevel && showTitleLine ? (
+            <TitleLine
+                {...this.props}
+                ref={ref => this.titleLineScrollView = ref}
+                levelItems={this.state.levelItems}
+                onPress={(index) => this._handlePressToPrevPage(index)}
+            />
+        ) : undefined;
+    };
+
+    _renderShowAll = () => {
+        return (
+            <ShowAllCell
+                {...this.props}
+                notifyMap={this.notifyMap}
+                treeNode={this.state.levelItems[this.state.levelItems.length - 1]}
+                onPress={this._selectItem}
+            />
+        );
+    };
+
+    _renderPage = (index) => {
+        const {split, sort, sectionListProps, flatListProps, multilevel, multiselect, showAllCell} = this.props;
+        const style = {width: this.state.screenWidth};
+        const treeNode = this.state.levelItems[index];
+        let nodeArr, isSection;
+        if (split) {
+            isSection = true;
+            nodeArr = split(treeNode.getChildren());
+        } else {
+            isSection = false;
+            nodeArr = treeNode.getChildren();
+            if (sort) {
+                nodeArr = nodeArr.sort(sort);
+            }
+        }
+        const ListClass = isSection ? SectionList : FlatList;
+        const dataProps = isSection ? {sections: nodeArr} : {data: nodeArr};
+        const ListProps = isSection ? sectionListProps : flatListProps;
+        const hasShowAll = multilevel && multiselect && showAllCell;
+        return (
+            <ListClass
+                key={index}
+                renderItem={this._renderRow}
+                ListHeaderComponent={hasShowAll && this._renderShowAll}
+                style={[styles.listview, style]}
+                contentContainerStyle={style}
+                keyExtractor={(item) => item.getStringId()}
+                {...dataProps}
+                {...ListProps}
+            />
+        );
+    };
+
+    _renderEmptyPage = (index) => {
+        return <View key={index} style={{width: this.state.screenWidth}} />;
+    };
+
+    _renderPageView = () => {
+        const deepth = this.state.levelItems.length;
+        const totalWidth = this.state.screenWidth * deepth;
+        return (
+            <View style={[{width: totalWidth}, styles.displayView, this.state.frame]}>
+                {
+                    new Array(deepth).fill(1).map((item, index) => {
+                        if (index < this.state.levelItems.length) {
+                            return this._renderPage(index);
+                        } else {
+                            return this._renderEmptyPage(index);
+                        }
+                    })
+                }
+            </View>
+        );
+    };
 
     getSelectedItems = () => {
         return [...this.state.selectedItems];
@@ -103,7 +342,6 @@ export class InnerPickList extends React.PureComponent {
         } else {
             this._popToPrevious();
         }
-        return false;
     };
 
     _clickOK = () => {
@@ -214,230 +452,17 @@ export class InnerPickList extends React.PureComponent {
         }
         this.setState({selectedItems});
     };
-
-    _renderNaviBar = () => {
-        const {title, rightTitle, rightClick} = this.props;
-        const rightElement = {};
-        if (rightTitle && rightTitle.length > 0) {
-            rightElement.rightElement = rightTitle;
-            rightElement.onRight = rightClick || this._clickOK;
-        } else if (!this.props.multiselect && !this.props.directBackWhenSingle) {
-            rightElement.rightElement = this.props.labels.ok;
-            rightElement.onRight = this._clickOK;
-        }
-        const leftElement = [GOBACK_BUTTON];
-        if (this.props.multilevel) {
-            leftElement.push(this.props.labels.close);
-        }
-        return (
-            <NaviBar
-                title={title}
-                leftElement={leftElement}
-                onLeft={this._clickBack}
-                {...rightElement}
-            />
-        );
-    };
-
-    _renderSearchBar = () => {
-        return (
-            <SafeAreaView
-                style={styles.searchbarContainer}
-                forceInset={forceInset(0, 1, 0, 1)}
-            >
-                <SearchBar
-                    placeholder={this.props.labels.search}
-                    cancelText={this.props.labels.cancel}
-                    searchText={this.state.searchText}
-                    onPressCancel={() => {
-                        LayoutAnimation.linear();
-                        this.setState({isSearching: false, searchText: ''});
-                    }}
-                    onSubmitEditing={this._onSubmit}
-                    onChangeText={this._onSearch}
-                    canCancel={true}
-                    isSearching={this.state.isSearching}
-                />
-            </SafeAreaView>
-        );
-    };
-
-    _renderSearchingView = () => {
-        const style = {width: this.state.screenWidth};
-        const searchKeys = this.props.searchKeys || [];
-        const data = this.state.levelItems[0].search(
-            this.state.searchText,
-            [...searchKeys, this.props.labelKey],
-            this.props.multiselect,
-            false,
-            false
-        );
-        return (
-            <View style={[styles.searchingViewContainer, style]}>
-                <FlatList
-                    key={this.state.searchText}
-                    data={data}
-                    renderItem={this._renderRow}
-                    style={[styles.listview, style]}
-                    contentContainerStyle={style}
-                    keyExtractor={(item) => item.getStringId()}
-                    {...this.props.searchListProps}
-                />
-            </View>
-        );
-    };
-
-    _renderBottomView = () => {
-        return (
-            <PickListBottomBar
-                {...this.props}
-                selectedItems={this.state.selectedItems}
-                onPress={this._clickOK}
-                onPressItem={this._clickBottomItem}
-            />
-        );
-    };
-
-    _renderRow = ({item}) => {
-        return (
-            <PickListCell
-                {...this.props}
-                isSearching={this.state.isSearching}
-                treeNode={item}
-                onPress={this._clickRow}
-            />
-        );
-    };
-
-    _renderHeader = () => {
-        if (this.props.renderHeader) {
-            return this.props.renderHeader(this.state.selectedItems);
-        } else {
-            return this._renderTitleLine();
-        }
-    };
-
-    _renderTitleLine = () => {
-        const {multilevel, showTitleLine} = this.props;
-        return multilevel && showTitleLine ? (
-            <PickListTitleLine
-                {...this.props}
-                ref={ref => this.titleLineScrollView = ref}
-                levelItems={this.state.levelItems}
-                onPress={(index) => this._handlePressToPrevPage(index)}
-            />
-        ) : undefined;
-    };
-
-    _renderShowAll = () => {
-        return (
-            <PickListShowAllCell
-                {...this.props}
-                treeNode={this.state.levelItems[this.state.levelItems.length - 1]}
-                onPress={this._selectItem}
-            />
-        );
-    };
-
-    _renderPage = (index) => {
-        const {split, sort, sectionListProps, flatListProps, multilevel, multiselect, showAllCell} = this.props;
-        const style = {width: this.state.screenWidth};
-        const treeNode = this.state.levelItems[index];
-        let nodeArr, isSection;
-        if (split) {
-            isSection = true;
-            nodeArr = split(treeNode.getChildren());
-        } else {
-            isSection = false;
-            nodeArr = treeNode.getChildren();
-            if (sort) {
-                nodeArr = nodeArr.sort(sort);
-            }
-        }
-        const ListClass = isSection ? SectionList : FlatList;
-        const dataProps = isSection ? {sections: nodeArr} : {data: nodeArr};
-        const ListProps = isSection ? sectionListProps : flatListProps;
-        const hasShowAll = multilevel && multiselect && showAllCell;
-        return (
-            <ListClass
-                key={index}
-                renderItem={this._renderRow}
-                ListHeaderComponent={hasShowAll && this._renderShowAll}
-                style={[styles.listview, style]}
-                contentContainerStyle={style}
-                keyExtractor={(item) => item.getStringId()}
-                {...dataProps}
-                {...ListProps}
-            />
-        );
-    };
-
-    _renderEmptyPage = (index) => {
-        return <View key={index} style={{width: this.state.screenWidth}} />;
-    };
-
-    _renderPageView = () => {
-        const deepth = this.state.levelItems.length;
-        const totalWidth = this.state.screenWidth * deepth;
-        return (
-            <View style={[{width: totalWidth}, styles.displayView, this.state.frame]}>
-                {
-                    new Array(deepth).fill(1).map((item, index) => {
-                        if (index < this.state.levelItems.length) {
-                            return this._renderPage(index);
-                        } else {
-                            return this._renderEmptyPage(index);
-                        }
-                    })
-                }
-            </View>
-        );
-    };
-
-    render() {
-        const hasBottom = this.props.showBottomView !== undefined ?
-            this.props.showBottomView :
-            this.props.multiselect;
-        return (
-            <View style={styles.view}>
-                {this.props.showNaviBar && this._renderNaviBar()}
-                {this.props.showSearchView && this._renderSearchBar()}
-                <SafeAreaView
-                    style={styles.innersafeview}
-                    forceInset={forceInset(0, 1, 0, 1)}
-                >
-                    <View
-                        style={{flex: 1, overflow: 'hidden'}}
-                        onLayout={({nativeEvent: {layout: {width}}}) => {
-                            if (width > 0 && width !== this.state.screenWidth) {
-                                this.setState({
-                                    screenWidth: width,
-                                    frame: {
-                                        top: 0,
-                                        bottom: 0,
-                                        left: 0 - (this.state.levelItems.length - 1) * width,
-                                    }
-                                });
-                            }
-                        }}
-                    >
-                        {!this.state.isSearching && this._renderHeader()}
-                        {this.state.isSearching ? this._renderSearchingView() : this._renderPageView()}
-                    </View>
-                </SafeAreaView>
-                {hasBottom && this._renderBottomView()}
-            </View>
-        );
-    }
 }
-
-export default withNavigation(InnerPickList);
 
 const styles = StyleSheet.create({
     view: {
         flex: 1,
         overflow: 'hidden',
         backgroundColor: '#eff1f1',
+    },
+    leftButtons: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     innersafeview: {
         flex: 1,
@@ -449,10 +474,6 @@ const styles = StyleSheet.create({
     },
     listview: {
         backgroundColor: 'transparent',
-    },
-    seperator: {
-        height: 8,
-        backgroundColor: '#eff1f1',
     },
     searchingViewContainer: {
         flex: 1,

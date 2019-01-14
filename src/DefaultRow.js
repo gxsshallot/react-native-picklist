@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import ArrowImage from '@hecom/image-arrow';
 
 export default (treeNode, props) => props.multilevel ? multiLevelNode(treeNode, props) : singleLevelNode(treeNode, props);
 
@@ -12,9 +13,7 @@ export const singleLevelNode = (treeNode, props) => {
                 <Text style={styles.text} numberOfLines={numberOfTextLines}>
                     {treeNode.getInfo()[labelKey]}
                 </Text>
-                {isSelected ? (
-                    <Image source={single_check_image} style={styles.icon} />
-                ) : <View style={styles.icon} />}
+                {isSelected ? <Image source={single_check_image()} style={styles.icon} /> : <View style={styles.icon} />}
             </View>
         </View>
     );
@@ -67,27 +66,24 @@ export const multiLevelNotLeafNode = (treeNode, props) => {
                         {[selectedLeafs.length.toString(), leafs.length.toString()].join('/')}
                     </Text>
                 )}
-                <Image
-                    source={require('./image/arrow_right.png')}
-                    style={[styles.arrowImage, arrowStyle]}
-                />
+                <ArrowImage style={arrowStyle} />
             </View>
         </View>
     );
 };
 
-export const notselect_image = require('./image/checkbox.png');
-export const select_image = require('./image/checkbox_hl.png');
-export const incomp_image = require('./image/checkbox_noall.png');
-export const single_check_image = require('./image/single_check.png');
+export const notselect_image = () => require('./image/checkbox.png');
+export const select_image = () => require('./image/checkbox_hl.png');
+export const incomp_image = () => require('./image/checkbox_noall.png');
+export const single_check_image = () => require('./image/single_check.png');
 
 export const getImage = (treeNode, cascade) => {
     if (treeNode.isNotSelect(cascade)) {
-        return notselect_image;
+        return notselect_image();
     } else if (treeNode.isFullSelect(cascade)) {
-        return select_image;
+        return select_image();
     } else if (treeNode.isIncompleteSelect(cascade)) {
-        return incomp_image;
+        return incomp_image();
     } else {
         return undefined;
     }
@@ -168,10 +164,5 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#999999',
         marginHorizontal: 4,
-    },
-    arrowImage: {
-        width: 13,
-        height: 16,
-        marginRight: 0,
     },
 });

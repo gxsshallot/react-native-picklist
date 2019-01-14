@@ -1,14 +1,13 @@
-import PickList, {InnerPickList} from './PickList';
-import PickListDefaultRow, * as PickListRowUtil from './PickListDefaultRow';
-import PickListCell from './PickListCell';
-import PickListBottomBar from './PickListBottomBar';
-import PickListShowAllCell from './PickListShowAllCell';
-import PickListTitleLine from './PickListTitleLine';
+import PickList from './PickList';
+import PickListDefaultRow, * as PickListRowUtil from './DefaultRow';
+import PickListCell from './Cell';
+import PickListBottomBar from './BottomBar';
+import PickListShowAllCell from './ShowAllCell';
+import PickListTitleLine from './TitleLine';
 
 export default PickList;
 
 export {
-    InnerPickList,
     PickListDefaultRow,
     PickListRowUtil,
     PickListCell,
