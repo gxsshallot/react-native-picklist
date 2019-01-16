@@ -55,9 +55,10 @@ export default class extends React.PureComponent {
         const {data, childrenKey, idKey, labelKey, firstTitleLine, selectedIds} = props;
         this.defaultRootId = '__root__';
         this.notifyMap = {};
+        const idOnlyKey = Array.isArray(idKey) ? idKey[0] : idKey;
         const treeRoot = Array.isArray(data) ?
-            {[childrenKey]: data, [idKey]: this.defaultRootId, [labelKey]: firstTitleLine} :
-            {[childrenKey]: [data], [idKey]: this.defaultRootId, [labelKey]: firstTitleLine};
+            {[childrenKey]: data, [idOnlyKey]: this.defaultRootId, [labelKey]: firstTitleLine} :
+            {[childrenKey]: [data], [idOnlyKey]: this.defaultRootId, [labelKey]: firstTitleLine};
         const tree = new Tree(
             treeRoot, undefined, childrenKey, idKey,
             (treenode) => {

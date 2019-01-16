@@ -34,7 +34,7 @@ export interface PickListProps {
     selectedIds?: Array;
     selectable?: (treeNode: Tree) => boolean;
     childrenKey?: string;
-    idKey?: string;
+    idKey?: string | string[];
     labelKey?: string;
     searchKeys?: string[];
     sort?: (a: Tree, b: Tree) => -1 | 0 | 1;

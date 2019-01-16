@@ -25,7 +25,7 @@ export default {
     selectedIds: PropTypes.array,
     selectable: PropTypes.func,
     childrenKey: PropTypes.string,
-    idKey: PropTypes.string,
+    idKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     labelKey: PropTypes.string,
     searchKeys: PropTypes.array,
     sort: PropTypes.func,

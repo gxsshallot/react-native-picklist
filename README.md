@@ -91,7 +91,7 @@ Optional:
 * `selectedIds`: Initial selected item's identifier list.
 * `selectable`: Can a tree node selectable or not.
 * `childrenKey`: Children key of tree node.
-* `idKey`: Identifier key of tree node.
+* `idKey`: Identifier key of tree node, supports array of string or one string only.
 * `labelKey`: Label key of tree node.
 * `searchKeys`: Normal search keys of tree node.
 * `sort`: Sort method for data list.
