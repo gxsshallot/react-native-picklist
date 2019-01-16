@@ -42,8 +42,8 @@ export const multiLevelNotLeafNode = (treeNode, props) => {
     const {onPress, labelKey, showCount, numberOfTextLines} = props;
     const selectable = props.selectable ? props.selectable(treeNode) : true;
     const info = treeNode.getInfo()[labelKey];
-    const leafs = treeNode.getLeafChildren();
-    const selectedLeafs = leafs.filter(item => item.isFullSelect());
+    const leafCount = treeNode.getLeafChildrenCount();
+    const selectedLeafCount = treeNode.getSelectedLeafChildrenCount();
     const arrowStyle = showCount ? {marginLeft: 0} : {marginLeft: 10};
     return (
         <View key={info} style={styles.treeCellContainer}>
@@ -63,7 +63,7 @@ export const multiLevelNotLeafNode = (treeNode, props) => {
             <View style={styles.treeCellRight}>
                 {showCount && (
                     <Text style={styles.treeCellCount}>
-                        {[selectedLeafs.length.toString(), leafs.length.toString()].join('/')}
+                        {[selectedLeafCount.toString(), leafCount.toString()].join('/')}
                     </Text>
                 )}
                 <ArrowImage style={arrowStyle} />
