@@ -19,6 +19,11 @@ export default class extends React.PureComponent {
         };
     };
 
+    static initialized = function (options) {
+        const {_title_} = options.navigation.state.params;
+        return !!_title_;
+    };
+
     static propTypes = Types;
 
     static defaultProps = {
