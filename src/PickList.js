@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, LayoutAnimation, FlatList, SectionList, StyleSheet, View, Button } from 'react-native';
+import { SafeAreaView, LayoutAnimation, FlatList, SectionList, StyleSheet, View, Button, DeviceEventEmitter } from 'react-native';
 import HeaderBackButton from 'react-navigation-stack/dist/views/Header/HeaderBackButton';
 import SearchBar from 'react-native-general-searchbar';
 import Tree from 'general-tree';
@@ -54,17 +54,15 @@ export default class extends React.PureComponent {
         super(props);
         const {data, childrenKey, idKey, labelKey, firstTitleLine, selectedIds} = props;
         this.defaultRootId = '__root__';
-        this.notifyMap = {};
         const idOnlyKey = Array.isArray(idKey) ? idKey[0] : idKey;
         const treeRoot = Array.isArray(data) ?
             {[childrenKey]: data, [idOnlyKey]: this.defaultRootId, [labelKey]: firstTitleLine} :
             {[childrenKey]: [data], [idOnlyKey]: this.defaultRootId, [labelKey]: firstTitleLine};
         const tree = new Tree(
             treeRoot, undefined, childrenKey, idKey,
-            (treenode) => {
-                const comp = this.notifyMap[treenode.getPath()];
-                comp && comp.refresh();
-            }
+            (treenode) => DeviceEventEmitter.emit(
+                '__treenode__status__update__' + treenode.getStringId()
+            )
         );
         this.isCascade = this.props.multilevel && this.props.multiselect;
         this.state = {
@@ -208,7 +206,6 @@ export default class extends React.PureComponent {
         return (
             <Cell
                 {...this.props}
-                notifyMap={this.notifyMap}
                 isSearching={this.state.isSearching}
                 treeNode={item}
                 onPress={this._clickRow}
@@ -240,7 +237,6 @@ export default class extends React.PureComponent {
         return (
             <ShowAllCell
                 {...this.props}
-                notifyMap={this.notifyMap}
                 treeNode={this.state.levelItems[this.state.levelItems.length - 1]}
                 onPress={this._selectItem}
             />
