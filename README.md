@@ -48,7 +48,7 @@ Import the module in the file:
 import PickList from 'react-native-picklist';
 
 export default class TopPage extends React.PureComponent {
-    static navigations = PickList.navigations;
+    static navigationOptions = PickList.navigationOptions;
 
     render() {
         return (
@@ -58,6 +58,21 @@ export default class TopPage extends React.PureComponent {
         );
     }
 }
+```
+
+If you want to use button in  `navigationOptions`, you should set following items:
+
+```javascript
+import { HeaderButton } from 'react-navigation-header-buttons';
+
+HeaderButton.defaultProps.getButtonElement = (props) => {
+    const {title} = props;
+    return (
+        <Text>
+            {title}
+        </Text>
+    );
+};
 ```
 
 You can set the following properties or see example project to learn how to use it.
@@ -99,7 +114,7 @@ Optional:
 * `flatListProps`: Props of `FlatList` when data is flat.
 * `sectionListProps`: Props of `SectionList` when data is splitted to sections.
 * `searchListProps`: Props of `FlatList` when searching.
-* `buttonProps`: Props of `Button` in navigation bar.
+* `buttonProps`: Props of `HeaderButton` in navigation bar.
 * `labels`: Label text in component.
 
 You can change labels globally by following statement:

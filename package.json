@@ -24,6 +24,7 @@
   "dependencies": {
     "@hecom/image-arrow": "^1.0.0",
     "general-tree": "^1.1.2",
+    "react-navigation-header-buttons": "^2.1.1",
     "react-native-general-searchbar": "^1.0.6"
   }
 }

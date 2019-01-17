@@ -1,5 +1,6 @@
 import React from 'react';
-import { SafeAreaView, LayoutAnimation, FlatList, SectionList, StyleSheet, View, Button, DeviceEventEmitter } from 'react-native';
+import { SafeAreaView, LayoutAnimation, FlatList, SectionList, StyleSheet, View, DeviceEventEmitter } from 'react-native';
+import { HeaderButton } from 'react-navigation-header-buttons';
 import HeaderBackButton from 'react-navigation-stack/dist/views/Header/HeaderBackButton';
 import SearchBar from 'react-native-general-searchbar';
 import Tree from 'general-tree';
@@ -79,15 +80,14 @@ export default class extends React.PureComponent {
         const {rightTitle, rightClick} = this.props;
         if (rightTitle && rightTitle.length > 0) {
             navOptions._right_ = (
-                <Button
+                <HeaderButton
                     title={rightTitle}
                     onPress={rightClick || this._clickOK}
-                    {...this.props.buttonProps}
                 />
             );
         } else if (!this.props.multiselect && !this.props.directBackWhenSingle) {
             navOptions._right_ = (
-                <Button
+                <HeaderButton
                     title={this.props.labels.ok}
                     onPress={this._clickOK}
                     {...this.props.buttonProps}
@@ -102,7 +102,7 @@ export default class extends React.PureComponent {
                             {...props}
                             onPress={this._clickBack.bind(this, 0)}
                         />
-                        <Button
+                        <HeaderButton
                             title={this.props.labels.close}
                             onPress={this._clickBack.bind(this, 1)}
                             {...this.props.buttonProps}
