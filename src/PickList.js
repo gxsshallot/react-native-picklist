@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, LayoutAnimation, FlatList, SectionList, StyleSheet, View, DeviceEventEmitter } from 'react-native';
+import { DeviceEventEmitter, FlatList, LayoutAnimation, SafeAreaView, SectionList, StyleSheet, View } from 'react-native';
 import { HeaderButton } from 'react-navigation-header-buttons';
 import HeaderBackButton from 'react-navigation-stack/dist/views/Header/HeaderBackButton';
 import SearchBar from 'react-native-general-searchbar';
@@ -364,13 +364,17 @@ export default class extends React.PureComponent {
                 this._selectItem(treeNode);
             } else {
                 if (treeNode.isFullSelect(this.isCascade)) {
-                    if (this.props.directBackWhenSingle && 
+                    if (this.props.directBackWhenSingle &&
                         !this.props.cancelableWhenDirectBack) {
                         this._clickOK();
                     } else {
                         treeNode.update(this.isCascade);
                         const selectedItems = [];
-                        this.setState({selectedItems});
+                        this.setState({selectedItems}, () => {
+                            if (this.props.directBackWhenSingle) {
+                                this._clickOK();
+                            }
+                        });
                     }
                 } else {
                     if (this.state.selectedItems.length > 0 &&
