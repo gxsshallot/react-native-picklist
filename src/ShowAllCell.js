@@ -3,6 +3,7 @@ import { TouchableOpacity, StyleSheet, View, Image, Text, DeviceEventEmitter } f
 import PropTypes from 'prop-types';
 import { select_image, notselect_image } from './DefaultRow';
 import Types from './Types';
+import {isCascade} from './Util'
 
 export default class extends React.PureComponent {
     static propTypes = {
@@ -14,7 +15,7 @@ export default class extends React.PureComponent {
     constructor(props) {
         super(props);
         this.tree = props.treeNode;
-        this.cascade = props.multilevel && props.multiselect;
+        this.cascade = isCascade(props);
         this.state = {
             status: this.tree.selectStatus(this.cascade),
         };

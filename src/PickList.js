@@ -9,6 +9,7 @@ import TitleLine from './TitleLine';
 import BottomBar from './BottomBar';
 import ShowAllCell from './ShowAllCell';
 import Types from './Types';
+import { isCascade } from './Util';
 
 export default class extends React.PureComponent {
     static navigationOptions = ({navigation}) => {
@@ -28,6 +29,7 @@ export default class extends React.PureComponent {
     static propTypes = Types;
 
     static defaultProps = {
+        isCascade: true,
         multilevel: false,
         multiselect: false,
         showSearchView: true,
@@ -65,7 +67,7 @@ export default class extends React.PureComponent {
                 '__treenode__status__update__' + treenode.getStringId()
             )
         );
-        this.isCascade = this.props.multilevel && this.props.multiselect;
+        this.isCascade = isCascade(props);
         this.state = {
             levelItems: [tree],
             selectedItems: tree.setInitialState(selectedIds, this.isCascade),
@@ -244,7 +246,7 @@ export default class extends React.PureComponent {
     };
 
     _renderPage = (index) => {
-        const {split, sort, sectionListProps, flatListProps, multilevel, multiselect, showAllCell} = this.props;
+        const {split, sort, sectionListProps, flatListProps, showAllCell} = this.props;
         const style = {width: this.state.screenWidth};
         const treeNode = this.state.levelItems[index];
         let nodeArr, isSection;
@@ -261,7 +263,7 @@ export default class extends React.PureComponent {
         const ListClass = isSection ? SectionList : FlatList;
         const dataProps = isSection ? {sections: nodeArr} : {data: nodeArr};
         const ListProps = isSection ? sectionListProps : flatListProps;
-        const hasShowAll = multilevel && multiselect && showAllCell;
+        const hasShowAll = isCascade(this.props) && showAllCell;
         return (
             <ListClass
                 key={index}
@@ -428,33 +430,35 @@ export default class extends React.PureComponent {
             selectedItems = this.state.selectedItems
                 .filter(node => !node.isEqual(item));
         }
-        if (item.isFullSelect(this.isCascade)) {
-            if (item.getStringId() === this.defaultRootId) {
-                selectedItems = [...item.getChildren()];
-            } else if (!item.isLeaf()) {
-                selectedItems = selectedItems.filter(node => !node.hasAncestor(item));
-            }
-        } else if (item.isNotSelect(this.isCascade)) {
-            selectedItems = selectedItems.filter(node => !node.hasAncestor(item));
-            const todos = [];
-            selectedItems.forEach(node => {
-                if (item.hasAncestor(node)) {
-                    let ancestor = node;
-                    while (ancestor) {
-                        let tempAncestor = undefined;
-                        ancestor.getChildren().forEach(child => {
-                            if (item.hasAncestor(child)) {
-                                tempAncestor = child;
-                            } else if (!item.isEqual(child)) {
-                                todos.push(child);
-                            }
-                        });
-                        ancestor = tempAncestor;
-                    }
+        if (this.isCascade){
+            if (item.isFullSelect(this.isCascade)) {
+                if (item.getStringId() === this.defaultRootId) {
+                    selectedItems = [...item.getChildren()];
+                } else if (!item.isLeaf()) {
+                    selectedItems = selectedItems.filter(node => !node.hasAncestor(item));
                 }
-            });
-            selectedItems = selectedItems.filter(node => !item.hasAncestor(node));
-            todos.forEach(node => selectedItems.push(node));
+            } else if (item.isNotSelect(this.isCascade)) {
+                selectedItems = selectedItems.filter(node => !node.hasAncestor(item));
+                const todos = [];
+                selectedItems.forEach(node => {
+                    if (item.hasAncestor(node)) {
+                        let ancestor = node;
+                        while (ancestor) {
+                            let tempAncestor = undefined;
+                            ancestor.getChildren().forEach(child => {
+                                if (item.hasAncestor(child)) {
+                                    tempAncestor = child;
+                                } else if (!item.isEqual(child)) {
+                                    todos.push(child);
+                                }
+                            });
+                            ancestor = tempAncestor;
+                        }
+                    }
+                });
+                selectedItems = selectedItems.filter(node => !item.hasAncestor(node));
+                todos.forEach(node => selectedItems.push(node));
+            }
         }
         this.setState({selectedItems});
     };

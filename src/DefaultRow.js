@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ArrowImage from '@hecom/image-arrow';
+import {isCascade} from './Util';
 
 export default (treeNode, props) => props.multilevel ? multiLevelNode(treeNode, props) : singleLevelNode(treeNode, props);
 
@@ -24,7 +25,7 @@ export const multiLevelNode = (treeNode, props) => {
 };
 
 export const multiLevelLeafNode = (treeNode, props) => {
-    const image = getImage(treeNode, props.multilevel && props.multiselect);
+    const image = getImage(treeNode, isCascade(props));
     const {labelKey, numberOfTextLines} = props;
     const info = treeNode.getInfo()[labelKey];
     return (
@@ -38,7 +39,7 @@ export const multiLevelLeafNode = (treeNode, props) => {
 };
 
 export const multiLevelNotLeafNode = (treeNode, props) => {
-    const image = getImage(treeNode, props.multilevel && props.multiselect);
+    const image = getImage(treeNode, isCascade(props));
     const {onPress, labelKey, showCount, numberOfTextLines} = props;
     const selectable = props.selectable ? props.selectable(treeNode) : true;
     const info = treeNode.getInfo()[labelKey];
