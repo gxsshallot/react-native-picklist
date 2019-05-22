@@ -7,6 +7,7 @@ export default {
     navigation: PropTypes.object.isRequired,
     // Optional
     firstTitleLine: PropTypes.string,
+    isCascade: PropTypes.bool,
     multilevel: PropTypes.bool,
     multiselect: PropTypes.bool,
     onFinish: PropTypes.func,

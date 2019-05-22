@@ -3,6 +3,7 @@ import { TouchableOpacity, DeviceEventEmitter } from 'react-native';
 import PropTypes from 'prop-types';
 import Types from './Types';
 import defaultRenderRow from './DefaultRow';
+import {isCascade} from './Util';
 
 export default class extends React.PureComponent {
     static propTypes = {
@@ -15,7 +16,7 @@ export default class extends React.PureComponent {
     constructor(props) {
         super(props);
         this.tree = props.treeNode;
-        this.cascade = props.multilevel && props.multiselect;
+        this.cascade = isCascade(props);
         this.state = {
             status: this.tree.selectStatus(this.cascade),
         };
