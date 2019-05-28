@@ -187,6 +187,7 @@ export default class extends React.PureComponent {
                     style={[styles.listview, style]}
                     contentContainerStyle={style}
                     keyExtractor={(item) => item.getStringId()}
+                    keyboardShouldPersistTaps={'always'}
                     {...this.props.searchListProps}
                 />
             </View>
