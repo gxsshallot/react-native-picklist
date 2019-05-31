@@ -18,6 +18,7 @@ export default class extends React.PureComponent {
             title: navParams._title_,
             headerRight: navParams._right_,
             headerLeft: navParams._left_,
+            headerTitleContainerStyle: navParams.headerTitleContainerStyle,
         };
     };
 
@@ -99,7 +100,13 @@ export default class extends React.PureComponent {
         if (this.props.multilevel) {
             navOptions._left_ = (props) => {
                 return (
-                    <View style={styles.leftButtons}>
+                    <View
+                        style={styles.leftButtons}
+                        onLayout={({nativeEvent: {layout: {width}}}) => {
+                            navOptions.headerTitleContainerStyle = {left: width, right: width};
+                            this.props.navigation.setParams(navOptions)
+                        }}
+                    >
                         <HeaderBackButton
                             {...props}
                             onPress={this._clickBack.bind(this, 0)}
@@ -431,7 +438,7 @@ export default class extends React.PureComponent {
             selectedItems = this.state.selectedItems
                 .filter(node => !node.isEqual(item));
         }
-        if (this.isCascade){
+        if (this.isCascade) {
             if (item.isFullSelect(this.isCascade)) {
                 if (item.getStringId() === this.defaultRootId) {
                     selectedItems = [...item.getChildren()];
