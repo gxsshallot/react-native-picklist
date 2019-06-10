@@ -35,16 +35,16 @@ export const multiLevelLeafNode = (treeNode, props) => {
     const info = treeNode.getInfo()[labelKey];
     return (
         <View key={info} style={styles.leafContainer}>
-    {
-        selectImage === undefined ?   <Image source={image} style={styles.cellSelected} />
-: <View style={styles.cellSelected}>{selectImage}</View>
-}
+           {
+            selectImage === undefined ?   <Image source={image} style={styles.cellSelected} />
+               : <View style={styles.cellSelected}>{selectImage}</View>
+            }
 
-<Text style={styles.leafText} numberOfLines={numberOfTextLines}>
-        {info}
-        </Text>
-        </View>
-);
+         <Text style={styles.leafText} numberOfLines={numberOfTextLines}>
+                {info}
+                </Text>
+                </View>
+         );
 };
 
 export const multiLevelNotLeafNode = (treeNode, props) => {
@@ -60,30 +60,30 @@ export const multiLevelNotLeafNode = (treeNode, props) => {
         <View key={info} style={styles.treeCellContainer}>
         <View style={styles.treeCellLeft}>
         {selectable && (
-        <TouchableOpacity onPress={() => onPress(treeNode, true)}>
-    {
-        selectImage === undefined ?   <Image source={image} style={styles.cellSelected} />
-    : <View style={styles.cellSelected}>{selectImage}</View>
-    }
-</TouchableOpacity>
-)}
-<Text
-    style={[styles.treeCellText, {marginLeft: selectable ? 0 : 25}]}
-    numberOfLines={numberOfTextLines}
-        >
-        {info}
-        </Text>
-        </View>
-        <View style={styles.treeCellRight}>
-        {showCount && (
-        <Text style={styles.treeCellCount}>
-        {[selectedLeafCount.toString(), leafCount.toString()].join('/')}
-</Text>
-)}
-<ArrowImage style={arrowStyle} />
-    </View>
-    </View>
-);
+                <TouchableOpacity onPress={() => onPress(treeNode, true)}>
+                    {
+                        selectImage === undefined ?   <Image source={image} style={styles.cellSelected} />
+                    : <View style={styles.cellSelected}>{selectImage}</View>
+                    }
+                 </TouchableOpacity>
+        )}
+         <Text
+            style={[styles.treeCellText, {marginLeft: selectable ? 0 : 25}]}
+            numberOfLines={numberOfTextLines}
+                >
+            {info}
+            </Text>
+            </View>
+            <View style={styles.treeCellRight}>
+            {showCount && (
+            <Text style={styles.treeCellCount}>
+            {[selectedLeafCount.toString(), leafCount.toString()].join('/')}
+           </Text>
+          )}
+            <ArrowImage style={arrowStyle} />
+                </View>
+                </View>
+            );
 };
 
 export const notselect_image = () => require('./image/checkbox.png');
