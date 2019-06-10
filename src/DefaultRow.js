@@ -2,22 +2,26 @@ import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ArrowImage from '@hecom/image-arrow';
 import {isCascade} from './Util';
-
 export default (treeNode, props) => props.multilevel ? multiLevelNode(treeNode, props) : singleLevelNode(treeNode, props);
 
 export const singleLevelNode = (treeNode, props) => {
-    const {labelKey, numberOfTextLines} = props;
+    const {labelKey, numberOfTextLines, singleCheckImage} = props;
     const isSelected = treeNode.isFullSelect(false);
     return (
         <View style={styles.row}>
-            <View style={styles.container}>
-                <Text style={styles.text} numberOfLines={numberOfTextLines}>
-                    {treeNode.getInfo()[labelKey]}
-                </Text>
-                {isSelected ? <Image source={single_check_image()} style={styles.icon} /> : <View style={styles.icon} />}
-            </View>
-        </View>
-    );
+        <View style={styles.container}>
+        <Text style={styles.text} numberOfLines={numberOfTextLines}>
+        {treeNode.getInfo()[labelKey]}
+        </Text>
+    {
+        singleCheckImage === undefined ?
+            (isSelected ? <Image source={single_check_image()} style={styles.icon}/> :
+    <View style={styles.icon}/> )
+    : (isSelected ? <View>{singleCheckImage}</View> : <View style={styles.icon} />)
+    }
+</View>
+    </View>
+);
 };
 
 export const multiLevelNode = (treeNode, props) => {
@@ -26,20 +30,26 @@ export const multiLevelNode = (treeNode, props) => {
 
 export const multiLevelLeafNode = (treeNode, props) => {
     const image = getImage(treeNode, isCascade(props));
+    const selectImage = getFontImage(treeNode, isCascade(props),props);
     const {labelKey, numberOfTextLines} = props;
     const info = treeNode.getInfo()[labelKey];
     return (
         <View key={info} style={styles.leafContainer}>
-            <Image source={image} style={styles.cellSelected} />
-            <Text style={styles.leafText} numberOfLines={numberOfTextLines}>
-                {info}
-            </Text>
+    {
+        selectImage === undefined ?   <Image source={image} style={styles.cellSelected} />
+: <View style={styles.cellSelected}>{selectImage}</View>
+}
+
+<Text style={styles.leafText} numberOfLines={numberOfTextLines}>
+        {info}
+        </Text>
         </View>
-    );
+);
 };
 
 export const multiLevelNotLeafNode = (treeNode, props) => {
     const image = getImage(treeNode, isCascade(props));
+    const selectImage = getFontImage(treeNode, isCascade(props),props);
     const {onPress, labelKey, showCount, numberOfTextLines} = props;
     const selectable = props.selectable ? props.selectable(treeNode) : true;
     const info = treeNode.getInfo()[labelKey];
@@ -48,29 +58,32 @@ export const multiLevelNotLeafNode = (treeNode, props) => {
     const arrowStyle = showCount ? {marginLeft: 0} : {marginLeft: 10};
     return (
         <View key={info} style={styles.treeCellContainer}>
-            <View style={styles.treeCellLeft}>
-                {selectable && (
-                    <TouchableOpacity onPress={() => onPress(treeNode, true)}>
-                        <Image source={image} style={styles.cellSelected} />
-                    </TouchableOpacity>
-                )}
-                <Text
-                    style={[styles.treeCellText, {marginLeft: selectable ? 0 : 25}]}
-                    numberOfLines={numberOfTextLines}
-                >
-                    {info}
-                </Text>
-            </View>
-            <View style={styles.treeCellRight}>
-                {showCount && (
-                    <Text style={styles.treeCellCount}>
-                        {[selectedLeafCount.toString(), leafCount.toString()].join('/')}
-                    </Text>
-                )}
-                <ArrowImage style={arrowStyle} />
-            </View>
+        <View style={styles.treeCellLeft}>
+        {selectable && (
+        <TouchableOpacity onPress={() => onPress(treeNode, true)}>
+    {
+        selectImage === undefined ?   <Image source={image} style={styles.cellSelected} />
+    : <View style={styles.cellSelected}>{selectImage}</View>
+    }
+</TouchableOpacity>
+)}
+<Text
+    style={[styles.treeCellText, {marginLeft: selectable ? 0 : 25}]}
+    numberOfLines={numberOfTextLines}
+        >
+        {info}
+        </Text>
         </View>
-    );
+        <View style={styles.treeCellRight}>
+        {showCount && (
+        <Text style={styles.treeCellCount}>
+        {[selectedLeafCount.toString(), leafCount.toString()].join('/')}
+</Text>
+)}
+<ArrowImage style={arrowStyle} />
+    </View>
+    </View>
+);
 };
 
 export const notselect_image = () => require('./image/checkbox.png');
@@ -86,6 +99,15 @@ export const getImage = (treeNode, cascade) => {
     } else if (treeNode.isIncompleteSelect(cascade)) {
         return incomp_image();
     } else {
+        return undefined;
+    }
+};
+
+
+export const getFontImage = (treeNode, cascade, props) => {
+    if (treeNode.isFullSelect(cascade) && props.selectImage) {
+        return props.selectImage;
+    }  else {
         return undefined;
     }
 };

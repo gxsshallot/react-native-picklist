@@ -43,6 +43,8 @@ export interface PickListProps {
     sectionListProps?: SectionListProps;
     searchListProps?: FlatListProps;
     buttonProps?: ViewProps;
+    singleCheckImage?: any;
+    selectImage?: any;
     labels: {
         close?: string;
         search?: string;

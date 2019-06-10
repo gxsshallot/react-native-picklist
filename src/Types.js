@@ -35,6 +35,8 @@ export default {
     sectionListProps: PropTypes.object,
     searchListProps: PropTypes.object,
     buttonProps: PropTypes.object,
+    singleCheckImage: PropTypes.object,
+    selectImage: PropTypes.object,
     labels: PropTypes.shape({
         close: PropTypes.string,
         search: PropTypes.string,
