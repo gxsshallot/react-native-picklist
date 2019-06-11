@@ -10,6 +10,7 @@ import BottomBar from './BottomBar';
 import ShowAllCell from './ShowAllCell';
 import Types from './Types';
 import { isCascade } from './Util';
+import { getImage, single_check_image } from './DefaultRow';
 
 export default class extends React.PureComponent {
     static navigationOptions = ({navigation}) => {
@@ -52,6 +53,8 @@ export default class extends React.PureComponent {
             choose: 'Please Choose',
             cancel: 'Cancel',
         },
+        renderSingleSelectIcon: () => <Image source={single_check_image()} style={styles.icon} />,
+        renderMultiSelectIcon: (selectState) => <Image source={getImage(selectState)} style={styles.multiIcon} />,
     };
 
     constructor(props) {
@@ -473,6 +476,16 @@ export default class extends React.PureComponent {
 }
 
 const styles = StyleSheet.create({
+    multiIcon: {
+        width: 18,
+        height: 18,
+        borderRadius: 9
+    },
+    icon: {
+        marginLeft: 4,
+        width: 19,
+        height: 22,
+    },
     view: {
         flex: 1,
         overflow: 'hidden',

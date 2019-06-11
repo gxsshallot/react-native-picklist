@@ -1,12 +1,13 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FullSelect, IncompleteSelect, NotSelect } from 'general-tree';
 import ArrowImage from '@hecom/image-arrow';
-import {isCascade} from './Util';
+import { isCascade } from './Util';
 
 export default (treeNode, props) => props.multilevel ? multiLevelNode(treeNode, props) : singleLevelNode(treeNode, props);
 
 export const singleLevelNode = (treeNode, props) => {
-    const {labelKey, numberOfTextLines} = props;
+    const {labelKey, numberOfTextLines, renderSingleSelectIcon} = props;
     const isSelected = treeNode.isFullSelect(false);
     return (
         <View style={styles.row}>
@@ -14,7 +15,7 @@ export const singleLevelNode = (treeNode, props) => {
                 <Text style={styles.text} numberOfLines={numberOfTextLines}>
                     {treeNode.getInfo()[labelKey]}
                 </Text>
-                {isSelected ? <Image source={single_check_image()} style={styles.icon} /> : <View style={styles.icon} />}
+                {isSelected ? renderSingleSelectIcon() : <View style={styles.icon} />}
             </View>
         </View>
     );
@@ -25,12 +26,12 @@ export const multiLevelNode = (treeNode, props) => {
 };
 
 export const multiLevelLeafNode = (treeNode, props) => {
-    const image = getImage(treeNode, isCascade(props));
-    const {labelKey, numberOfTextLines} = props;
+    const selectState = getSelectState(treeNode, isCascade(props));
+    const {labelKey, numberOfTextLines, renderMultiSelectIcon} = props;
     const info = treeNode.getInfo()[labelKey];
     return (
         <View key={info} style={styles.leafContainer}>
-            <Image source={image} style={styles.cellSelected} />
+            <View style={styles.cellSelected}>{renderMultiSelectIcon(selectState)}</View>
             <Text style={styles.leafText} numberOfLines={numberOfTextLines}>
                 {info}
             </Text>
@@ -39,8 +40,8 @@ export const multiLevelLeafNode = (treeNode, props) => {
 };
 
 export const multiLevelNotLeafNode = (treeNode, props) => {
-    const image = getImage(treeNode, isCascade(props));
-    const {onPress, labelKey, showCount, numberOfTextLines} = props;
+    const selectState = getSelectState(treeNode, isCascade(props));
+    const {onPress, labelKey, showCount, numberOfTextLines, renderMultiSelectIcon} = props;
     const selectable = props.selectable ? props.selectable(treeNode) : true;
     const info = treeNode.getInfo()[labelKey];
     const leafCount = treeNode.getLeafChildrenCount();
@@ -51,7 +52,7 @@ export const multiLevelNotLeafNode = (treeNode, props) => {
             <View style={styles.treeCellLeft}>
                 {selectable && (
                     <TouchableOpacity onPress={() => onPress(treeNode, true)}>
-                        <Image source={image} style={styles.cellSelected} />
+                        <View style={styles.cellSelected}>{renderMultiSelectIcon(selectState)}</View>
                     </TouchableOpacity>
                 )}
                 <Text
@@ -78,17 +79,31 @@ export const select_image = () => require('./image/checkbox_hl.png');
 export const incomp_image = () => require('./image/checkbox_noall.png');
 export const single_check_image = () => require('./image/single_check.png');
 
-export const getImage = (treeNode, cascade) => {
+export const getImage = (selectState) => {
+    switch (selectState) {
+        case NotSelect:
+            return notselect_image();
+        case FullSelect:
+            return select_image();
+        case IncompleteSelect:
+            return incomp_image();
+        default:
+            return undefined;
+    }
+};
+
+export const getSelectState = (treeNode, cascade) => {
     if (treeNode.isNotSelect(cascade)) {
-        return notselect_image();
+        return NotSelect;
     } else if (treeNode.isFullSelect(cascade)) {
-        return select_image();
+        return FullSelect;
     } else if (treeNode.isIncompleteSelect(cascade)) {
-        return incomp_image();
+        return IncompleteSelect;
     } else {
         return undefined;
     }
 };
+
 
 const styles = StyleSheet.create({
     row: {
@@ -115,9 +130,6 @@ const styles = StyleSheet.create({
         height: 22,
     },
     cellSelected: {
-        width: 18,
-        height: 18,
-        borderRadius: 9,
         marginRight: 10,
         marginLeft: 25,
         marginTop: 10,

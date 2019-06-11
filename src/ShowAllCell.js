@@ -1,9 +1,9 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, View, Image, Text, DeviceEventEmitter } from 'react-native';
+import { DeviceEventEmitter, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { select_image, notselect_image } from './DefaultRow';
+import { FullSelect, NotSelect } from 'general-tree';
 import Types from './Types';
-import {isCascade} from './Util'
+import { isCascade } from './Util'
 
 export default class extends React.PureComponent {
     static propTypes = {
@@ -33,9 +33,8 @@ export default class extends React.PureComponent {
     }
 
     render() {
-        const {labels: {selectAll, deselectAll}} = this.props;
+        const {labels: {selectAll, deselectAll}, renderMultiSelectIcon} = this.props;
         const isFull = this.tree.isFullSelect(this.cascade);
-        const image = isFull ? select_image() : notselect_image();
         const text = isFull ? deselectAll : selectAll;
         return (
             <TouchableOpacity
@@ -43,7 +42,9 @@ export default class extends React.PureComponent {
                 onPress={() => this.props.onPress(this.tree)}
             >
                 <View style={styles.view}>
-                    <Image source={image} style={styles.image} />
+                    <View style={styles.image}>
+                        {renderMultiSelectIcon(isFull ? FullSelect : NotSelect)}
+                    </View>
                     <Text style={styles.text}>
                         {text}
                     </Text>
@@ -70,9 +71,6 @@ const styles = StyleSheet.create({
         borderBottomColor: '#e6e6ea',
     },
     image: {
-        width: 18,
-        height: 18,
-        borderRadius: 9,
         marginRight: 10,
         marginLeft: 25,
         marginTop: 10,

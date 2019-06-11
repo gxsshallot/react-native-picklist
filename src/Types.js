@@ -44,4 +44,6 @@ export default {
         choose: PropTypes.string,
         cancel: PropTypes.string,
     }),
+    renderSingleSelectIcon: PropTypes.func,
+    renderMultiSelectIcon: PropTypes.func,
 };
