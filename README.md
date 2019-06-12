@@ -88,6 +88,7 @@ Required:
 Optional:
 
 * `firstTitleLine`: First item displayed in `TitleLine` when it has the multi-level data and show the title line.
+* `isCascade`: When multi-level and multi-select are true, auto-cascading selects child nodes or not. Default is `true`.
 * `multilevel`: Has multi-level data or not. Default is `false`.
 * `multiselect`: Is multi-select or not. Default is `false`.
 * `onFinish`: Pass the selected items when finish selecting.
@@ -95,6 +96,8 @@ Optional:
 * `rightClick`: Button click callback on the right corner.
 * `renderRow`: Customize a row display. You can override this property to make the list readonly. Default implement is in `DefaultRow.js`.
 * `renderHeader`: Customize header of page.
+* `renderSingleSelectIcon`: Customize single-selected icon.
+* `renderMultiSelectIcon`: Customize multi-selected icon.
 * `showBottomView`: Show bottom bar or not.
 * `showSearchView`: Show search bar or not.
 * `showTitleLine`: Show title line at the header or not.
