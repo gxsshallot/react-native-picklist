@@ -1,5 +1,5 @@
 import React from 'react';
-import { DeviceEventEmitter, FlatList, LayoutAnimation, SafeAreaView, SectionList, StyleSheet, View } from 'react-native';
+import { DeviceEventEmitter, FlatList, Image, LayoutAnimation, SafeAreaView, SectionList, StyleSheet, View } from 'react-native';
 import { HeaderButton } from 'react-navigation-header-buttons';
 import HeaderBackButton from 'react-navigation-stack/dist/views/Header/HeaderBackButton';
 import SearchBar from 'react-native-general-searchbar';
