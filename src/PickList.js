@@ -1,5 +1,5 @@
 import React from 'react';
-import { DeviceEventEmitter, FlatList, Image, LayoutAnimation, SafeAreaView, SectionList, StyleSheet, View } from 'react-native';
+import { DeviceEventEmitter, FlatList, Image, LayoutAnimation, SafeAreaView, SectionList, StyleSheet, View, Keyboard } from 'react-native';
 import { HeaderButton } from 'react-navigation-header-buttons';
 import HeaderBackButton from 'react-navigation-stack/dist/views/Header/HeaderBackButton';
 import SearchBar from 'react-native-general-searchbar';
@@ -178,6 +178,10 @@ export default class extends React.PureComponent {
         );
     };
 
+    _onScroll(event) {
+        Keyboard.dismiss();
+    }
+
     _renderSearchingView = () => {
         const style = {width: this.state.screenWidth};
         const searchKeys = this.props.searchKeys || [];
@@ -198,6 +202,7 @@ export default class extends React.PureComponent {
                     contentContainerStyle={style}
                     keyExtractor={(item) => item.getStringId()}
                     keyboardShouldPersistTaps={'always'}
+                    onScroll = {this._onScroll.bind(this)}
                     {...this.props.searchListProps}
                 />
             </View>
