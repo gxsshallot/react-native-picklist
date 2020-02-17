@@ -14,6 +14,9 @@
     "PickList",
     "MultiSelect"
   ],
+  "scripts":{
+    "patch": "npm version patch -m 'Bump version %s';git push origin master --tags"
+  },
   "author": "Xiaosong Gao",
   "license": "MIT",
   "bugs": {
