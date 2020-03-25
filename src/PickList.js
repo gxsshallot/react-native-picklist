@@ -1,5 +1,5 @@
 import React from 'react';
-import { DeviceEventEmitter, FlatList, LayoutAnimation, SafeAreaView, SectionList, StyleSheet, View } from 'react-native';
+import { DeviceEventEmitter, FlatList, Image, LayoutAnimation, SafeAreaView, SectionList, StyleSheet, View, Keyboard } from 'react-native';
 import { HeaderButton } from 'react-navigation-header-buttons';
 import HeaderBackButton from 'react-navigation-stack/dist/views/Header/HeaderBackButton';
 import SearchBar from 'react-native-general-searchbar';
@@ -173,10 +173,18 @@ export default class extends React.PureComponent {
                     onChangeText={this._onSearch}
                     canCancel={true}
                     isSearching={this.state.isSearching}
+                    style = {{
+                        view: {backgroundColor: '#F7F7F9'},
+                        inputView: {backgroundColor: 'white'}
+                    }}
                 />
             </SafeAreaView>
         );
     };
+
+    _onScroll(event) {
+        Keyboard.dismiss();
+    }
 
     _renderSearchingView = () => {
         const style = {width: this.state.screenWidth};
@@ -198,6 +206,7 @@ export default class extends React.PureComponent {
                     contentContainerStyle={style}
                     keyExtractor={(item) => item.getStringId()}
                     keyboardShouldPersistTaps={'always'}
+                    onScroll = {this._onScroll.bind(this)}
                     {...this.props.searchListProps}
                 />
             </View>
@@ -497,11 +506,11 @@ const styles = StyleSheet.create({
     },
     innersafeview: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: '#F7F7F9',
     },
     searchbarContainer: {
         flex: 0,
-        backgroundColor: 'white',
+        backgroundColor: '#F7F7F9',
     },
     listview: {
         backgroundColor: 'transparent',
