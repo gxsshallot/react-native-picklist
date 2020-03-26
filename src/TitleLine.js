@@ -36,7 +36,7 @@ export default class extends React.PureComponent {
     _renderItem = (item, index) => {
         const {levelItems, labelKey, onPress} = this.props;
         const isLast = index === levelItems.length - 1;
-        const color = isLast ? '#666666' : '#e15151';
+        const color = isLast ? '#666666' : '#1890FF';
         return (
             <View key={index} style={styles.item}>
                 <TouchableOpacity onPress={() => onPress(index + 1)}>
