@@ -173,6 +173,10 @@ export default class extends React.PureComponent {
                     onChangeText={this._onSearch}
                     canCancel={true}
                     isSearching={this.state.isSearching}
+                    style = {{
+                        view: {backgroundColor: '#F7F7F9'},
+                        inputView: {backgroundColor: 'white'}
+                    }}
                 />
             </SafeAreaView>
         );
@@ -502,11 +506,11 @@ const styles = StyleSheet.create({
     },
     innersafeview: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: '#F7F7F9',
     },
     searchbarContainer: {
         flex: 0,
-        backgroundColor: 'white',
+        backgroundColor: '#F7F7F9',
     },
     listview: {
         backgroundColor: 'transparent',
