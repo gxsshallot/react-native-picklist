@@ -1,7 +1,7 @@
 import React from 'react';
 import { DeviceEventEmitter, FlatList, Image, LayoutAnimation, SafeAreaView, SectionList, StyleSheet, View, Keyboard } from 'react-native';
 import { HeaderButton } from 'react-navigation-header-buttons';
-import HeaderBackButton from 'react-navigation-stack/dist/views/Header/HeaderBackButton';
+import HeaderBackButton from '@react-navigation/stack';
 import SearchBar from 'react-native-general-searchbar';
 import Tree from 'general-tree';
 import Cell from './Cell';
@@ -13,8 +13,8 @@ import { isCascade } from './Util';
 import { getImage, single_check_image } from './DefaultRow';
 
 export default class extends React.PureComponent {
-    static navigationOptions = ({navigation}) => {
-        const navParams = navigation.state.params || {};
+    static navigationOptions = ({route}) => {
+        const navParams = route.params || {};
         return {
             title: navParams._title_,
             headerRight: navParams._right_,
@@ -23,8 +23,8 @@ export default class extends React.PureComponent {
         };
     };
 
-    static initialized = function (options) {
-        const {_title_} = options.navigation.state.params;
+    static initialized = function (route) {
+        const {_title_} = route.params;
         return !!_title_;
     };
 
