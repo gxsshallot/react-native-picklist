@@ -1,7 +1,7 @@
 import React from 'react';
 import { DeviceEventEmitter, FlatList, Image, LayoutAnimation, SafeAreaView, SectionList, StyleSheet, View, Keyboard } from 'react-native';
 import { HeaderButton } from 'react-navigation-header-buttons';
-import HeaderBackButton from '@react-navigation/stack';
+import {HeaderBackButton} from '@react-navigation/stack';
 import SearchBar from 'react-native-general-searchbar';
 import Tree from 'general-tree';
 import Cell from './Cell';
@@ -15,15 +15,20 @@ import { getImage, single_check_image } from './DefaultRow';
 export default class extends React.PureComponent {
     static navigationOptions = ({route}) => {
         const navParams = route.params || {};
-        return {
-            title: navParams._title_,
-            headerRight: navParams._right_,
-            headerLeft: navParams._left_,
-            headerTitleContainerStyle: navParams.headerTitleContainerStyle,
-        };
+        const {_title_, _right_, _left_, headerTitleContainerStyle} = navParams
+        const returnDic = {};
+        _title_ && (returnDic.title = _title_);
+        headerTitleContainerStyle && (returnDic.headerTitleContainerStyle = headerTitleContainerStyle);
+        if (_right_) {
+            returnDic.headerRight = typeof _right_ ==  'function' ? _right_  : ()=>_right_;
+        }
+        if (_left_) {
+            returnDic.headerLeft = typeof _left_ ==  'function' ? _left_ : _left_;
+        }
+        return returnDic;
     };
 
-    static initialized = function (route) {
+    static initialized = function ({route}) {
         const {_title_} = route.params;
         return !!_title_;
     };
