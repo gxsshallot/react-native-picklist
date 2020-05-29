@@ -110,10 +110,6 @@ export default class extends React.PureComponent {
                 return (
                     <View
                         style={styles.leftButtons}
-                        onLayout={({nativeEvent: {layout: {width}}}) => {
-                            navOptions.headerTitleContainerStyle = {left: width, right: width};
-                            this.props.navigation.setParams(navOptions)
-                        }}
                     >
                         <HeaderBackButton
                             {...props}
