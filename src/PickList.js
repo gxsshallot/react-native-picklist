@@ -490,7 +490,6 @@ export default class extends React.PureComponent {
             const {levelItems} = this.state;
             const selectedItems = levelItems[0].setInitialState(idKey, this.isCascade);
             selectedItems && selectedItems.forEach(item => item.isSelected = 1);
-            console.log(selectedItems)
             this.setState({selectedItems: selectedItems});
         } catch (e) {
         }
