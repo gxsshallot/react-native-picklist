@@ -60,11 +60,12 @@ export default class extends React.PureComponent {
         },
         renderSingleSelectIcon: () => <Image source={single_check_image()} style={styles.icon} />,
         renderMultiSelectIcon: (selectState) => <Image source={getImage(selectState)} style={styles.multiIcon} />,
+        refreshSingleCell: true
     };
 
     constructor(props) {
         super(props);
-        const {data, childrenKey, idKey, labelKey, firstTitleLine, selectedIds} = props;
+        const {data, childrenKey, idKey, labelKey, firstTitleLine, selectedIds, refreshSingleCell} = props;
         this.defaultRootId = '__root__';
         const idOnlyKey = Array.isArray(idKey) ? idKey[0] : idKey;
         const treeRoot = Array.isArray(data) ?
@@ -73,7 +74,7 @@ export default class extends React.PureComponent {
         const tree = new Tree(
             treeRoot, undefined, childrenKey, idKey,
             (treenode) => DeviceEventEmitter.emit(
-                '__treenode__status__update__' + treenode.getStringId()
+                '__treenode__status__update__' + (refreshSingleCell ? treenode.getStringId() : '')
             )
         );
         this.isCascade = isCascade(props);
@@ -267,7 +268,7 @@ export default class extends React.PureComponent {
     };
 
     _renderPage = (index) => {
-        const {split, sort, sectionListProps, flatListProps, showAllCell} = this.props;
+        const {split, sort, sectionListProps, flatListProps, showAllCell, customView} = this.props;
         const style = {width: this.state.screenWidth};
         const treeNode = this.state.levelItems[index];
         let nodeArr, isSection;
@@ -285,7 +286,7 @@ export default class extends React.PureComponent {
         const dataProps = isSection ? {sections: nodeArr} : {data: nodeArr};
         const ListProps = isSection ? sectionListProps : flatListProps;
         const hasShowAll = isCascade(this.props) && showAllCell;
-        return (
+        return (customView ? customView(nodeArr, this._renderRow) :
             <ListClass
                 key={index}
                 renderItem={this._renderRow}
@@ -295,8 +296,7 @@ export default class extends React.PureComponent {
                 keyExtractor={(item) => item.getStringId()}
                 {...dataProps}
                 {...ListProps}
-            />
-        );
+            />);
     };
 
     _renderEmptyPage = (index) => {
@@ -367,6 +367,7 @@ export default class extends React.PureComponent {
         } else {
             this._popToPrevious();
         }
+        this.props.onFinish && this.props.onFinish(this.state.selectedItems, true);
     };
 
     _clickOK = () => {
@@ -483,6 +484,17 @@ export default class extends React.PureComponent {
         }
         this.setState({selectedItems});
     };
+
+    _setSelectedItems = (idKey) => {
+        try {
+            const {levelItems} = this.state;
+            const selectedItems = levelItems[0].setInitialState(idKey, this.isCascade);
+            selectedItems && selectedItems.forEach(item => item.isSelected = 1);
+            console.log(selectedItems)
+            this.setState({selectedItems: selectedItems});
+        } catch (e) {
+        }
+    }
 }
 
 const styles = StyleSheet.create({
