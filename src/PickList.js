@@ -1,7 +1,7 @@
 import React from 'react';
 import { DeviceEventEmitter, FlatList, Image, LayoutAnimation, SafeAreaView, SectionList, StyleSheet, View, Keyboard } from 'react-native';
 import { HeaderButton } from 'react-navigation-header-buttons';
-import HeaderBackButton from 'react-navigation-stack/dist/views/Header/HeaderBackButton';
+import {HeaderBackButton} from '@react-navigation/stack';
 import SearchBar from 'react-native-general-searchbar';
 import Tree from 'general-tree';
 import Cell from './Cell';
@@ -13,18 +13,23 @@ import { isCascade } from './Util';
 import { getImage, single_check_image } from './DefaultRow';
 
 export default class extends React.PureComponent {
-    static navigationOptions = ({navigation}) => {
-        const navParams = navigation.state.params || {};
-        return {
-            title: navParams._title_,
-            headerRight: navParams._right_,
-            headerLeft: navParams._left_,
-            headerTitleContainerStyle: navParams.headerTitleContainerStyle,
-        };
+    static navigationOptions = ({route}) => {
+        const navParams = route.params || {};
+        const {_title_, _right_, _left_, headerTitleContainerStyle} = navParams
+        const returnDic = {};
+        _title_ && (returnDic.title = _title_);
+        headerTitleContainerStyle && (returnDic.headerTitleContainerStyle = headerTitleContainerStyle);
+        if (_right_) {
+            returnDic.headerRight = typeof _right_ ==  'function' ? _right_  : ()=>_right_;
+        }
+        if (_left_) {
+            returnDic.headerLeft = typeof _left_ ==  'function' ? _left_ : _left_;
+        }
+        return returnDic;
     };
 
-    static initialized = function (options) {
-        const {_title_} = options.navigation.state.params;
+    static initialized = function ({route}) {
+        const {_title_} = route.params;
         return !!_title_;
     };
 
@@ -55,11 +60,12 @@ export default class extends React.PureComponent {
         },
         renderSingleSelectIcon: () => <Image source={single_check_image()} style={styles.icon} />,
         renderMultiSelectIcon: (selectState) => <Image source={getImage(selectState)} style={styles.multiIcon} />,
+        refreshSingleCell: true
     };
 
     constructor(props) {
         super(props);
-        const {data, childrenKey, idKey, labelKey, firstTitleLine, selectedIds} = props;
+        const {data, childrenKey, idKey, labelKey, firstTitleLine, selectedIds, refreshSingleCell} = props;
         this.defaultRootId = '__root__';
         const idOnlyKey = Array.isArray(idKey) ? idKey[0] : idKey;
         const treeRoot = Array.isArray(data) ?
@@ -68,7 +74,7 @@ export default class extends React.PureComponent {
         const tree = new Tree(
             treeRoot, undefined, childrenKey, idKey,
             (treenode) => DeviceEventEmitter.emit(
-                '__treenode__status__update__' + treenode.getStringId()
+                '__treenode__status__update__' + (refreshSingleCell ? treenode.getStringId() : '')
             )
         );
         this.isCascade = isCascade(props);
@@ -105,10 +111,6 @@ export default class extends React.PureComponent {
                 return (
                     <View
                         style={styles.leftButtons}
-                        onLayout={({nativeEvent: {layout: {width}}}) => {
-                            navOptions.headerTitleContainerStyle = {left: width, right: width};
-                            this.props.navigation.setParams(navOptions)
-                        }}
                     >
                         <HeaderBackButton
                             {...props}
@@ -266,7 +268,7 @@ export default class extends React.PureComponent {
     };
 
     _renderPage = (index) => {
-        const {split, sort, sectionListProps, flatListProps, showAllCell} = this.props;
+        const {split, sort, sectionListProps, flatListProps, showAllCell, customView} = this.props;
         const style = {width: this.state.screenWidth};
         const treeNode = this.state.levelItems[index];
         let nodeArr, isSection;
@@ -284,7 +286,7 @@ export default class extends React.PureComponent {
         const dataProps = isSection ? {sections: nodeArr} : {data: nodeArr};
         const ListProps = isSection ? sectionListProps : flatListProps;
         const hasShowAll = isCascade(this.props) && showAllCell;
-        return (
+        return (customView ? customView(nodeArr, this._renderRow) :
             <ListClass
                 key={index}
                 renderItem={this._renderRow}
@@ -294,8 +296,7 @@ export default class extends React.PureComponent {
                 keyExtractor={(item) => item.getStringId()}
                 {...dataProps}
                 {...ListProps}
-            />
-        );
+            />);
     };
 
     _renderEmptyPage = (index) => {
@@ -366,6 +367,7 @@ export default class extends React.PureComponent {
         } else {
             this._popToPrevious();
         }
+        this.props.onFinish && this.props.onFinish(this.state.selectedItems, true);
     };
 
     _clickOK = () => {
@@ -482,6 +484,16 @@ export default class extends React.PureComponent {
         }
         this.setState({selectedItems});
     };
+
+    _setSelectedItems = (idKey) => {
+        try {
+            const {levelItems} = this.state;
+            const selectedItems = levelItems[0].setInitialState(idKey, this.isCascade);
+            selectedItems && selectedItems.forEach(item => item.isSelected = 1);
+            this.setState({selectedItems: selectedItems});
+        } catch (e) {
+        }
+    }
 }
 
 const styles = StyleSheet.create({

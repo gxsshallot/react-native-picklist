@@ -5,13 +5,18 @@ import Types from './Types';
 import defaultRenderRow from './DefaultRow';
 import {isCascade} from './Util';
 
-export default class extends React.PureComponent {
+export default class extends React.Component {
     static propTypes = {
         ...Types,
         isSearching: PropTypes.bool.isRequired,
         treeNode: PropTypes.object.isRequired,
         onPress: PropTypes.func.isRequired,
+        refreshSingleCell: PropTypes.bool
     };
+
+    static defaultProps = {
+        refreshSingleCell: true
+    }
 
     constructor(props) {
         super(props);
@@ -23,8 +28,9 @@ export default class extends React.PureComponent {
     }
 
     componentDidMount() {
+        const { refreshSingleCell } = this.props;
         this.listener = DeviceEventEmitter.addListener(
-            '__treenode__status__update__' + this.tree.getStringId(),
+            '__treenode__status__update__' + (refreshSingleCell ? this.tree.getStringId() : ''),
             this._refresh
         );
     }
@@ -34,19 +40,21 @@ export default class extends React.PureComponent {
     }
 
     _refresh = () => {
+        const treeNode = this.props.treeNode;
         this.setState({
-            status: this.tree.selectStatus(this.cascade),
+            status: treeNode.selectStatus(this.cascade),
         });
     };
 
     render() {
         const renderRow = this.props.renderRow || defaultRenderRow;
+        const {treeNode} = this.props;
         return (
             <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={() => this.props.onPress(this.tree, false)}
+                onPress={() => this.props.onPress(treeNode, false)}
             >
-                {renderRow(this.tree, this.props)}
+                {renderRow(treeNode, this.props)}
             </TouchableOpacity>
         );
     }

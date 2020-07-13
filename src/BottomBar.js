@@ -40,12 +40,13 @@ export default class extends React.PureComponent {
     }
 
     _renderButton = () => {
-        const {onPress} = this.props;
+        const {onPress, selectedItems} = this.props;
+        const selectedCount = (selectedItems && selectedItems.length > 0) ? ('(' + selectedItems.length + ')') : '';
         return (
             <View style={styles.buttonView}>
                 <TouchableOpacity style={styles.buttonTouch} onPress={onPress}>
                     <Text style={styles.buttonText}>
-                        {this.props.labels.ok}
+                        {this.props.labels.ok + selectedCount}
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
         height: 30,
         borderRadius: 4,
         backgroundColor: '#e15151',
-        width: 56,
+        minWidth: 56,
         justifyContent: 'center',
         alignItems: 'center',
     },
