@@ -15,7 +15,8 @@
     "MultiSelect"
   ],
   "scripts": {
-    "patch": "npm version patch -m 'Bump version %s';git push origin master --tags"
+    "patch": "npm version patch -m 'Bump version %s';git push origin master --tags",
+    "minor": "npm version minor -m 'Bump version %s';git push origin master --tags"
   },
   "author": "Xiaosong Gao",
   "license": "MIT",
